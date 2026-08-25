@@ -1,10 +1,14 @@
 #ifndef LFN_BACKDROP_H
 #define LFN_BACKDROP_H
 
+#include "bn_fixed.h"
 #include "bn_regular_bg_ptr.h"
 
 namespace lfn
 {
+    /** How far the menu and card backdrops are pushed toward black. */
+    constexpr bn::fixed backdrop_dim = 0.45;
+
     /** How much of a room to build behind a screen. */
     enum class backdrop_style : uint8_t
     {

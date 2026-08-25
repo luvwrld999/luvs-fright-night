@@ -1,0 +1,8 @@
+wait 240
+tap a 8
+wait 470
+wait 240
+shot 01_icons
+hold right
+wait 200
+shot 02_running

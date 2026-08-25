@@ -1,5 +1,8 @@
 #include "lfn_backdrop.h"
 
+#include "bn_bg_palettes.h"
+#include "bn_color.h"
+
 #include "bn_bg_palette_items_lfn_palette.h"
 #include "bn_bg_tiles.h"
 #include "bn_regular_bg_item.h"
@@ -100,6 +103,11 @@ namespace lfn
         bn::regular_bg_ptr bg = item.create_bg(0, 0);
         bn::bg_tiles::set_allow_offset(true);
         bg.set_priority(3);
+
+        // These screens exist to be read. The backdrop is atmosphere, and at
+        // full strength its brickwork and stars compete with every letter on
+        // top of it.
+        bn::bg_palettes::set_fade(bn::color(0, 0, 0), backdrop_dim);
         return bg;
     }
 }

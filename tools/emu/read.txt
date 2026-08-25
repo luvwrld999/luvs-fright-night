@@ -1,0 +1,14 @@
+wait 240
+shot 01_menu
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 70
+shot 02_extras
+tap a 8
+wait 100
+shot 03_scores

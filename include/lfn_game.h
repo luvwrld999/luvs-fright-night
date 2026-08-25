@@ -33,6 +33,12 @@ namespace lfn
         int souls = 0;
         int score = 0;
         int continues = tune::start_continues;
+        /**
+         * What Luv is carrying. Kept in the run rather than the stage, so
+         * finding a power-up late in a level is still worth something when the
+         * gate takes you to the next one.
+         */
+        powers held;
     };
 
     /** One stage, played start to finish. */
@@ -80,6 +86,7 @@ namespace lfn
         bool _warped = false;
         bool _hand_off = false;
         bool _demo = false;
+        powers _powers_said;           // what the banner last announced
         bn::vector<bn::sprite_ptr, 32> _wall_text;
 
         void _restart();

@@ -1,8 +1,12 @@
 #include "lfn_hud.h"
 
 #include "bn_format.h"
+#include "bn_sprite_item.h"
 #include "bn_sprite_items_hud_halo.h"
 #include "bn_sprite_items_hud_meter.h"
+#include "bn_sprite_items_pu_devil_dash.h"
+#include "bn_sprite_items_pu_soul_flame.h"
+#include "bn_sprite_items_pu_wisp_wings.h"
 #include "bn_sprite_items_soul_orb.h"
 #include "bn_sprite_tiles_ptr.h"
 
@@ -26,6 +30,9 @@ namespace lfn
         constexpr int boss_y = -58;
         // Second row, left of the boss pips, so it never fights the status bar.
         constexpr int player_x = -84;
+        // What you are carrying, on the same row as the meter.
+        constexpr int power_x = -58;
+        constexpr int power_step = 17;
 
         const char* const ROMAN[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII"};
     }
@@ -143,6 +150,31 @@ namespace lfn
             }
         }
 
+        if(_first || now.flame != _shown.flame || now.dash != _shown.dash ||
+           now.wings != _shown.wings)
+        {
+            _power_icons.clear();
+            int at = power_x;
+
+            const auto show = [&](bool held, const bn::sprite_item& item)
+            {
+                if(!held)
+                {
+                    return;
+                }
+
+                bn::sprite_ptr icon = item.create_sprite(at, meter_y);
+                icon.set_bg_priority(0);
+                icon.set_visible(_visible);
+                _power_icons.push_back(bn::move(icon));
+                at += power_step;
+            };
+
+            show(now.flame, bn::sprite_items::pu_soul_flame);
+            show(now.dash, bn::sprite_items::pu_devil_dash);
+            show(now.wings, bn::sprite_items::pu_wisp_wings);
+        }
+
         const int pips = now.hover_max > 0
                        ? (now.hover * meter_pips + now.hover_max - 1) / now.hover_max
                        : 0;
@@ -192,5 +224,6 @@ namespace lfn
         for(bn::sprite_ptr& sprite : _score_text) { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _boss_pips)  { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _player_text){ sprite.set_visible(visible); }
+        for(bn::sprite_ptr& sprite : _power_icons){ sprite.set_visible(visible); }
     }
 }

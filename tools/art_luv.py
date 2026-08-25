@@ -157,14 +157,17 @@ def frame(bob=0.0, halo_bob=0.0, tail_phase=0.0, wave_phase=0.0,
         hy = top - 2.4
         _horn(c, [(5.7, hy + 5.0), (4.9, hy + 3.2), (4.3, hy + 1.4), (4.0, hy + 0.4)], horn_color)
         _horn(c, [(10.3, hy + 5.0), (11.1, hy + 3.2), (11.7, hy + 1.4), (12.0, hy + 0.4)], horn_color)
-        c.outline(pal.INK)
+        # The skin's own ink, not the default: on the Purple Soul sheet the
+        # body was outlined lime while the horns and tail kept the dark ghost
+        # outline, so the tail read as a separate, unlit thing.
+        c.outline(skin['ink'])
 
     _body(c, top, head_cy, bot, halfw, wave_phase, 1.7, 0.012, body_color)
 
     if tail:
         t = Canvas(W, H)
         _tail(t, tail_phase, horn_color)
-        t.outline(pal.INK)
+        t.outline(skin['ink'])
         c.paste(t.shifted(0, int(round(bob))))
 
     if wisps:

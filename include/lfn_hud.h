@@ -22,6 +22,9 @@ namespace lfn
         int boss = 0;           // remaining boss health, 0 when there is none
         int boss_max = 0;
         int player = 0;         // 0 solo, else which seat is playing
+        bool flame = false;     // power-ups in hand, shown as icons
+        bool dash = false;
+        bool wings = false;
     };
 
     [[nodiscard]] const char* roman(int world);
@@ -57,6 +60,7 @@ namespace lfn
         bn::vector<bn::sprite_ptr, 6> _time_text;
         bn::vector<bn::sprite_ptr, 8> _score_text;
         bn::vector<bn::sprite_ptr, 4> _player_text;
+        bn::vector<bn::sprite_ptr, 3> _power_icons;
         bn::sprite_ptr _soul_icon;
         status _shown;
         bool _visible = true;

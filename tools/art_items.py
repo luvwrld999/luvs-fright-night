@@ -128,18 +128,72 @@ def checkpoint(f):
     return c
 
 
+# Where each claw sits and how long it is. Two of them reach past the rim of
+# the hole, two are still climbing out - a hand caught mid-grab reads as
+# something arriving, where four matched spikes would read as a fence.
+_CLAWS = [
+    (4.0, 9.0, -0.50),
+    (6.0, 14.0, -0.16),
+    (9.0, 13.0, 0.16),
+    (11.0, 8.0, 0.50),
+]
+
+
 def gate(f):
-    """Level exit: a torn seam between worlds. 16x32."""
+    """
+    Level exit: a glowing black hole with demon claws coming out of it. 16x32.
+
+    The hole is drawn as rings from the outside in, ending on flat black - the
+    glow has to be at the edge, because a bright centre would swallow the claws
+    silhouetted against it.
+    """
     c = Canvas(16, 32)
     b = f % 2
-    c.rect(2, 4, 13, 31, pal.SHADOW)
-    for y in range(4, 32):
-        w = 4.5 + 1.5 * math.sin(y * 0.5 + b)
-        c.rect(8 - w, y, 8 + w, y, pal.PURPLE)
-        if y % 3 == b:
-            c.rect(8 - w * 0.4, y, 8 + w * 0.4, y, pal.MAG)
-    c.ellipse(8, 4, 6.0, 2.5, pal.MAG)
-    c.ellipse(8, 4, 3.5, 1.2, pal.CYAN)
+    pulse = 0.6 * math.sin(f * 1.6)
+
+    # The hole: a standing oval of nothing with a lit rim.
+    cy = 21.0
+    for i, (rx, ry, colour) in enumerate((
+            (7.2, 10.6, pal.MAG),
+            (6.6, 9.8, pal.PURPLE),
+            (6.0, 9.0, pal.SHADOW),
+            (5.2, 8.0, pal.INK))):
+        c.ellipse(8, cy, rx + (pulse if i == 0 else 0), ry + (pulse if i == 0 else 0),
+                  colour, fill=True)
+
+    # A few sparks caught in the rim light, turning with the frame.
+    for k in range(3):
+        a = (f * 0.9) + k * 2.1
+        c.set(int(round(8 + 6.4 * math.cos(a))),
+              int(round(cy + 9.4 * math.sin(a))), pal.CYAN)
+
+    # The claws: a tapering finger with a hooked tip, hooking inward.
+    # Rooted well down inside the hole, so they read as coming out of it
+    # rather than standing on the rim.
+    root = cy + 3.0
+
+    for x0, length, lean in _CLAWS:
+        reach = length + (1.0 if b else 0.0)
+
+        for step in range(int(reach)):
+            t = step / max(reach - 1, 1.0)
+            x = int(round(x0 + lean * step * 0.6))
+            y = int(round(root - step))
+
+            # One pixel wide for most of its length, two only at the knuckle.
+            # Three-wide claws merged into a pair of blobs at this size.
+            c.set(x, y, pal.RED)
+
+            if t < 0.45:
+                c.set(x + (1 if lean > 0 else -1), y, pal.DRED)
+
+            if step == int(reach) - 1:
+                # The hook: the tip bends back over the hole, and catches the
+                # light so it separates from whatever is behind it.
+                hook = 1 if lean > 0 else -1
+                c.set(x + hook, y, pal.RED)
+                c.set(x + hook, y - 1, pal.WHITE)
+
     c.outline(pal.INK)
     return c
 

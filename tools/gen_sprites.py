@@ -65,9 +65,15 @@ def main():
         swatch.rect(0, 0, 7, 7, 1)
         table = list(pal.RGB)
         table[12] = pal.RGB[colour]
-        # Index 14 is the glyph's edge. Tinting it a second shade of the same
-        # colour distorts the letterforms, so it becomes a plain dark shadow.
-        table[14] = pal.RGB[pal.INK]
+        # Index 14 is the glyph's edge. Near-black there reads as an outline
+        # drawn *inside* the letter, and at 8x16 that eats most of a stroke -
+        # which is what made the front end hard to read. Painting it the body
+        # colour instead loses the counters, and a solid G stops being
+        # distinguishable from an 8. A darker shade of the same hue keeps the
+        # letterform without punching a hole in it.
+        body = pal.RGB[colour]
+        ink = pal.RGB[pal.INK]
+        table[14] = tuple(int(round(b * 0.45 + i * 0.55)) for b, i in zip(body, ink))
         write_bmp(swatch, os.path.join(GFX, name + '.bmp'), table)
 
         with open(os.path.join(GFX, name + '.json'), 'w') as f:

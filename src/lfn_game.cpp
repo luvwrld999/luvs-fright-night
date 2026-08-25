@@ -1,5 +1,6 @@
 #include "lfn_game.h"
 
+#include "bn_bg_palettes.h"
 #include "bn_rect_window.h"
 #include "bn_window.h"
 
@@ -34,6 +35,14 @@ namespace lfn
         _demo(demo)
     {
         _player.set_demo(demo);
+        _player.carrying() = carried.held;
+        _powers_said = carried.held;
+
+        if constexpr(tune::test_powers)
+        {
+            powers& all = _player.carrying();
+            all.soul = all.flame = all.wings = all.dash = true;
+        }
         LFN_TRACE("tiles ctor start: ", bn::sprite_tiles::used_items_count());
         _camera = bn::camera_ptr::create(0, 0);
         _level.load(level_index, *_camera);
@@ -120,6 +129,9 @@ namespace lfn
         // against the dark backdrop instead of whatever the stage happens to
         // have up there. A ceiling in a low room used to run straight through
         // the score.
+        // The menus dim their backdrops; a stage is played at full strength.
+        bn::bg_palettes::set_fade_intensity(0);
+
         bn::rect_window bar = bn::rect_window::internal();
         bar.set_boundaries(-80, -120, -65, 120);
         bar.set_show_bg(_level.bg(), false);
@@ -168,6 +180,14 @@ namespace lfn
         _status.souls = _run.souls;
         _status.score = _run.score;
         _status.hover = _player.hover_left();
+
+        // Three of the four power-ups never showed anywhere; the HUD is the
+        // one place that can say what you are holding and what a hit took.
+        const powers& held = _player.carrying();
+        _status.flame = held.flame;
+        _status.dash = held.dash;
+        _status.wings = held.wings;
+        _run.held = held;
         _status.hover_max = _player.hover_max();
         _status.boss = _boss.active() && !_boss.dying() ? _boss.health() : 0;
         _status.boss_max = _boss.max_health();
@@ -297,6 +317,19 @@ namespace lfn
             audio::sfx_hurt();
         }
 
+        // Name what changed hands. Comparing against what was last announced
+        // catches gains and losses alike without every pickup and every hit
+        // having to remember to say so.
+        const powers& now = _player.carrying();
+
+        if(now.soul && !_powers_said.soul)   { _say("PURPLE SOUL", 0); }
+        else if(now.flame && !_powers_said.flame) { _say("SOUL FLAME", 0); }
+        else if(now.dash && !_powers_said.dash)   { _say("DEVIL DASH", 0); }
+        else if(now.wings && !_powers_said.wings) { _say("WISP WINGS", 0); }
+        else if(!now.soul && _powers_said.soul)   { _say("THE SOUL TOOK IT", 0); }
+        else if(!now.flame && _powers_said.flame) { _say("THE FLAME IS OUT", 0); }
+
+        _powers_said = now;
         _refresh_hud();
     }
 
@@ -391,6 +424,16 @@ namespace lfn
             _add_score(tune::score_boss_hit);
             audio::sfx_boss_hit();
             LFN_TRACE("ev: boss wounded, hp ", _boss.health());
+        }
+
+        // The phase signal was being raised and thrown away. A fight that
+        // changes shape should say so, or the player only finds out by being
+        // hit by something new.
+        if(be.phase)
+        {
+            audio::sfx_boss_tell();
+            _say("IT CHANGES", 0);
+            LFN_TRACE("ev: boss phase");
         }
 
         if(be.hurt_player)

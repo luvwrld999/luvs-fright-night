@@ -121,15 +121,16 @@ namespace lfn
         const bn::fixed left = _half() + 8;
         const bn::fixed right = lv.pixel_width() - _half() - 8;
 
-        // Hades speeds up as it loses phases; the others keep their pace.
-        const bn::fixed speed = s.speed + (_which == 8 ? _phase * bn::fixed(0.45) : 0);
+        const bn::fixed speed = _speed();
 
         // Every boss commits to a run at the player around its attack, so a
         // fight always closes to a range you can answer. A boss that only ever
         // keeps its distance is one you can never hit.
-        if(_stagger <= 0 && (_timer % s.period) > int(s.period) - lunge_frames)
+        const int period = _period();
+
+        if(_stagger <= 0 && (_timer % period) > period - lunge_frames)
         {
-            if((_timer % s.period) == int(s.period) - lunge_frames + 1)
+            if((_timer % period) == period - lunge_frames + 1)
             {
                 // One cue as the run begins, not one per frame of it.
                 audio::sfx_boss_tell();
@@ -226,11 +227,39 @@ namespace lfn
         }
     }
 
+    int boss::_period() const
+    {
+        // A wounded sin comes at you more often. Floored well above the lunge
+        // so the run at the player still has room to read as a wind-up.
+        const spec& s = specs[_which - 1];
+        return bn::max(int(s.period) - (_phase * 14), lunge_frames + 24);
+    }
+
+    bn::fixed boss::_speed() const
+    {
+        // Hades was the only one that sped up as it lost ground. They all do
+        // now; Hades simply does it harder.
+        const spec& s = specs[_which - 1];
+        const bn::fixed step = _which == 8 ? bn::fixed(0.45) : bn::fixed(0.22);
+        return s.speed + (_phase * step);
+    }
+
     void boss::_attack(luv& player, entities& ents)
     {
         const spec& s = specs[_which - 1];
-        const boss_attack kind = (_which == 8 && _phase >= 1)
-                               ? boss_attack::rain : s.attack;
+        boss_attack kind = s.attack;
+
+        if(_which == 8 && _phase >= 1)
+        {
+            kind = boss_attack::rain;
+        }
+        else if(_phase >= 1 && (_timer / bn::max(_period(), 1)) % 2)
+        {
+            // Past halfway every sin starts alternating in a second attack,
+            // so the pattern you learned in the first half stops being the
+            // whole fight.
+            kind = boss_attack::spread;
+        }
 
         switch(kind)
         {
@@ -300,9 +329,9 @@ namespace lfn
         }
         else
         {
-            const int into = _timer % s.period;
-            base = into > int(s.period) - 26
-                 ? (into > int(s.period) - 10 ? f_atk + ((_timer >> 2) & 1) : f_wind)
+            const int into = _timer % _period();
+            base = into > _period() - 26
+                 ? (into > _period() - 10 ? f_atk + ((_timer >> 2) & 1) : f_wind)
                  : f_idle + ((_timer >> 5) & 1);
         }
 
@@ -346,7 +375,7 @@ namespace lfn
 
         const spec& s = specs[_which - 1];
 
-        if((_timer % s.period) == 0 || _wall_hit)
+        if((_timer % _period()) == 0 || _wall_hit)
         {
             _attack(player, ents);
             _wall_hit = false;

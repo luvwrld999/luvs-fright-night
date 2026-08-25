@@ -1,0 +1,83 @@
+reset
+wait 230
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 480
+wait 250
+wait 260
+shot 01
+wait 260
+shot 02
+wait 260
+shot 03
+wait 260
+shot 04
+wait 260
+shot 05
+wait 260
+shot 06
+wait 260
+shot 07
+wait 260
+shot 08

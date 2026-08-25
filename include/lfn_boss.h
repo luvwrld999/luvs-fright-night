@@ -75,6 +75,10 @@ namespace lfn
         int _timer = 0;
         int _invuln = 0;
         int _phase = 0;
+
+        /** Attack interval and pace for the phase the fight is in. */
+        [[nodiscard]] int _period() const;
+        [[nodiscard]] bn::fixed _speed() const;
         int _frame = -1;
         bool _dying = false;
         int _death_timer = 0;
