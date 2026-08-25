@@ -144,6 +144,27 @@ The generator is one line in `src/lfn_code.cpp`: `((index + 1) * 2749) ^ 0x3C5A`
 taken as four hex nibbles indexed into the alphabet. The multiplier is odd, so
 no two stages can ever collide.
 
+## Modes and records
+
+`EXTRAS` on the title screen holds **BOSS RUSH**: the eight sins back to back,
+following its own list rather than the story order, with no continues. It does
+not touch saved progress.
+
+Leaving the pad alone for twenty seconds on the title screen starts the
+**attract loop** - the high score board, then the autopilot playing a stage
+with DEMO across the bottom. It cycles through stages 1-1, 3-1, 5-1 and 7-1,
+one per turn, and any button drops straight back to the menu. The autopilot is
+the same driver the headless test harness uses.
+
+**Continues**: three per run, offered on a nine second countdown when the lives
+run out. Taking one restores three lives and restarts the current stage. The
+score stands.
+
+**Best times** are kept per stage in SRAM, in the same clock units the status
+bar counts down, and shown as a column on stage select. They survive NEW GAME,
+because they are records rather than progress - the same reasoning that keeps
+the high score board.
+
 ## Two player
 
 `2 PLAYER` runs two seats on one pad, alternating on death — the classic
