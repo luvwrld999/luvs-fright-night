@@ -291,6 +291,66 @@ class Builder:
             self.x += w
         return self
 
+    def stair(self, steps=3, w=3, up=True):
+        """
+        A block staircase standing on solid ground.
+
+        Unlike rise(), the ground underneath never moves: this is something to
+        climb over rather than a change in floor level. It gives a stretch
+        shape without touching the hole, enemy or hazard counts the balance
+        pass measures, so terrain can be made interesting without moving the
+        difficulty curve.
+        """
+        self.lv.ground(self.x, self.x + steps * w - 1)
+
+        for i in range(steps):
+            height = (i + 1) if up else (steps - i)
+
+            for h in range(height):
+                self.lv.blocks(self.x, K.FLOOR - 1 - h, w)
+
+            self.x += w
+
+        return self
+
+    def arches(self, w, count=2, prize=None):
+        """
+        Block clusters overhead at alternating heights.
+
+        A single row of breakables at one height is a thing you walk under
+        once. Staggering them makes the ceiling something you read, and puts
+        the prize somewhere you have to line a jump up for.
+        """
+        self.lv.ground(self.x, self.x + w - 1)
+        step = max(4, w // (count + 1))
+
+        for i in range(count):
+            bx = self.x + step * (i + 1) - 1
+            top = K.FLOOR - (4 if i % 2 == 0 else 6)
+            self.lv.blocks(bx, top, 2, K.BREAK)
+
+            if prize and i == count - 1:
+                self.lv.prize_block(bx + 1, top, prize)
+
+        self.x += w
+        return self
+
+    def shelf(self, w, height=3, souls=2):
+        """
+        A one-way ledge above solid ground, with something worth having on it.
+
+        The floor below stays walkable, so this is a choice rather than a
+        route: the ground is safe and the shelf pays.
+        """
+        self.lv.ground(self.x, self.x + w - 1)
+        self.lv.platform(self.x + 1, K.FLOOR - height, w - 2)
+
+        for i in range(souls):
+            self.lv.entity(K.SOUL, self.x + 2 + i * 2, K.FLOOR - height - 1)
+
+        self.x += w
+        return self
+
     def secret_door(self):
         """
         A door on a high ledge, off the main path.
@@ -370,20 +430,37 @@ def _ledges(b):
 
 
 def _hall(b):
-    """Pillared halls, things in the air, and spikes underfoot."""
-    b.flat(9).start()
-    b.hall(16)
+    """
+    Pillared halls, things in the air, and spikes underfoot.
+
+    The opening stage of the game, so it has to teach without punishing: the
+    variety here is in the shape of the ground and what is built on it, not in
+    what is trying to kill you. Every beat is a different thing to look at -
+    a hall, a staircase to climb, a shelf worth the detour, a low corridor, a
+    hill, a stagger of breakables - rather than the same flat run repeated.
+    """
+    b.flat(7).start()
+    b.hall(14)
+    b.stair(3, 3, up=True)
+    b.shelf(9, height=3, souls=2)
+    b.stair(3, 3, up=False)
     b.spikes(9, patch=b.span(1, 2))
     b.enemies(11, count=b.scale(1, 2))
-    b.hall(16)
-    b.flat(5).checkpoint().pickup(K.PU_SOUL)
+    b.arches(14, count=3, prize=K.PU_SOUL)
+    b.flat(5).checkpoint()
+    b.ceiling(12, enemies=0)
+    b.rise(2, 3)
+    b.hall(14)
+    b.shelf(10, height=4, souls=3)
     b.overhead(10, breakables=3, prize=K.PU_FLAME)
-    b.hall(18)
+    b.drop(2, 4)
+    b.stair(2, 3, up=True)
     b.spikes(10, patch=b.span(2, 2))
     b.enemies(12, kind=b.e2, count=b.scale(2, 3))
     b.gap(b.span(3, 3))
+    b.arches(12, count=2)
     b.flat(8, souls=3)
-    b.flat(8)
+    b.flat(7)
     return b
 
 

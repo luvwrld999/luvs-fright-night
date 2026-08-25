@@ -22,7 +22,11 @@ namespace lfn
     namespace
     {
         // Widest level, rounded up. One metatile is 2x2 cells.
-        constexpr int max_columns = 224;
+        // The compiler pads a stage up to a multiple of sixteen metatiles, so
+        // this is the padded width, not the authored one. 288 leaves room for
+        // the longer shapes at about 41 KB of EWRAM for the two buffers below,
+        // against the 256 KB the machine has.
+        constexpr int max_columns = 288;
         constexpr int map_cols = max_columns * 2;
         constexpr int map_rows = level_rows * 2;
 

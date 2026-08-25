@@ -1,0 +1,90 @@
+wait 230
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 470
+wait 240
+wait 150
+shot 01
+wait 150
+shot 02
+wait 150
+shot 03
+wait 150
+shot 04
+wait 150
+shot 05
+wait 150
+shot 06
+wait 150
+shot 07
+wait 150
+shot 08
+wait 150
+shot 09
+wait 150
+shot 10
+wait 150
+shot 11
+wait 150
+shot 12
