@@ -168,6 +168,13 @@ namespace lfn
                 bn::bg_palettes::set_fade_intensity(0);
                 bn::sprite_palettes::set_fade_intensity(0);
                 audio::sfx_menu();
+
+                // Spend the frame that carried the press. Returning on the
+                // same frame hands the caller a keypad edge that is still
+                // live, and quitting to the menu was landing that A on the
+                // menu's first row - which is CONTINUE, so the level appeared
+                // to restart instead of quitting.
+                bn::core::update();
                 return r;
             };
 

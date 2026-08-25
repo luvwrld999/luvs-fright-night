@@ -1,0 +1,29 @@
+wait 240
+tap a 8
+wait 11
+wait 80
+tap a 8
+wait 11
+wait 500
+wait 300
+hold right
+wait 200
+release all
+wait 20
+shot 01_playing
+tap start 8
+wait 11
+wait 60
+shot 02_paused
+tap down 8
+wait 11
+wait 20
+shot 03_quit_selected
+tap a 8
+wait 11
+wait 40
+shot 04_just_after
+wait 90
+shot 05_menu
+wait 200
+shot 06_still_menu

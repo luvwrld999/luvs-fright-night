@@ -455,6 +455,15 @@ namespace lfn
                                       soul_y[i]);
             }
 
+            // Every other screen in the game ignores its first few frames of
+            // input; this one never did, so anything that returned here still
+            // holding a press could act on it before the player let go.
+            if(frame <= 8)
+            {
+                bn::core::update();
+                continue;
+            }
+
             if(where == screen::main)
             {
                 if(bn::keypad::up_pressed())

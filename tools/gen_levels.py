@@ -19,15 +19,20 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'levels')
 
 # per-world flavour: (pit hazard, common enemy, second enemy, backdrop)
+# hazard, ground enemy, second enemy, background, and the one that belongs in
+# the air. The flyer is separate because hall() hangs something six tiles up:
+# a gnasher or a wraith put there has no floor to walk on, reverses on its
+# first step and then sits still for the rest of the stage, which is what world
+# II's "floating enemies that do nothing" were.
 WORLD_FLAVOUR = [
-    (None,    K.IMP,     K.BAT,     K.BG_A),   # I   Pride
-    (None,    K.IMP,     K.GNASHER, K.BG_A),   # II  Greed
-    (K.SPIKE, K.CHERUB,  K.IMP,     K.BG_B),   # III Lust
-    (K.LAVA,  K.GNASHER, K.CHERUB,  K.BG_A),   # IV  Envy
-    (None,    K.GNASHER, K.WRAITH,  K.BG_B),   # V   Gluttony
-    (K.LAVA,  K.IMP,     K.WRAITH,  K.BG_A),   # VI  Wrath
-    (K.SPIKE, K.BAT,     K.WRAITH,  K.BG_A),   # VII Sloth
-    (K.LAVA,  K.GNASHER, K.BAT,     K.BG_B),   # VIII Hades
+    (None,    K.IMP,     K.BAT,     K.BG_A, K.BAT),      # I   Pride
+    (None,    K.IMP,     K.GNASHER, K.BG_A, K.CHERUB),   # II  Greed
+    (K.SPIKE, K.CHERUB,  K.IMP,     K.BG_B, K.CHERUB),   # III Lust
+    (K.LAVA,  K.GNASHER, K.CHERUB,  K.BG_A, K.CHERUB),   # IV  Envy
+    (None,    K.GNASHER, K.WRAITH,  K.BG_B, K.BAT),      # V   Gluttony
+    (K.LAVA,  K.IMP,     K.WRAITH,  K.BG_A, K.BAT),      # VI  Wrath
+    (K.SPIKE, K.BAT,     K.WRAITH,  K.BG_A, K.CHERUB),   # VII Sloth
+    (K.LAVA,  K.GNASHER, K.BAT,     K.BG_B, K.BAT),      # VIII Hades
 ]
 
 
@@ -41,8 +46,8 @@ REFERENCE_SCREENS = 10.0
 # The curve every stage is solved onto: what balance.py calls pressure, which
 # is enemies per screen plus holes per screen weighted half again. Chosen to
 # open gently and finish hard, and to climb on every single beat.
-PRESSURE_START = 0.80
-PRESSURE_END = 2.30
+PRESSURE_START = 0.95
+PRESSURE_END = 2.65
 
 ENEMY_CHARS = (K.IMP, K.CHERUB, K.GNASHER, K.WRAITH, K.BAT, K.JET)
 HAZARD_CHARS = (K.SPIKE, K.LAVA)
@@ -114,8 +119,8 @@ class Builder:
 
     def __init__(self, key, name, world, index, music=None, weight=1.0,
                  stretch=1.0):
-        hazard, e1, e2, bg = WORLD_FLAVOUR[world]
-        self.hazard, self.e1, self.e2 = hazard, e1, e2
+        hazard, e1, e2, bg, air = WORLD_FLAVOUR[world]
+        self.hazard, self.e1, self.e2, self.air = hazard, e1, e2, air
         self.d = difficulty(index)
         # Some shapes are inherently calmer than others, and some run much
         # longer. Compensating for both here lets the shapes stay distinct
@@ -276,7 +281,7 @@ class Builder:
             self.lv.pillar(self.x + i)
             self.lv.lamp(self.x + i, K.FLOOR - 6)
             self.lv.entity(K.SOUL, self.x + i + 3, K.FLOOR - 2)
-        self.lv.entity(flyer or self.e2, self.x + w // 2, K.FLOOR - 6)
+        self.lv.entity(flyer or self.air, self.x + w // 2, K.FLOOR - 6)
         self.x += w
         return self
 
@@ -449,20 +454,26 @@ class Builder:
                     if not (2 <= x < width - 2):
                         continue
 
-                    # Find the surface under this column, then float above it.
+                    # The surface the player actually stands on: the lowest
+                    # solid cell with air above it. Scanning from the top
+                    # instead finds the ceiling wherever a column has one, and
+                    # puts the soul above it where nobody can reach it.
                     surface = None
 
-                    for y in range(K.ROWS):
-                        if self.lv.g[y][x] in self.SOLID:
-                            surface = y
-                            break
+                    for y in range(K.ROWS - 1, 1, -1):
+                        if self.lv.g[y][x] in self.SOLID and not self._open(x, y):
+                            if self._open(x, y - 1):
+                                surface = y
+                                break
 
-                    if surface is None or surface < 3:
+                    if surface is None or surface < 4:
                         continue
 
                     y = surface - 3
 
-                    if self._open(x, y) and self._open(x, y + 1):
+                    # Two cells of clear air, so it is never flush against
+                    # whatever is overhead.
+                    if self._open(x, y) and self._open(x, y - 1):
                         self.lv.entity(K.SOUL_TEN, x, y)
                         placed += 1
                         break
@@ -487,6 +498,7 @@ def _march(b):
     """Open ground: enemies, a block row overhead, a couple of honest gaps."""
     b.flat(10).start()
     b.soul_arc(12, count=5)
+    b.flat(6).pickup(K.PU_FLAME)
     b.enemies(12, count=b.scale(1, 2))
     b.overhead(11, breakables=3, prize=K.PU_SOUL)
     b.gap(b.span(3, 3))
@@ -505,6 +517,7 @@ def _ledges(b):
     """Stepped terrain: climb, drop, and mind the edges."""
     b.flat(9).start()
     b.soul_arc(12, count=5)
+    b.flat(6).pickup(K.PU_SOUL)
     b.rise(3)
     b.enemies(10, count=b.scale(1, 2))
     b.drop(3)
@@ -535,6 +548,7 @@ def _hall(b):
     """
     b.flat(7).start()
     b.soul_arc(12, count=5)
+    b.flat(6).pickup(K.PU_FLAME)
     b.hall(14)
     b.stair(3, 3, up=True)
     b.shelf(9, height=3, souls=2)
@@ -701,7 +715,7 @@ def secret_room(key, name, world, message, exit_to, reward=K.ONE_UP):
     A small hidden room: something written on the wall, something worth having,
     and a gate out.
     """
-    hazard, e1, e2, bg = WORLD_FLAVOUR[world]
+    hazard, e1, e2, bg, _air = WORLD_FLAVOUR[world]
     width = 16
     lv = K.Level(key, name, world, width=width, music='title', background=bg,
                  exit_to=exit_to, secret=message, hidden=True)
@@ -743,7 +757,7 @@ def boss_arena(world):
     line of sight. Wide enough to run away in, small enough that you cannot
     simply keep running.
     """
-    hazard, e1, e2, bg = WORLD_FLAVOUR[world]
+    hazard, e1, e2, bg, _air = WORLD_FLAVOUR[world]
 
     # Exactly one screen wide. The level compiler pads a stage up to a multiple
     # of sixteen metatiles, and any padding it adds has no floor - so an arena

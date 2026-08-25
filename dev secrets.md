@@ -169,6 +169,13 @@ and it never touches the high score board's rules.
 
 ## Souls
 
+Nine bonus souls per stage are placed by reading the finished level for the
+lowest solid cell with air above it - the floor the player actually stands on.
+Scanning from the top instead finds the ceiling wherever a column has one, and
+puts the soul above it where nobody can reach it. check_levels.py now fails on
+a bonus soul with no floor within a jump beneath it, and on a ground enemy
+hung in the air with nothing to walk on.
+
 A plain soul is worth one. A **bonus soul** - larger, gold rather than cyan -
 is worth ten, and nine of them are scattered through every stage, placed by
 reading the finished level rather than by any one beat, so they land above the

@@ -148,10 +148,49 @@ def check(path):
     return problems
 
 
+# Kinds with no way to fly. Hung in the air with no floor under them they
+# reverse on their first step and then stand still for the whole stage, which
+# is exactly what "the floating enemies do nothing" looked like.
+GROUNDED = (K.IMP, K.GNASHER, K.WRAITH)
+
+SOLID = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT, K.PILLAR, K.SPIKE,
+         K.LAVA, K.LEDGE_L, K.LEDGE_R)
+
+
+def placements(path):
+    """
+    Two things a gap check cannot see: enemies that cannot stand where they
+    were put, and pickups nobody can reach.
+    """
+    rows, _width = load(path)
+    height = len(rows)
+    problems = []
+
+    def floor_within(x, y, reach):
+        for k in range(1, reach + 1):
+            if y + k < height and rows[y + k][x] in SOLID:
+                return True
+
+        return False
+
+    for y, row in enumerate(rows):
+        for x, ch in enumerate(row):
+            if ch in GROUNDED and not floor_within(x, y, 3):
+                problems.append(('walker in the air', x, y))
+
+            # A bonus soul is worth ten, so one placed out of reach is worth
+            # complaining about. Six rows is a comfortable jump.
+            elif ch == K.SOUL_TEN and not floor_within(x, y, 6):
+                problems.append(('soul out of reach', x, y))
+
+    return problems
+
+
 def main():
     levels = sorted(f for f in os.listdir(os.path.join(ROOT, 'levels'))
                     if f.endswith('.txt'))
     total = 0
+    misplaced = 0
 
     print('jump: rise from %.1f at gravity %.2f, run %.1f px/frame'
           % (-T['jump_speed'], T['gravity'], T['run_max']))
@@ -162,10 +201,18 @@ def main():
         flag = 'OK  ' if not problems else 'FAIL'
         detail = '' if not problems else '  ' + ', '.join(
             '%s row %d col %d->%d' % p for p in problems[:3])
+        placed = placements(os.path.join(ROOT, 'levels', name))
+        misplaced += len(placed)
+
+        if placed:
+            detail += '  ' + ', '.join('%s at %d,%d' % q for q in placed[:3])
+            flag = 'FAIL'
+
         print('  %s %-10s %d bad gap(s)%s' % (flag, name[:-4], len(problems), detail))
 
-    print('%d bad gaps across %d levels' % (total, len(levels)))
-    return 1 if total else 0
+    print('%d bad gaps, %d misplaced entities across %d levels'
+          % (total, misplaced, len(levels)))
+    return 1 if total or misplaced else 0
 
 
 if __name__ == '__main__':
