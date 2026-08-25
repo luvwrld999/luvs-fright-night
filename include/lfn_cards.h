@@ -17,9 +17,17 @@ namespace lfn
     void show_game_over(bn::sprite_text_generator& text, const run_state& run,
                         const save::file& file);
 
-    /** The board. */
+    /** The boards. A flips between the story ladder and the boss rush one. */
     void show_high_scores(bn::sprite_text_generator& text, const save::file& file,
-                          int highlight = -1);
+                          int highlight = -1,
+                          save::board which = save::board::story);
+
+    /**
+     * Which of the three games on the cartridge. Returns the slot, or -1 if
+     * the player backed out. `for_new` lets an empty slot be picked.
+     */
+    [[nodiscard]] int pick_file(bn::sprite_text_generator& text,
+                                const save::file& data, bool for_new);
 
     /** Who made it. */
     void show_credits(bn::sprite_text_generator& text);
@@ -38,7 +46,7 @@ namespace lfn
      * board can point at it afterwards.
      */
     int enter_initials(bn::sprite_text_generator& text, save::file& file, int score,
-                       int player = 0);
+                       int player = 0, save::board which = save::board::story);
 
     /** What the sin has to say, once, on the way into its world. */
     void show_world_story(bn::sprite_text_generator& text, int world);

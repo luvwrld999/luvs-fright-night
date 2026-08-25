@@ -207,7 +207,9 @@ namespace lfn
         int frame = 0;
 
         bn::vector<entry, 8> options;
-        const bool has_save = file.furthest_level > 0;
+        // Any slot with a game in it, not just the one last played, or a
+        // second person's save would be unreachable from the front page.
+        const bool has_save = save::slots_used(file) > 0;
 
         if(has_save)
         {
@@ -240,7 +242,7 @@ namespace lfn
         // Test builds can reach the hidden rooms from stage select; the
         // shipping game only ever lists the story.
         const int listable = tune::test_invulnerable ? level_count : story_count;
-        const int unlocked = bn::min<int>(file.furthest_level + 1, listable);
+        const int unlocked = bn::min<int>(save::slot(file).furthest_level + 1, listable);
         audio::play_music(audio::track::title);
 
         menu_result result;
@@ -473,9 +475,28 @@ namespace lfn
 
                     if(action == 0)
                     {
-                        result.level_index = file.furthest_level;
-                        result.run.lives = bn::max<int>(file.lives, 1);
-                        result.run.souls = file.souls;
+                        // One game on the cartridge continues itself; more
+                        // than one has to be asked about.
+                        if(save::slots_used(file) > 1)
+                        {
+                            release();
+                            const int which = pick_file(text, file, false);
+
+                            if(which < 0)
+                            {
+                                restore();
+                                dirty = true;
+                                continue;
+                            }
+
+                            save::choose(file, which);
+                            save::store(file);
+                        }
+
+                        const save::progress& p = save::slot(file);
+                        result.level_index = p.furthest_level;
+                        result.run.lives = bn::max<int>(p.lives, 1);
+                        result.run.souls = p.souls;
                         arm();
                         release();
                         return result;
@@ -483,12 +504,28 @@ namespace lfn
 
                     if(action == 1)
                     {
-                        if(has_save)
+                        // Always ask which file: starting a new game is how a
+                        // second person gets one of their own.
+                        release();
+                        const int which = pick_file(text, file, true);
+
+                        if(which < 0)
+                        {
+                            restore();
+                            dirty = true;
+                            continue;
+                        }
+
+                        save::choose(file, which);
+                        save::store(file);
+
+                        if(save::slot(file).used)
                         {
                             // There is a run on the cartridge. Erasing it
                             // should never be one button press away.
                             where = screen::confirm;
                             erase_pick = 0;
+                            restore();
                             dirty = true;
                         }
                         else
@@ -497,7 +534,6 @@ namespace lfn
                             file = save::load();
                             result.level_index = 0;
                             arm();
-                            release();
                             return result;
                         }
                     }
@@ -525,9 +561,11 @@ namespace lfn
 
                             // A code is proof enough: stage select opens up to
                             // there too, so it need not be typed twice.
-                            file.furthest_level = uint16_t(bn::max<int>(
-                                        file.furthest_level,
+                            save::progress& p = save::slot(file);
+                            p.furthest_level = uint16_t(bn::max<int>(
+                                        p.furthest_level,
                                         bn::min(opened, story_count - 1)));
+                            p.used = 1;
                             save::store(file);
                             arm();
                             return result;
@@ -538,7 +576,7 @@ namespace lfn
                     else if(action == 2)
                     {
                         where = screen::stages;
-                        stage_pick = file.furthest_level;
+                        stage_pick = save::slot(file).furthest_level;
                         stage_top = bn::clamp(stage_pick - (stage_rows / 2), 0,
                                               bn::max(unlocked - stage_rows, 0));
                     }
@@ -687,8 +725,9 @@ namespace lfn
                 {
                     audio::sfx_menu();
                     result.level_index = stage_pick;
-                    result.run.lives = bn::max<int>(file.lives, tune::start_lives);
-                    result.run.souls = file.souls;
+                    result.run.lives = bn::max<int>(save::slot(file).lives,
+                                                    tune::start_lives);
+                    result.run.souls = save::slot(file).souls;
                     arm();
                     release();
                     return result;

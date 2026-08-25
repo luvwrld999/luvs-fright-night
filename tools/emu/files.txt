@@ -1,0 +1,16 @@
+wait 240
+shot 01_menu
+tap a 8
+wait 11
+wait 80
+shot 02_files
+tap down 8
+wait 11
+wait 20
+shot 03_slot2
+tap a 8
+wait 11
+wait 480
+shot 04_story
+wait 300
+shot 05_card

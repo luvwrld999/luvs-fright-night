@@ -39,7 +39,28 @@ namespace lfn
          * gate takes you to the next one.
          */
         powers held;
+        /**
+         * One bit per hidden room entered. The ending reads it: a player who
+         * found all three earned a different last word than one who did not.
+         */
+        uint8_t secrets = 0;
     };
+
+    /** How many of the hidden rooms this run has been inside. */
+    [[nodiscard]] constexpr int secrets_found(const run_state& run)
+    {
+        int count = 0;
+
+        for(int bit = 0; bit < 3; ++bit)
+        {
+            if(run.secrets & (1 << bit))
+            {
+                ++count;
+            }
+        }
+
+        return count;
+    }
 
     /** One stage, played start to finish. */
     class game

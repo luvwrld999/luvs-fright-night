@@ -231,7 +231,7 @@ namespace lfn
     }
 
     void show_high_scores(bn::sprite_text_generator& text, const save::file& file,
-                          int highlight)
+                          int highlight, save::board which)
     {
         settle();
 
@@ -239,37 +239,62 @@ namespace lfn
         bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 96> sprites;
 
-        text.set_center_alignment();
-        text.generate(0, -70, "HIGH SCORES", sprites);
-        tint(sprites, 0, bn::sprite_palette_items::text_gold);
+        save::board showing = which;
+        bool dirty = true;
 
-        text.set_left_alignment();
-
-        for(int i = 0; i < save::table_size; ++i)
+        for(int frame = 0; frame < 2400; ++frame)
         {
-            const save::entry& row = file.table[i];
-            const int mark = sprites.size();
-            const bn::string<4> name = bn::string<4>(row.name, save::name_length);
-
-            text.generate(-64, -48 + (i * 15),
-                          bn::format<24>("{} {}  {}", i + 1, name,
-                                         zero_pad(int(row.score), 6)), sprites);
-
-            // The row you just earned is the one worth looking at.
-            tint(sprites, mark, i == highlight ? bn::sprite_palette_items::text_mag
-                                               : bn::sprite_palette_items::text_cyan);
-        }
-
-        text.set_center_alignment();
-        const int mark = sprites.size();
-        text.generate(0, 70, "B BACK", sprites);
-        tint(sprites, mark, bn::sprite_palette_items::text_mag);
-
-        for(int frame = 0; frame < 1200; ++frame)
-        {
-            if(frame > 12 && skipped())
+            if(dirty)
             {
-                break;
+                sprites.clear();
+                text.set_center_alignment();
+                text.generate(0, -70, showing == save::board::rush
+                              ? "BOSS RUSH SCORES" : "HIGH SCORES", sprites);
+                tint(sprites, 0, bn::sprite_palette_items::text_gold);
+
+                text.set_left_alignment();
+                const save::entry* table = save::rows(file, showing);
+
+                for(int i = 0; i < save::table_size; ++i)
+                {
+                    const int mark = sprites.size();
+                    const bn::string<4> name = bn::string<4>(table[i].name,
+                                                             save::name_length);
+
+                    text.generate(-64, -48 + (i * 15),
+                                  bn::format<24>("{} {}  {}", i + 1, name,
+                                                 zero_pad(int(table[i].score), 6)),
+                                  sprites);
+
+                    // The row you just earned is the one worth looking at, and
+                    // only on the board it landed on.
+                    const bool lit = i == highlight && showing == which;
+                    tint(sprites, mark, lit
+                         ? bn::sprite_palette_items::text_mag
+                         : bn::sprite_palette_items::text_cyan);
+                }
+
+                text.set_center_alignment();
+                const int mark = sprites.size();
+                text.generate(0, 70, "A OTHER BOARD   B BACK", sprites);
+                tint(sprites, mark, bn::sprite_palette_items::text_mag);
+                dirty = false;
+            }
+
+            if(frame > 12)
+            {
+                if(bn::keypad::a_pressed() || bn::keypad::left_pressed() ||
+                   bn::keypad::right_pressed())
+                {
+                    showing = showing == save::board::rush ? save::board::story
+                                                           : save::board::rush;
+                    audio::sfx_menu();
+                    dirty = true;
+                }
+                else if(bn::keypad::b_pressed() || bn::keypad::start_pressed())
+                {
+                    break;
+                }
             }
 
             bn::core::update();
@@ -340,7 +365,7 @@ namespace lfn
     }
 
     int enter_initials(bn::sprite_text_generator& text, save::file& file, int score,
-                       int player)
+                       int player, save::board which)
     {
         settle();
 
@@ -448,18 +473,129 @@ namespace lfn
         }
 
         settle();
-        save::submit(file, name, score);
+        save::submit(file, name, score, which);
+        const save::entry* table = save::rows(file, which);
 
         for(int i = 0; i < save::table_size; ++i)
         {
-            if(uint32_t(score) == file.table[i].score &&
-               file.table[i].name[0] == name[0] && file.table[i].name[1] == name[1])
+            if(uint32_t(score) == table[i].score &&
+               table[i].name[0] == name[0] && table[i].name[1] == name[1])
             {
                 return i;
             }
         }
 
         return 0;
+    }
+
+    int pick_file(bn::sprite_text_generator& text, const save::file& data,
+                  bool for_new)
+    {
+        settle();
+        int pick = data.active < save::slot_count ? data.active : 0;
+        int chosen = -1;
+
+        {
+        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::vector<bn::sprite_ptr, 64> sprites;
+        bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(-86, 0);
+
+        bool dirty = true;
+        int frame = 0;
+
+        while(true)
+        {
+            ++frame;
+
+            if(dirty)
+            {
+                sprites.clear();
+                text.set_center_alignment();
+                text.generate(0, -68, for_new ? "START WHICH FILE" : "WHICH FILE",
+                              sprites);
+                tint(sprites, 0, bn::sprite_palette_items::text_gold);
+
+                text.set_left_alignment();
+
+                for(int i = 0; i < save::slot_count; ++i)
+                {
+                    const save::progress& p = data.slots[i];
+                    const int mark = sprites.size();
+
+                    if(p.used)
+                    {
+                        // Where they got to and what they are carrying, which
+                        // is all anyone needs to recognise their own game.
+                        const level_data& where = levels[bn::min<int>(
+                                    p.furthest_level, story_count - 1)];
+                        text.generate(-70, -34 + (i * 24),
+                                      bn::format<24>("{}  {}-{}  x{}", i + 1,
+                                                     roman(where.world),
+                                                     (p.furthest_level % 3) + 1,
+                                                     int(p.lives)), sprites);
+                        tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+                    }
+                    else
+                    {
+                        text.generate(-70, -34 + (i * 24),
+                                      bn::format<16>("{}  EMPTY", i + 1), sprites);
+                        tint(sprites, mark, bn::sprite_palette_items::text_mag);
+                    }
+                }
+
+                text.set_center_alignment();
+                const int mark = sprites.size();
+                text.generate(0, 62, "A PICK    B BACK", sprites);
+                tint(sprites, mark, bn::sprite_palette_items::text_mag);
+                dirty = false;
+            }
+
+            cursor.set_position(-86, -32 + (pick * 24) + ((frame >> 4) & 1));
+
+            if((frame % 26) == 0)
+            {
+                cursor.set_tiles(bn::sprite_items::luv.tiles_item()
+                                 .create_tiles((frame / 26) & 1));
+            }
+
+            if(frame > 10)
+            {
+                if(bn::keypad::up_pressed() && pick > 0)
+                {
+                    --pick;
+                    audio::sfx_menu();
+                }
+                else if(bn::keypad::down_pressed() && pick < save::slot_count - 1)
+                {
+                    ++pick;
+                    audio::sfx_menu();
+                }
+
+                if(bn::keypad::a_pressed() || bn::keypad::start_pressed())
+                {
+                    // Continuing needs a game to continue; starting one does not.
+                    if(for_new || data.slots[pick].used)
+                    {
+                        audio::sfx_menu();
+                        chosen = pick;
+                        break;
+                    }
+
+                    audio::sfx_hurt();
+                }
+
+                if(bn::keypad::b_pressed())
+                {
+                    break;
+                }
+            }
+
+            bn::core::update();
+        }
+        }
+
+        settle();
+        return chosen;
     }
 
     int enter_cheat(bn::sprite_text_generator& text)
@@ -1172,11 +1308,31 @@ namespace lfn
             const char* line;
         };
 
-        constexpr panel panels[] = {
+        // Three endings. The last line is the only one that changes, because
+        // the point is what the run was, not a different story.
+        const int found = secrets_found(run);
+        const bool clean = run.continues >= tune::start_continues;
+
+        const char* last = "HORNS AND ALL";
+
+        if(found >= 3 && clean)
+        {
+            last = "NOTHING DOWN THERE KEPT HIM";
+        }
+        else if(found >= 3)
+        {
+            last = "HE SAW EVERY ROOM";
+        }
+        else if(clean)
+        {
+            last = "AND NEVER ONCE TURNED BACK";
+        }
+
+        const panel panels[] = {
             {40,  -60, "THE SEVEN ARE UNDONE"},
             {150, -42, "AND HADES KEPT NOTHING"},
             {270, -18, "LUV GOES UP"},
-            {390,   6, "HORNS AND ALL"},
+            {390,   6, last},
         };
 
         bn::vector<bn::sprite_ptr, 64> sprites;
@@ -1204,6 +1360,7 @@ namespace lfn
                               tail);
                 text.generate(0, 52, int(save::best(file)) <= run.score
                                    ? "A NEW BEST" : "THANKS FOR PLAYING", tail);
+                text.generate(0, 68, bn::format<28>("SECRETS {} OF 3", found), tail);
 
                 for(bn::sprite_ptr& sprite : tail)
                 {

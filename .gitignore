@@ -15,3 +15,4 @@ tools/emu/*.gba
 preview/audio/
 preview/assets.html
 preview/audio/level/
+tools/emu/regress/

@@ -36,6 +36,14 @@ namespace lfn
     {
         _player.set_demo(demo);
         _player.carrying() = carried.held;
+
+        // Hidden rooms sit after the story in the level list, so their index
+        // doubles as the bit that records having been in one.
+        if(level_index >= story_count && level_index < level_count)
+        {
+            _run.secrets |= uint8_t(1 << (level_index - story_count));
+        }
+
         _powers_said = carried.held;
 
         if constexpr(tune::test_powers)

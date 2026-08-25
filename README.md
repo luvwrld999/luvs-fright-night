@@ -20,6 +20,20 @@ That produces `LuvsFrightNight.gba`. Open it in mGBA or any GBA emulator.
 
 `./build.sh clean` removes the build directory.
 
+## Checking it still works
+
+```bash
+python3 tools/check_levels.py   # every gap crossable from the physics constants
+python3 tools/balance.py        # the difficulty curve, world by world
+python3 tools/check_audio.py    # peak, RMS, DC offset and clipping
+python3 tools/regress.py        # every screen against a blessed baseline
+```
+
+`regress.py` builds a clean ROM, replays scripted sessions through the
+emulator and compares each frame to `tools/emu/golden/`. It writes a
+side-by-side sheet of anything that changed and exits non-zero. When a change
+was intended, `python3 tools/regress.py --bless` accepts it as the new truth.
+
 ## Regenerating assets
 
 ```bash
@@ -27,6 +41,8 @@ python3 tools/gen_sprites.py       # graphics/*.bmp + *.json, preview sheets
 python3 tools/gen_music.py         # audio/*.xm + rendered previews
 python3 tools/gen_sfx.py           # audio/*.wav
 python3 tools/gen_preview_page.py  # preview/assets.html (the review page)
+python3 tools/gen_manual.py        # scrape/manual.html (the instruction booklet)
+python3 tools/gen_scrape.py        # the whole scrape package, manual included
 ```
 
 ## Playing it
@@ -48,6 +64,11 @@ cartridge starts an attract loop - the board, then a stage playing itself.
   already know. The codes are in `dev secrets.md`.
 - **Souls** are worth one each; the larger gold ones are worth ten, and there
   are nine of those in every stage. Ninety-nine souls is a life.
+- **Three save files** share the cartridge. New Game asks which one; Continue
+  only asks when more than one is in use. The score boards and best times sit
+  outside the files and survive erasing one.
+- **Boss Rush** keeps its own score board, because a five minute rush should
+  not have to beat a forty minute run.
 
 The high score board lives on the cartridge and survives a new game too.
 

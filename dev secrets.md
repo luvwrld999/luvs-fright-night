@@ -181,6 +181,35 @@ Souls cost nothing on the balance sheet: pressure counts enemies, holes and
 hazard regions per screen, so a stage can be as generous with them as it likes
 without getting harder.
 
+## Endings
+
+The last line of the ending changes with what the run was. The rest does not -
+the point is the run, not a different story.
+
+| Condition | Last line |
+|---|---|
+| All three hidden rooms, and no continues spent | `NOTHING DOWN THERE KEPT HIM` |
+| All three hidden rooms | `HE SAW EVERY ROOM` |
+| No continues spent | `AND NEVER ONCE TURNED BACK` |
+| Otherwise | `HORNS AND ALL` |
+
+The run carries a three-bit mask of which hidden rooms it has been inside, set
+by the stage itself: hidden rooms sit after the story in the level list, so
+their index doubles as the bit. The ending also prints `SECRETS n OF 3`.
+
+## Save files and boards
+
+The cartridge holds **three separate games**. NEW GAME always asks which file,
+so a second person can take an empty one; CONTINUE only asks when more than
+one file has something in it. Erasing a file clears that file alone.
+
+The **high score boards and the best times are not part of a save file** -
+they belong to the cartridge. NEW GAME does not touch them.
+
+There are two boards. A five minute boss rush and a forty minute run do not
+belong on the same ladder, so the rush has its own, seeded lower. `A` on the
+board screen flips between them.
+
 ## Modes and records
 
 `EXTRAS` on the title screen holds **BOSS RUSH**: the eight sins back to back,

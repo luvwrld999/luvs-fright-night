@@ -11,7 +11,7 @@ namespace lfn::save
     {
         // Bumped when the layout changes, so an older file is discarded rather
         // than read as nonsense.
-        constexpr uint32_t magic_value = 0x4C464E34;    // "LFN4"
+        constexpr uint32_t magic_value = 0x4C464E35;    // "LFN5"
 
         // The board a fresh cartridge ships with. Somebody has to be at the top
         // before anyone plays it.
@@ -26,6 +26,27 @@ namespace lfn::save
             {{'H', 'A', 'D'},  8000},
         };
 
+        // The rush is a short, dense game, so it needs its own ladder rather
+        // than being buried under forty-minute runs on the story board.
+        constexpr entry rush_factory[table_size] = {
+            {{'J', 'D', 'K'}, 41000},
+            {{'I', 'M', 'K'}, 34500},
+            {{'L', 'U', 'V'}, 28000},
+            {{'H', 'A', 'D'}, 22500},
+            {{'9', '9', '9'}, 17000},
+            {{'S', 'I', 'N'}, 12500},
+            {{'G', 'H', 'O'},  8000},
+            {{'R', 'I', 'P'},  4500},
+        };
+
+        void blank(progress& p)
+        {
+            p.furthest_level = 0;
+            p.souls = 0;
+            p.lives = tune::start_lives;
+            p.used = 0;
+        }
+
         file defaults()
         {
             file data{};
@@ -34,6 +55,7 @@ namespace lfn::save
             for(int i = 0; i < table_size; ++i)
             {
                 data.table[i] = factory[i];
+                data.rush[i] = rush_factory[i];
             }
 
             for(int i = 0; i < timed_stages; ++i)
@@ -41,11 +63,44 @@ namespace lfn::save
                 data.best_time[i] = 0;
             }
 
-            data.furthest_level = 0;
-            data.souls = 0;
-            data.lives = tune::start_lives;
+            for(int i = 0; i < slot_count; ++i)
+            {
+                blank(data.slots[i]);
+            }
+
+            data.active = 0;
             return data;
         }
+    }
+
+    progress& slot(file& data)
+    {
+        return data.slots[data.active < slot_count ? data.active : 0];
+    }
+
+    const progress& slot(const file& data)
+    {
+        return data.slots[data.active < slot_count ? data.active : 0];
+    }
+
+    void choose(file& data, int index)
+    {
+        data.active = uint8_t(index >= 0 && index < slot_count ? index : 0);
+    }
+
+    int slots_used(const file& data)
+    {
+        int count = 0;
+
+        for(int i = 0; i < slot_count; ++i)
+        {
+            if(data.slots[i].used)
+            {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
     file load()
@@ -58,11 +113,29 @@ namespace lfn::save
             data = defaults();
         }
 
+        // A blank active slot with a played one beside it means the file was
+        // last left on an erased game; point it at something real.
+        if(!data.slots[data.active < slot_count ? data.active : 0].used)
+        {
+            for(int i = 0; i < slot_count; ++i)
+            {
+                if(data.slots[i].used)
+                {
+                    data.active = uint8_t(i);
+                    break;
+                }
+            }
+        }
+
         if(tune::test_autopilot || tune::test_invulnerable)
         {
             // Test builds unlock everything, so the harness can drive straight
             // to any stage - including the secret rooms - via stage select.
-            data.furthest_level = level_count - 1;
+            for(int i = 0; i < slot_count; ++i)
+            {
+                data.slots[i].furthest_level = level_count - 1;
+                data.slots[i].used = 1;
+            }
         }
 
         return data;
@@ -77,50 +150,51 @@ namespace lfn::save
 
     void wipe()
     {
-        file fresh = defaults();
+        // Only the game in play. The boards and the times belong to the
+        // cartridge, not to one person's save.
         file current = load();
-
-        // Starting again clears your progress, not everyone else's names -
-        // and not the times, which are records rather than progress.
-        for(int i = 0; i < table_size; ++i)
-        {
-            fresh.table[i] = current.table[i];
-        }
-
-        for(int i = 0; i < timed_stages; ++i)
-        {
-            fresh.best_time[i] = current.best_time[i];
-        }
-
-        store(fresh);
+        blank(slot(current));
+        store(current);
     }
 
-    uint32_t best(const file& data)
+    entry* rows(file& data, board which)
     {
-        return data.table[0].score;
+        return which == board::rush ? data.rush : data.table;
     }
 
-    bool qualifies(const file& data, int score)
+    const entry* rows(const file& data, board which)
     {
-        return score > 0 && uint32_t(score) > data.table[table_size - 1].score;
+        return which == board::rush ? data.rush : data.table;
     }
 
-    void submit(file& data, const char name[name_length], int score)
+    uint32_t best(const file& data, board which)
     {
+        return rows(data, which)[0].score;
+    }
+
+    bool qualifies(const file& data, int score, board which)
+    {
+        return score > 0 &&
+               uint32_t(score) > rows(data, which)[table_size - 1].score;
+    }
+
+    void submit(file& data, const char name[name_length], int score, board which)
+    {
+        entry* table = rows(data, which);
         int slot = table_size - 1;
 
-        while(slot > 0 && data.table[slot - 1].score < uint32_t(score))
+        while(slot > 0 && table[slot - 1].score < uint32_t(score))
         {
-            data.table[slot] = data.table[slot - 1];
+            table[slot] = table[slot - 1];
             --slot;
         }
 
         for(int i = 0; i < name_length; ++i)
         {
-            data.table[slot].name[i] = name[i];
+            table[slot].name[i] = name[i];
         }
 
-        data.table[slot].score = uint32_t(score);
+        table[slot].score = uint32_t(score);
     }
 }
 

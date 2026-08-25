@@ -14,6 +14,7 @@ A short, mean platformer in the Super Mario Land tradition: run, jump, stomp, an
     <titleshot>./media/titlescreen/title.png</titleshot>
     <developer>LuvWrld</developer>
     <publisher>Retro Rumble</publisher>
+    <manual>./manual.html</manual>
     <genre>Platform</genre>
     <genreid>256</genreid>
     <players>2</players>

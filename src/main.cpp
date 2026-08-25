@@ -90,13 +90,13 @@ namespace
      * way, so a run always leaves something behind.
      */
     int claim(bn::sprite_text_generator& text, lfn::save::file& file,
-              const lfn::run_state& run, int player)
+              const lfn::run_state& run, int player, lfn::save::board which)
     {
         int slot = -1;
 
-        if(lfn::save::qualifies(file, run.score))
+        if(lfn::save::qualifies(file, run.score, which))
         {
-            slot = lfn::enter_initials(text, file, run.score, player);
+            slot = lfn::enter_initials(text, file, run.score, player, which);
         }
 
         lfn::save::store(file);
@@ -122,7 +122,7 @@ int main()
         lfn::run_state fake;
         fake.score = 40000;
 
-        if(claim(text, probe, fake, 0) >= 0)
+        if(claim(text, probe, fake, 0, lfn::save::board::story) >= 0)
         {
             lfn::show_high_scores(text, probe, 0);
         }
@@ -304,10 +304,12 @@ int main()
             // allowed to move the saved progress.
             if(seats_taken == 1 && !picked.boss_rush)
             {
-                file.furthest_level = uint16_t(bn::clamp(me.index, 0,
-                                                         lfn::story_count - 1));
-                file.lives = uint8_t(bn::clamp(me.run.lives, 1, 99));
-                file.souls = uint16_t(me.run.souls);
+                lfn::save::progress& p = lfn::save::slot(file);
+                p.furthest_level = uint16_t(bn::clamp(me.index, 0,
+                                                      lfn::story_count - 1));
+                p.lives = uint8_t(bn::clamp(me.run.lives, 1, 99));
+                p.souls = uint16_t(me.run.souls);
+                p.used = 1;
                 lfn::save::store(file);
             }
 
@@ -324,6 +326,12 @@ int main()
 
         lfn::audio::stop_music();
 
+        // A five minute rush and a forty minute run do not belong on the same
+        // ladder.
+        const lfn::save::board ladder = picked.boss_rush
+                                      ? lfn::save::board::rush
+                                      : lfn::save::board::story;
+
         if(!abandoned)
         {
             if(seats_taken > 1)
@@ -333,21 +341,22 @@ int main()
                     lfn::show_two_player_result(text, seats[0].run, seats[1].run);
                 }
 
-                const int first = claim(text, file, seats[0].run, 1);
-                const int second = claim(text, file, seats[1].run, 2);
+                const int first = claim(text, file, seats[0].run, 1, ladder);
+                const int second = claim(text, file, seats[1].run, 2, ladder);
 
                 if(first >= 0 || second >= 0)
                 {
-                    lfn::show_high_scores(text, file, second >= 0 ? second : first);
+                    lfn::show_high_scores(text, file, second >= 0 ? second : first,
+                                          ladder);
                 }
             }
             else
             {
-                const int slot = claim(text, file, seats[0].run, 0);
+                const int slot = claim(text, file, seats[0].run, 0, ladder);
 
                 if(slot >= 0)
                 {
-                    lfn::show_high_scores(text, file, slot);
+                    lfn::show_high_scores(text, file, slot, ladder);
                 }
             }
         }

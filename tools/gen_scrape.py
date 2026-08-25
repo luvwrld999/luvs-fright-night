@@ -366,6 +366,7 @@ def gamelist(path, shots):
     <titleshot>./media/titlescreen/title.png</titleshot>
     <developer>LuvWrld</developer>
     <publisher>Retro Rumble</publisher>
+    <manual>./manual.html</manual>
     <genre>Platform</genre>
     <genreid>256</genreid>
     <players>2</players>
@@ -381,6 +382,12 @@ def gamelist(path, shots):
 </gameList>
 """ % (DESC.replace('&', '&amp;').replace('<', '&lt;'), rows)
     open(path, 'w').write(xml)
+
+
+def build_manual():
+    """The booklet is generated from the same graphics as the ROM."""
+    import gen_manual
+    gen_manual.build()
 
 
 def main():
@@ -422,6 +429,8 @@ def main():
 
     if os.path.exists(rom):
         shutil.copy(rom, os.path.join(OUT, 'LuvsFrightNight.gba'))
+
+    build_manual()
 
     gamelist(os.path.join(OUT, 'gamelist.xml'), written)
 
