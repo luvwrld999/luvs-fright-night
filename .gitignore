@@ -14,3 +14,4 @@ tools/emu/shots2/
 tools/emu/*.gba
 preview/audio/
 preview/assets.html
+preview/audio/level/

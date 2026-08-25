@@ -143,6 +143,8 @@ def compose(theme):
     boss = theme.get('boss', False)
     short = theme.get('short', False)
 
+    vol = dict(VOL)
+
     song = xm.Song(theme['name'], channels=8, bpm=theme['bpm'], speed=6)
     inst = build_instruments(song)
 
@@ -173,7 +175,7 @@ def compose(theme):
             bass_note = xm.note(octv - 1, 0) + root + tones[0]
 
             # --- sub: a walking figure rather than a held root
-            p.put(base, SUB, bass_note, inst['sub'], 0x10 + VOL[SUB])
+            p.put(base, SUB, bass_note, inst['sub'], 0x10 + vol[SUB])
 
             if not sparse:
                 walk = [(6, tones[0]), (10, tones[2]), (13, tones[1])]
@@ -183,21 +185,21 @@ def compose(theme):
 
                 for row, tone in walk:
                     p.put(base + row, SUB, xm.note(octv - 1, 0) + root + tone,
-                          inst['sub'], 0x10 + VOL[SUB] - 7)
+                          inst['sub'], 0x10 + vol[SUB] - 7)
 
             # --- heartbeat, absent from the sparse intro
             if not sparse and not intro:
                 for r in (0, 6, 8, 14):
-                    v = VOL[KICK] if r in (0, 8) else VOL[KICK] - 9
+                    v = vol[KICK] if r in (0, 8) else vol[KICK] - 9
                     p.put(base + r, KICK, xm.note(4, 0), inst['kick'], 0x10 + v)
 
             # --- pads, swelling across the bar
             p.put(base, PAD_A, xm.note(octv, 0) + root + tones[1],
-                  inst['pad'], 0x10 + VOL[PAD_A] - (5 if intro else 0))
+                  inst['pad'], 0x10 + vol[PAD_A] - (5 if intro else 0))
             p.put(base + 8, PAD_A, xm.note(octv, 0) + root + tones[1],
-                  inst['pad'], 0x10 + VOL[PAD_A] + 3)
+                  inst['pad'], 0x10 + vol[PAD_A] + 3)
             p.put(base, PAD_B, xm.note(octv, 0) + root + tones[2],
-                  inst['choir'], 0x10 + VOL[PAD_B])
+                  inst['choir'], 0x10 + vol[PAD_B])
 
             # --- the arpeggio: the engine of the thing
             if not sparse and not intro:
@@ -207,17 +209,17 @@ def compose(theme):
                     lift = 12 if ((r // step) % 6) >= 3 else 0
                     p.put(base + r, ARP,
                           xm.note(octv + 1, 0) + root + tone + lift, inst['pulse'],
-                          0x10 + VOL[ARP] - (4 if r % 4 else 0))
+                          0x10 + vol[ARP] - (4 if r % 4 else 0))
 
             # --- counter-line, once the track has something to answer
             if answering and not sparse:
                 p.put(base + 4, AIR, xm.note(octv, 0) + root + tones[2] + 12,
-                      inst['choir'], 0x10 + VOL[AIR] + 6)
+                      inst['choir'], 0x10 + vol[AIR] + 6)
 
             if not sparse and not intro:
                 for r in range(2, 16, 4):
                     p.put(base + r, HAT, xm.note(4, 0), inst['hat'],
-                          0x10 + VOL[HAT] - (r % 8 and 3))
+                          0x10 + vol[HAT] - (r % 8 and 3))
 
         # --- the tune itself: stated, then answered
         line = answer if answering else motif
@@ -227,16 +229,16 @@ def compose(theme):
 
             deg = line[i] + (2 if pat_index % 2 else 0)
             p.put(r * 2, LEAD, pitch(deg, 1), inst['bell'],
-                  0x10 + VOL[LEAD] - (5 if i % 3 else 0))
+                  0x10 + vol[LEAD] - (5 if i % 3 else 0))
 
         if theme.get('air') and not answering:
-            p.put(0, AIR, xm.note(octv, 0) + root, inst['air'], 0x10 + VOL[AIR])
+            p.put(0, AIR, xm.note(octv, 0) + root, inst['air'], 0x10 + vol[AIR])
             p.put(32, AIR, xm.note(octv, 0) + root + scale[1], inst['air'],
-                  0x10 + VOL[AIR])
+                  0x10 + vol[AIR])
 
         if turnaround:
             p.put(48, AIR, xm.note(octv + 1, 0) + root, inst['riser'],
-                  0x10 + VOL[AIR] + 6)
+                  0x10 + vol[AIR] + 6)
 
             # A fill across the last bar, so the loop point arrives instead of
             # simply happening. Sixteenths on the hat tightening into the top,
@@ -244,14 +246,14 @@ def compose(theme):
             if not sparse:
                 for r in range(56, 64):
                     p.put(r, HAT, xm.note(4, 0), inst['hat'],
-                          0x10 + VOL[HAT] - 4 + ((r - 56) // 2))
+                          0x10 + vol[HAT] - 4 + ((r - 56) // 2))
 
                 for r in (61, 63):
-                    p.put(r, KICK, xm.note(4, 0), inst['kick'], 0x10 + VOL[KICK] - 4)
+                    p.put(r, KICK, xm.note(4, 0), inst['kick'], 0x10 + vol[KICK] - 4)
 
                 # And the sub climbs back to the root it started on.
                 p.put(62, SUB, xm.note(octv - 1, 0) + root + scale[4], inst['sub'],
-                      0x10 + VOL[SUB] - 5)
+                      0x10 + vol[SUB] - 5)
 
     song.order = list(range(pattern_count))
     return song

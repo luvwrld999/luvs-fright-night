@@ -15,6 +15,22 @@ def _clip(v):
     return max(-128, min(127, int(round(v))))
 
 
+def _centre(data):
+    """
+    Shift a looping waveform so its average is zero.
+
+    A narrow pulse spends most of its cycle at one level, so its mean sits well
+    away from centre. Eight of those looping under a mix pull the whole output
+    off-centre: headroom goes to a constant the speaker cannot reproduce, and
+    every note starts and ends with a step.
+    """
+    if not data:
+        return data
+
+    mean = sum(data) / float(len(data))
+    return [_clip(v - mean) for v in data]
+
+
 class _Rng:
     """Deterministic noise source, so a rebuild produces identical audio."""
 
@@ -82,7 +98,7 @@ def hollow_pulse(duty=0.22, cycles=2):
     for i in range(n):
         phase = (i / CYCLE) % 1.0
         data.append(_clip(70 if phase < duty else -70))
-    return data, 0, n
+    return _centre(data), 0, n
 
 
 def whisper(length=2048, seed=7):

@@ -76,13 +76,30 @@ def sweep(n, f0, f1, wave='sine', decay=3.0, amp=0.7, seed=1, curve=1.0):
         elif wave == 'square':
             v = 1.0 if (phase % 1.0) < 0.5 else -1.0
         elif wave == 'pulse':
-            v = 1.0 if (phase % 1.0) < 0.2 else -1.0
+            # A 20% duty pulse spends four fifths of its cycle low, so a naive
+            # +1/-1 sits at -0.6 on average. Weighting the two levels by the
+            # time spent at each puts the average back on zero, which is what
+            # stops the effect thumping when it starts and stops.
+            v = (1.0 - PULSE_DUTY) * 2 if (phase % 1.0) < PULSE_DUTY \
+                else -PULSE_DUTY * 2
         elif wave == 'saw':
             v = (phase % 1.0) * 2 - 1
         else:
             v = r.uniform()
         out.append(v * env(i, n, 0.008, decay) * amp)
     return out
+
+
+PULSE_DUTY = 0.2
+
+
+def decentre(samples):
+    """Take any residual offset out of a finished effect."""
+    if not samples:
+        return samples
+
+    mean = sum(samples) / float(len(samples))
+    return [max(-1.0, min(1.0, v - mean)) for v in samples]
 
 
 def mix(*layers):
@@ -257,7 +274,7 @@ def sfx_level_clear():
 def main():
     total = 0
     for name in sorted(SFX):
-        samples = SFX[name]()
+        samples = decentre(SFX[name]())
         short = name[4:] if name.startswith('sfx_') else name
         size = write_wav(short, samples)
         write_wav16('sfx_' + short, samples)
