@@ -1,0 +1,75 @@
+wait 240
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+wait 16
+tap a 8
+wait 11
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+wait 20
+tap a 8
+wait 11
+wait 480
+wait 200
+shot 01_in_1_2
+wait 200
+shot 02_after_warp
+wait 260
+shot 03_room
+wait 300
+shot 04_later

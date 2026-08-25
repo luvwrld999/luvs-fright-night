@@ -40,10 +40,26 @@ namespace lfn
             return k >= ent_kind::soul && k <= ent_kind::one_up;
         }
 
+        /**
+         * How many frames each kind's sheet actually holds.
+         *
+         * Every kind is listed. This used to end in `default: return 4`, and a
+         * warp door - which draws with the two frame gate sheet - inherited
+         * that four, walked its animation onto frame 2 and tripped Butano's
+         * bounds assert the moment one came on screen. A silent default is not
+         * worth the lines it saves when the cost of being wrong is the game
+         * stopping dead.
+         */
         [[nodiscard]] int frames_of(ent_kind k)
         {
             switch(k)
             {
+            case ent_kind::imp:
+            case ent_kind::cherub:
+            case ent_kind::gnasher:
+            case ent_kind::wraith:
+            case ent_kind::bat:
+            case ent_kind::jet:
             case ent_kind::soul:
             case ent_kind::soul_ten:
             case ent_kind::flame:
@@ -56,9 +72,14 @@ namespace lfn
             case ent_kind::pu_wings:
             case ent_kind::one_up:
             case ent_kind::exit_gate:
+            case ent_kind::warp:
                 return 2;
+            // A count of one can never index past the end of any sheet, so a
+            // kind added without being listed here misdraws rather than
+            // halting the game.
+            case ent_kind::none:
             default:
-                return 4;
+                return 1;
             }
         }
 

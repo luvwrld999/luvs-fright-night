@@ -316,7 +316,6 @@ namespace lfn
 
     void boss::_animate()
     {
-        const spec& s = specs[_which - 1];
         int base;
 
         if(_dying)
@@ -372,8 +371,6 @@ namespace lfn
         }
 
         _move(player, lv);
-
-        const spec& s = specs[_which - 1];
 
         if((_timer % _period()) == 0 || _wall_hit)
         {

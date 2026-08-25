@@ -16,3 +16,8 @@ preview/audio/
 preview/assets.html
 preview/audio/level/
 tools/emu/regress/
+tools/emu/soak/
+tools/emu/sweep/
+tools/emu/over/
+tools/emu/init/
+tools/emu/warptest/

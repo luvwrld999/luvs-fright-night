@@ -1,0 +1,14 @@
+wait 120
+shot 01_entry
+tap up 10
+wait 20
+tap right 10
+wait 20
+tap up 10
+wait 20
+tap a 10
+wait 150
+shot 02_board
+tap a 10
+wait 90
+shot 03_other_board

@@ -486,6 +486,11 @@ namespace lfn
                             {
                                 restore();
                                 dirty = true;
+                                // Take a frame before looping: `continue`
+                                // skips the update at the foot of the loop,
+                                // and without one the next pass would read the
+                                // same keypad edges again.
+                                bn::core::update();
                                 continue;
                             }
 
@@ -513,6 +518,7 @@ namespace lfn
                         {
                             restore();
                             dirty = true;
+                            bn::core::update();
                             continue;
                         }
 
@@ -532,6 +538,12 @@ namespace lfn
                         {
                             save::wipe();
                             file = save::load();
+
+                            // Claim the slot now rather than when a stage is
+                            // first cleared, or a player who dies in 1-1 finds
+                            // their file still reading EMPTY.
+                            save::slot(file).used = 1;
+                            save::store(file);
                             result.level_index = 0;
                             arm();
                             return result;
@@ -605,6 +617,8 @@ namespace lfn
                     {
                         save::wipe();
                         file = save::load();
+                        save::slot(file).used = 1;
+                        save::store(file);
                         result.level_index = 0;
                         result.run.lives = tune::start_lives;
                         arm();

@@ -40,7 +40,7 @@ namespace
                      bn::sprite_text_generator& small,
                      const lfn::save::file& file, int turn)
     {
-        lfn::show_high_scores(text, file);
+        lfn::show_high_scores(text, file, -1, lfn::save::board::story, true);
 
         if(bn::keypad::any_pressed())
         {
@@ -259,8 +259,10 @@ int main()
                 break;
             }
 
-            // Records stand whatever mode set them, and whichever seat did it.
-            if(lfn::save::record_time(file, me.index, took))
+            // Records stand whatever mode set them, and whichever seat did
+            // it - but a stage left through a warp door was never finished,
+            // and a shortcut is not a fast time.
+            if(!stage_warped && lfn::save::record_time(file, me.index, took))
             {
                 lfn::save::store(file);
             }
@@ -287,6 +289,12 @@ int main()
             // A warp door, an explicit exit, or simply the next stage.
             const lfn::level_data& done = lfn::levels[me.index];
 
+            // Only walking off the end of the story finishes the game. The
+            // hidden rooms live past story_count in the level list, so a warp
+            // into one used to look exactly like beating Hades: it played the
+            // ending and ended the run.
+            bool story_over = false;
+
             if(stage_warped && done.warp >= 0)
             {
                 me.index = done.warp;
@@ -298,6 +306,7 @@ int main()
             else
             {
                 ++me.index;
+                story_over = me.index >= lfn::story_count;
             }
 
             // Two seats share one cartridge slot, so only a solo run is
@@ -305,15 +314,23 @@ int main()
             if(seats_taken == 1 && !picked.boss_rush)
             {
                 lfn::save::progress& p = lfn::save::slot(file);
-                p.furthest_level = uint16_t(bn::clamp(me.index, 0,
-                                                      lfn::story_count - 1));
+
+                // A hidden room is not a place in the story, and replaying an
+                // early stage from stage select must not take progress away,
+                // so this only ever climbs.
+                if(me.index < lfn::story_count)
+                {
+                    p.furthest_level = uint16_t(bn::max<int>(p.furthest_level,
+                                                             me.index));
+                }
+
                 p.lives = uint8_t(bn::clamp(me.run.lives, 1, 99));
                 p.souls = uint16_t(me.run.souls);
                 p.used = 1;
                 lfn::save::store(file);
             }
 
-            if(me.index >= lfn::story_count)
+            if(story_over)
             {
                 // Hades is down: the run is over however many seats are taken.
                 lfn::show_ending(text, me.run, file);

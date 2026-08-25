@@ -1,0 +1,209 @@
+wait 240
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+wait 16
+tap a 8
+wait 11
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+wait 20
+tap a 8
+wait 11
+wait 480
+wait 900
+shot 00
+wait 900
+shot 01
+wait 900
+shot 02
+wait 900
+shot 03
+wait 900
+shot 04
+wait 900
+shot 05
+wait 900
+shot 06
+wait 900
+shot 07
+wait 900
+shot 08
+wait 900
+shot 09
+wait 900
+shot 10
+wait 900
+shot 11
+wait 900
+shot 12
+wait 900
+shot 13
+wait 900
+shot 14
+wait 900
+shot 15
+wait 900
+shot 16
+wait 900
+shot 17
+wait 900
+shot 18
+wait 900
+shot 19
+wait 900
+shot 20
+wait 900
+shot 21
+wait 900
+shot 22
+wait 900
+shot 23
+wait 900
+shot 24
+wait 900
+shot 25
+wait 900
+shot 26
+wait 900
+shot 27
+wait 900
+shot 28
+wait 900
+shot 29
+wait 900
+shot 30
+wait 900
+shot 31
+wait 900
+shot 32
+wait 900
+shot 33
+wait 900
+shot 34
+wait 900
+shot 35
+wait 900
+shot 36
+wait 900
+shot 37
+wait 900
+shot 38
+wait 900
+shot 39
+wait 900
+shot 40
+wait 900
+shot 41
+wait 900
+shot 42
+wait 900
+shot 43
+wait 900
+shot 44
+wait 900
+shot 45
+wait 900
+shot 46
+wait 900
+shot 47
+wait 900
+shot 48
+wait 900
+shot 49
+wait 900
+shot 50
+wait 900
+shot 51
+wait 900
+shot 52
+wait 900
+shot 53
+wait 900
+shot 54
+wait 900
+shot 55
+wait 900
+shot 56
+wait 900
+shot 57
+wait 900
+shot 58
+wait 900
+shot 59
+wait 900
+shot 60
+wait 900
+shot 61
+wait 900
+shot 62
+wait 900
+shot 63
+wait 900
+shot 64
+wait 900
+shot 65
+wait 900
+shot 66
+wait 900
+shot 67
+wait 900
+shot 68
+wait 900
+shot 69

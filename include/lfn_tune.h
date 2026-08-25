@@ -72,6 +72,10 @@ namespace lfn::tune
 
     // Build with -DLFN_TEST_INVULNERABLE=1 to let the headless test harness
     // walk a whole stage without dying. Never set in a shipping build.
+#ifndef LFN_TEST_WARP
+    #define LFN_TEST_WARP 0
+#endif
+
 #ifndef LFN_TEST_POWERS
     #define LFN_TEST_POWERS 0
 #endif
@@ -92,6 +96,9 @@ namespace lfn::tune
     constexpr int test_fragile = LFN_TEST_FRAGILE;
     // Start every stage holding everything, to check the HUD shows it.
     constexpr bool test_powers = LFN_TEST_POWERS != 0;
+    // Frames before the harness takes a stage's warp door for you, so the
+    // route into a hidden room can be driven without finding the ledge.
+    constexpr int test_warp = LFN_TEST_WARP;
 
     // Build with -DLFN_TEST_AUTOPILOT=1 and Luv drives himself to the right,
     // jumping when the floor runs out. It reads the same collision data the

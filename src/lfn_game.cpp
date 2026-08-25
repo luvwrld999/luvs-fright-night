@@ -423,7 +423,17 @@ namespace lfn
         }
 
         const luv_events le = _player.update(_level);
-        const world_events we = _entities.update(_player, _level);
+        world_events we = _entities.update(_player, _level);
+
+        if constexpr(tune::test_warp > 0)
+        {
+            // Harness only: take the warp door without having to find it.
+            if(++_alive == tune::test_warp && _level.data().warp >= 0)
+            {
+                we.warped = true;
+            }
+        }
+
         const boss_events be = _boss.update(_player, _level, _entities);
         _handle(le, we);
 

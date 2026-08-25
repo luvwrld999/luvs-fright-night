@@ -17,10 +17,17 @@ namespace lfn
     void show_game_over(bn::sprite_text_generator& text, const run_state& run,
                         const save::file& file);
 
-    /** The boards. A flips between the story ladder and the boss rush one. */
+    /**
+     * The boards. A flips between the story ladder and the boss rush one.
+     *
+     * In `attract` the screen belongs to nobody: it times out on its own and
+     * any button at all leaves, because the whole point of an attract loop is
+     * that touching the pad gets you out of it.
+     */
     void show_high_scores(bn::sprite_text_generator& text, const save::file& file,
                           int highlight = -1,
-                          save::board which = save::board::story);
+                          save::board which = save::board::story,
+                          bool attract = false);
 
     /**
      * Which of the three games on the cartridge. Returns the slot, or -1 if

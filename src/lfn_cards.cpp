@@ -231,7 +231,7 @@ namespace lfn
     }
 
     void show_high_scores(bn::sprite_text_generator& text, const save::file& file,
-                          int highlight, save::board which)
+                          int highlight, save::board which, bool attract)
     {
         settle();
 
@@ -242,7 +242,7 @@ namespace lfn
         save::board showing = which;
         bool dirty = true;
 
-        for(int frame = 0; frame < 2400; ++frame)
+        for(int frame = 0; frame < (attract ? 360 : 2400); ++frame)
         {
             if(dirty)
             {
@@ -276,15 +276,23 @@ namespace lfn
 
                 text.set_center_alignment();
                 const int mark = sprites.size();
-                text.generate(0, 70, "A OTHER BOARD   B BACK", sprites);
+                text.generate(0, 70, attract ? "PRESS ANYTHING"
+                                             : "A OTHER BOARD   B BACK", sprites);
                 tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 dirty = false;
             }
 
             if(frame > 12)
             {
-                if(bn::keypad::a_pressed() || bn::keypad::left_pressed() ||
-                   bn::keypad::right_pressed())
+                if(attract)
+                {
+                    if(bn::keypad::any_pressed())
+                    {
+                        break;
+                    }
+                }
+                else if(bn::keypad::a_pressed() || bn::keypad::left_pressed() ||
+                        bn::keypad::right_pressed())
                 {
                     showing = showing == save::board::rush ? save::board::story
                                                            : save::board::rush;
