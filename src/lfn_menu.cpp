@@ -87,6 +87,13 @@ namespace lfn
         }
     }
 
+    namespace
+    {
+        // Survives a trip out to a sub-screen and back, but not a whole
+        // session: a cheat arms one run.
+        int cheat_lives = 0;
+    }
+
     menu_result show_menu(bn::sprite_text_generator& text, save::file& file)
     {
         bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::room);
@@ -220,10 +227,11 @@ namespace lfn
 
         // The second page. Six rows is all the front page can hold at a size
         // that stays readable, so the reference screens live one press deeper.
-        bn::vector<entry, 6> extras;
+        bn::vector<entry, 8> extras;
         extras.push_back({"HIGH SCORES", 4});
         extras.push_back({"BOSS RUSH", 10});
         extras.push_back({"SOUND TEST", 9});
+        extras.push_back({"CHEAT CODE", 11});
         extras.push_back({"CREDITS", 5});
         extras.push_back({"CONTROLS", 3});
         int extra_pick = 0;
@@ -237,6 +245,17 @@ namespace lfn
 
         menu_result result;
         result.run.lives = tune::start_lives;
+
+        // A cheat arms the next run to start, whatever it turns out to be, and
+        // is spent doing so - it is not a permanent setting.
+        const auto arm = [&]()
+        {
+            if(cheat_lives)
+            {
+                result.run.lives = cheat_lives;
+                cheat_lives = 0;
+            }
+        };
 
         // Hand VRAM back before whatever comes next starts asking for it.
         // Butano reclaims a freed sprite's tiles on the following update, so
@@ -310,7 +329,7 @@ namespace lfn
 
                     for(int i = 0; i < extras.size(); ++i)
                     {
-                        text.generate(-40, -30 + (i * 19), extras[i].label, sprites);
+                        text.generate(-40, -36 + (i * 18), extras[i].label, sprites);
                     }
 
                     text.set_center_alignment();
@@ -393,7 +412,7 @@ namespace lfn
             else if(where == screen::extras)
             {
                 cursor.set_visible(true);
-                cursor.set_position(-58, -32 + (extra_pick * 19) + bob);
+                cursor.set_position(-58, -38 + (extra_pick * 18) + bob);
             }
             else if(where == screen::confirm)
             {
@@ -457,6 +476,7 @@ namespace lfn
                         result.level_index = file.furthest_level;
                         result.run.lives = bn::max<int>(file.lives, 1);
                         result.run.souls = file.souls;
+                        arm();
                         release();
                         return result;
                     }
@@ -476,6 +496,7 @@ namespace lfn
                             save::wipe();
                             file = save::load();
                             result.level_index = 0;
+                            arm();
                             release();
                             return result;
                         }
@@ -487,6 +508,7 @@ namespace lfn
                         // Two seats, one pad, one life each side of the turn.
                         result.two_player = true;
                         result.level_index = 0;
+                        arm();
                         release();
                         return result;
                     }
@@ -507,6 +529,7 @@ namespace lfn
                                         file.furthest_level,
                                         bn::min(opened, story_count - 1)));
                             save::store(file);
+                            arm();
                             return result;
                         }
 
@@ -546,6 +569,7 @@ namespace lfn
                         file = save::load();
                         result.level_index = 0;
                         result.run.lives = tune::start_lives;
+                        arm();
                         release();
                         return result;
                     }
@@ -579,18 +603,31 @@ namespace lfn
                     const int action = extras[extra_pick].action;
                     audio::sfx_menu();
 
-                    if(action == 10)
+                    if(action == 11)
+                    {
+                        release();
+                        const int lives = enter_cheat(text);
+
+                        if(lives)
+                        {
+                            cheat_lives = lives;
+                        }
+
+                        restore();
+                        dirty = true;
+                    }
+                    else if(action == 10)
                     {
                         // All eight sins, one after another, no continues.
                         result.boss_rush = true;
                         result.level_index = boss_rush_stages[0];
                         result.run.lives = tune::start_lives;
                         result.run.continues = 0;
+                        arm();
                         release();
                         return result;
                     }
-
-                    if(action == 3)
+                    else if(action == 3)
                     {
                         where = screen::controls;
                     }
@@ -652,6 +689,7 @@ namespace lfn
                     result.level_index = stage_pick;
                     result.run.lives = bn::max<int>(file.lives, tune::start_lives);
                     result.run.souls = file.souls;
+                    arm();
                     release();
                     return result;
                 }

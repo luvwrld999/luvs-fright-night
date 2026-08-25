@@ -44,6 +44,10 @@ cartridge starts an attract loop - the board, then a stage playing itself.
   The score stands; a continue spends a limited resource, not the run.
 - **Best times** are recorded per stage and shown as a column on Stage Select.
   They survive New Game: they are records rather than progress.
+- **Cheat Code** under Extras listens for ten seconds for something you may
+  already know. The codes are in `dev secrets.md`.
+- **Souls** are worth one each; the larger gold ones are worth ten, and there
+  are nine of those in every stage. Ninety-nine souls is a life.
 
 The high score board lives on the cartridge and survives a new game too.
 

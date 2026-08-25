@@ -462,6 +462,157 @@ namespace lfn
         return 0;
     }
 
+    int enter_cheat(bn::sprite_text_generator& text)
+    {
+        settle();
+
+        // Up up down down left right A B select start. The screen closes
+        // itself after ten seconds either way, so nobody who wandered in by
+        // accident is stuck holding a pad they do not know what to do with.
+        enum key : uint8_t { k_up, k_down, k_left, k_right, k_a, k_b,
+                             k_select, k_start };
+        static constexpr uint8_t wanted[] = {
+            k_up, k_up, k_down, k_down, k_left, k_right, k_a, k_b,
+            k_select, k_start,
+        };
+        constexpr int wanted_len = int(sizeof(wanted));
+        constexpr int timeout = 10 * 60;
+        constexpr int b_target = 10;
+
+        int granted = 0;
+
+        {
+        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::vector<bn::sprite_ptr, 64> fixed_text;
+        bn::vector<bn::sprite_ptr, 24> progress;
+        bn::vector<bn::sprite_ptr, 16> clock;
+
+        text.set_center_alignment();
+        text.generate(0, -66, "CHEAT CODE", fixed_text);
+        tint(fixed_text, 0, bn::sprite_palette_items::text_gold);
+
+        int mark = fixed_text.size();
+        text.generate(0, -42, "IF YOU KNOW IT,", fixed_text);
+        text.generate(0, -26, "PUT IT IN", fixed_text);
+        tint(fixed_text, mark, bn::sprite_palette_items::text_cyan);
+
+        int step = 0;
+        int b_count = 0;
+        int shown_step = -1;
+        int shown_left = -1;
+
+        for(int frame = 0; frame < timeout; ++frame)
+        {
+            const int left = (timeout - frame + 59) / 60;
+
+            if(left != shown_left)
+            {
+                shown_left = left;
+                clock.clear();
+                text.set_center_alignment();
+                text.generate(0, 62, bn::format<16>("{}", left), clock);
+
+                for(bn::sprite_ptr& sprite : clock)
+                {
+                    sprite.set_palette(left <= 3
+                                       ? bn::sprite_palette_items::text_mag
+                                       : bn::sprite_palette_items::text_cyan);
+                }
+            }
+
+            if(step != shown_step)
+            {
+                // A row of marks rather than the keys themselves: showing the
+                // sequence back would stop it being a thing you have to know.
+                shown_step = step;
+                progress.clear();
+                bn::string<24> bar;
+
+                for(int i = 0; i < wanted_len; ++i)
+                {
+                    bar.push_back(i < step ? '*' : '.');
+                }
+
+                text.set_center_alignment();
+                text.generate(0, 8, bar, progress);
+
+                for(bn::sprite_ptr& sprite : progress)
+                {
+                    sprite.set_palette(bn::sprite_palette_items::text_gold);
+                }
+            }
+
+            if(frame > 8)
+            {
+                int pressed = -1;
+
+                if(bn::keypad::up_pressed())          { pressed = k_up; }
+                else if(bn::keypad::down_pressed())   { pressed = k_down; }
+                else if(bn::keypad::left_pressed())   { pressed = k_left; }
+                else if(bn::keypad::right_pressed())  { pressed = k_right; }
+                else if(bn::keypad::a_pressed())      { pressed = k_a; }
+                else if(bn::keypad::b_pressed())      { pressed = k_b; }
+                else if(bn::keypad::select_pressed()) { pressed = k_select; }
+                else if(bn::keypad::start_pressed())  { pressed = k_start; }
+
+                if(pressed >= 0)
+                {
+                    // B is both the eighth key of the sequence and a cheat of
+                    // its own, so its tally runs alongside rather than inside
+                    // the sequence check.
+                    if(pressed == k_b && ++b_count >= b_target)
+                    {
+                        audio::sfx_cheat();
+                        granted = 10;
+                        break;
+                    }
+
+                    if(pressed == wanted[step])
+                    {
+                        ++step;
+                        audio::sfx_menu();
+
+                        if(step == wanted_len)
+                        {
+                            audio::sfx_cheat();
+                            granted = 99;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // Start again from whatever this key could begin.
+                        step = pressed == wanted[0] ? 1 : 0;
+                        audio::sfx_hurt();
+                    }
+                }
+            }
+
+            bn::core::update();
+        }
+
+        if(granted)
+        {
+            bn::vector<bn::sprite_ptr, 24> said;
+            text.set_center_alignment();
+            text.generate(0, 34, bn::format<24>("{} LIVES", granted), said);
+
+            for(bn::sprite_ptr& sprite : said)
+            {
+                sprite.set_palette(bn::sprite_palette_items::text_gold);
+            }
+
+            for(int hold = 0; hold < 120; ++hold)
+            {
+                bn::core::update();
+            }
+        }
+        }
+
+        settle();
+        return granted;
+    }
+
     void show_sound_test(bn::sprite_text_generator& text)
     {
         settle();

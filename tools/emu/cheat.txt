@@ -1,0 +1,60 @@
+wait 240
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+wait 16
+tap a 8
+wait 11
+wait 70
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+wait 16
+tap a 8
+wait 11
+wait 70
+tap up 8
+wait 11
+tap up 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap left 8
+wait 11
+tap right 8
+wait 11
+tap a 8
+wait 11
+tap b 8
+wait 11
+tap select 8
+wait 11
+tap start 8
+wait 11
+wait 160
+tap b 8
+wait 11
+wait 70
+tap up 8
+wait 11
+tap up 8
+wait 11
+tap up 8
+wait 11
+wait 20
+tap a 8
+wait 11
+wait 490
+shot 01_story
+wait 300
+shot 02_card
+wait 200
+shot 03_hud

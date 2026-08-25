@@ -181,7 +181,7 @@ int main()
             // Each sin gets a word in on the way into its world, and only on
             // the way in - not before every stage, and not in the boss rush,
             // which is a fight rather than a journey.
-            if(!picked.boss_rush &&
+            if(!picked.boss_rush && !lfn::levels[me.index].hidden &&
                (me.index == 0 ||
                 lfn::levels[me.index].world != lfn::levels[me.index - 1].world))
             {

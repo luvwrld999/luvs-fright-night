@@ -28,8 +28,9 @@ PLAYER, EXIT, CHECKPOINT, BOSS = 'p', 'x', 'k', 'Z'
 WARP, SIGN = 'O', 'S'          # a door somewhere else, and writing on a wall
 IMP, CHERUB, GNASHER, WRAITH, BAT, JET = 'i', 'c', 'g', 'w', 'v', 'f'
 PU_FLAME, PU_SOUL, PU_DASH, PU_WINGS, ONE_UP, SOUL = '1', '2', '3', '4', 'u', 's'
+SOUL_TEN = '*'                 # a bonus soul: worth ten of the plain ones
 
-ENTITY_CHARS = set('pxkZOSicgwvf1234us')
+ENTITY_CHARS = set('pxkZOSicgwvf1234us*')
 
 # A prize block is one cell that is both a breakable block and the thing inside
 # it. Writing the pickup on its own would replace the block with empty air and

@@ -106,7 +106,9 @@ namespace lfn::tune
     // Running out of lives is not the end while you still have one of these.
     constexpr int start_continues      = 3;
     constexpr int continue_seconds     = 9;
-    constexpr int souls_per_life       = 50;
+    constexpr int souls_per_life       = 99;
+    // What a bonus soul is worth. Nine of them sit in every stage.
+    constexpr int bonus_soul_worth     = 10;
 
     // -- scoring ------------------------------------------------------------
     constexpr int stage_time           = 300;       // counts down to zero

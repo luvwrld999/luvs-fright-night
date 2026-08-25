@@ -90,4 +90,5 @@ namespace lfn::audio
     void sfx_level_clear()   { fire(bn::sound_items::level_clear, 0.9); }
     void sfx_boss_tell()     { fire(bn::sound_items::boss_tell, 0.7); }
     void sfx_warp()          { fire(bn::sound_items::warp, 0.85); }
+    void sfx_cheat()         { fire(bn::sound_items::cheat, 1.0); }
 }

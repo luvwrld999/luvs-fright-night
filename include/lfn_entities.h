@@ -15,7 +15,9 @@ namespace lfn
     enum class ent_kind : uint8_t
     {
         none, imp, cherub, gnasher, wraith, bat, jet,
-        soul, pu_flame, pu_soul, pu_dash, pu_wings, one_up,
+        // soul through one_up must stay contiguous: is_pickup() tests the
+        // range rather than listing them.
+        soul, soul_ten, pu_flame, pu_soul, pu_dash, pu_wings, one_up,
         checkpoint, exit_gate, flame, ember, warp,
     };
 

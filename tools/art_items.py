@@ -198,6 +198,22 @@ def gate(f):
     return c
 
 
+def soul_bonus(f):
+    """
+    A soul worth ten. 8x8.
+
+    Bigger than a plain soul and gold at the centre rather than cyan, so the
+    two never have to be told apart by counting the number that went up.
+    """
+    c = Canvas(8, 8)
+    pulse = 0.5 * math.sin(f * 1.6)
+    c.disc(4, 4, 3.3 + pulse, pal.GOLD)
+    c.disc(4, 4, 2.0 + pulse, pal.WHITE)
+    c.disc(4 - 1, 4 - 1, 0.8, pal.CYAN)
+    c.outline(pal.INK)
+    return c
+
+
 def hud_halo(f):
     """Life icon. 8x8."""
     c = Canvas(8, 8)
@@ -219,6 +235,7 @@ def hud_meter(f):
 
 ITEMS_8 = [
     ('soul_orb', soul_orb, 4),
+    ('soul_bonus', soul_bonus, 4),
     ('soul_flame', soul_flame, 4),
     ('hud_halo', hud_halo, 1),
     ('hud_meter', hud_meter, 2),

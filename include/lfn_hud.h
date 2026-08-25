@@ -53,6 +53,7 @@ namespace lfn
     private:
         bn::sprite_text_generator& _text;
         bn::vector<bn::sprite_ptr, 4> _life_icons;
+        bn::vector<bn::sprite_ptr, 4> _lives_text;
         bn::vector<bn::sprite_ptr, 6> _meter;
         bn::vector<bn::sprite_ptr, 10> _boss_pips;
         bn::vector<bn::sprite_ptr, 6> _souls_text;

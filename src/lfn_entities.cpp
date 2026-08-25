@@ -18,6 +18,7 @@
 #include "bn_sprite_items_pu_soul_flame.h"
 #include "bn_sprite_items_pu_wisp_wings.h"
 #include "bn_sprite_items_soul_flame.h"
+#include "bn_sprite_items_soul_bonus.h"
 #include "bn_sprite_items_soul_orb.h"
 #include "bn_sprite_items_spike_flame.h"
 
@@ -44,6 +45,7 @@ namespace lfn
             switch(k)
             {
             case ent_kind::soul:
+            case ent_kind::soul_ten:
             case ent_kind::flame:
             case ent_kind::ember:
             case ent_kind::checkpoint:
@@ -71,6 +73,7 @@ namespace lfn
             case ent_kind::bat:        return bn::sprite_items::bone_bat.create_sprite(x, y);
             case ent_kind::jet:        return bn::sprite_items::spike_flame.create_sprite(x, y);
             case ent_kind::soul:       return bn::sprite_items::soul_orb.create_sprite(x, y);
+            case ent_kind::soul_ten:   return bn::sprite_items::soul_bonus.create_sprite(x, y);
             case ent_kind::pu_flame:   return bn::sprite_items::pu_soul_flame.create_sprite(x, y);
             case ent_kind::pu_soul:    return bn::sprite_items::pu_purple_soul.create_sprite(x, y);
             case ent_kind::pu_dash:    return bn::sprite_items::pu_devil_dash.create_sprite(x, y);
@@ -112,6 +115,7 @@ namespace lfn
             case ent_kind::bat:        e.sprite->set_tiles(bn::sprite_items::bone_bat.tiles_item().create_tiles(f)); break;
             case ent_kind::jet:        e.sprite->set_tiles(bn::sprite_items::spike_flame.tiles_item().create_tiles(f)); break;
             case ent_kind::soul:       e.sprite->set_tiles(bn::sprite_items::soul_orb.tiles_item().create_tiles(f)); break;
+            case ent_kind::soul_ten:   e.sprite->set_tiles(bn::sprite_items::soul_bonus.tiles_item().create_tiles(f)); break;
             case ent_kind::pu_flame:   e.sprite->set_tiles(bn::sprite_items::pu_soul_flame.tiles_item().create_tiles(f)); break;
             case ent_kind::pu_soul:    e.sprite->set_tiles(bn::sprite_items::pu_purple_soul.tiles_item().create_tiles(f)); break;
             case ent_kind::pu_dash:    e.sprite->set_tiles(bn::sprite_items::pu_devil_dash.tiles_item().create_tiles(f)); break;
@@ -137,6 +141,7 @@ namespace lfn
             case spawn_type::bat:        return ent_kind::bat;
             case spawn_type::jet:        return ent_kind::jet;
             case spawn_type::soul:       return ent_kind::soul;
+            case spawn_type::soul_ten:   return ent_kind::soul_ten;
             case spawn_type::pu_flame:   return ent_kind::pu_flame;
             case spawn_type::pu_soul:    return ent_kind::pu_soul;
             case spawn_type::pu_dash:    return ent_kind::pu_dash;
@@ -665,6 +670,7 @@ namespace lfn
             switch(e.kind)
             {
             case ent_kind::soul:     ev.souls += 1; break;
+            case ent_kind::soul_ten: ev.souls += tune::bonus_soul_worth; break;
             case ent_kind::one_up:   ev.lives += 1; break;
             case ent_kind::pu_flame: player.carrying().flame = true; ev.powered_up = true; break;
             case ent_kind::pu_soul:  player.carrying().soul = true;  ev.powered_up = true; break;

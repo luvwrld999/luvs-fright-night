@@ -43,6 +43,8 @@ namespace lfn::audio
     void sfx_boss_tell();
     /** The floor gives way and somewhere else takes over. */
     void sfx_warp();
+    /** A cheat was entered correctly. */
+    void sfx_cheat();
 }
 
 #endif

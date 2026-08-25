@@ -6,7 +6,7 @@
 ! warp: -1
 ! exit_to: 21
 ! hidden: 1
-! secret: NO STAIRS FROM HERE
+! secret: WE ALL FLOAT DOWN HERE
 I,,,,,,,,,,,,,,I
 I,,,,,,,,,,,,,,I
 I,,,,,,,,,,,,,,I

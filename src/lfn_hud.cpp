@@ -92,14 +92,39 @@ namespace lfn
         if(_first || now.lives != _shown.lives)
         {
             _life_icons.clear();
+            _lives_text.clear();
+
+            // Up to three, count the halos. Past that - a 1-Up run, or a cheat
+            // - a row of icons stops being countable, so it becomes one halo
+            // and a number.
             const int shown = bn::clamp(now.lives, 0, 3);
 
-            for(int i = 0; i < shown; ++i)
+            if(now.lives > 3)
             {
                 bn::sprite_ptr icon = bn::sprite_items::hud_halo.create_sprite(
-                            lives_x + (i * 9), row + 1);
+                            lives_x, row + 1);
                 icon.set_visible(_visible);
                 _life_icons.push_back(bn::move(icon));
+
+                _text.generate(lives_x + 7, row,
+                               bn::format<8>("x{}", bn::min(now.lives, 99)),
+                               _lives_text);
+
+                for(bn::sprite_ptr& sprite : _lives_text)
+                {
+                    sprite.set_bg_priority(0);
+                    sprite.set_visible(_visible);
+                }
+            }
+            else
+            {
+                for(int i = 0; i < shown; ++i)
+                {
+                    bn::sprite_ptr icon = bn::sprite_items::hud_halo.create_sprite(
+                                lives_x + (i * 9), row + 1);
+                    icon.set_visible(_visible);
+                    _life_icons.push_back(bn::move(icon));
+                }
             }
         }
 
@@ -217,6 +242,7 @@ namespace lfn
         _soul_icon.set_visible(visible);
 
         for(bn::sprite_ptr& sprite : _life_icons) { sprite.set_visible(visible); }
+        for(bn::sprite_ptr& sprite : _lives_text) { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _meter)      { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _souls_text) { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _world_text) { sprite.set_visible(visible); }

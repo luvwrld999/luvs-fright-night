@@ -77,7 +77,7 @@ explained anywhere in the game and nothing acknowledges it.
 | **Stage index** | 26 |
 | **Reached from** | World VI-2, *The Faultline* (stage 16) |
 | **Lets you out at** | Stage 21, World VIII-1 |
-| **On the wall** | `NO STAIRS FROM HERE` |
+| **On the wall** | `WE ALL FLOAT DOWN HERE` |
 
 **How to find it.** As above.
 
@@ -143,6 +143,43 @@ Typing one drops you straight into the room, wall writing and all.
 The generator is one line in `src/lfn_code.cpp`: `((index + 1) * 2749) ^ 0x3C5A`,
 taken as four hex nibbles indexed into the alphabet. The multiplier is odd, so
 no two stages can ever collide.
+
+## Cheat codes
+
+`EXTRAS` > `CHEAT CODE` opens a screen that listens for ten seconds and then
+closes itself, so nobody who wandered in is stuck holding a pad they do not
+know what to do with. A row of marks shows how far into a sequence you are,
+without ever showing the sequence back - that would stop it being something
+you have to know. A correct entry plays a rising major arpeggio, the only
+major-key sound in the game.
+
+| Input | Effect |
+|---|---|
+| Up Up Down Down Left Right A B Select Start | Start the next run with **99 lives** |
+| B pressed ten times | Start the next run with **10 lives** |
+
+B is both the eighth key of the long sequence and a cheat in its own right, so
+its tally runs alongside the sequence check rather than inside it. A wrong key
+restarts the sequence - at the first key if that is what you pressed, which
+means `Up Up Up Down...` still works.
+
+A cheat arms **the next run to start**, whichever mode it turns out to be, and
+is spent doing so. It is not a setting, it does not persist to the cartridge,
+and it never touches the high score board's rules.
+
+## Souls
+
+A plain soul is worth one. A **bonus soul** - larger, gold rather than cyan -
+is worth ten, and nine of them are scattered through every stage, placed by
+reading the finished level rather than by any one beat, so they land above the
+local surface wherever that happens to be.
+
+Ninety-nine souls is an extra life, and the counter rolls back to zero. A run
+that collects everything is worth about sixteen extra lives.
+
+Souls cost nothing on the balance sheet: pressure counts enemies, holes and
+hazard regions per screen, so a stage can be as generous with them as it likes
+without getting harder.
 
 ## Modes and records
 

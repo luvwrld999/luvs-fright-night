@@ -243,6 +243,18 @@ def sfx_menu():
 
 
 @sfx
+def sfx_cheat():
+    """
+    The cheat landed. A rising major arpeggio, deliberately unlike anything
+    else in the game - nothing else here is in a major key.
+    """
+    out = []
+    for f in (523, 659, 784, 1047, 1319):
+        out += sweep(1700, f, f, 'pulse', 3.0, 0.34)
+    return mix(out, noise(3000, 1.4, 0.10, 41, lp=0.03))
+
+
+@sfx
 def sfx_boss_tell():
     """
     The half second before a boss commits to something.

@@ -28,6 +28,12 @@ namespace lfn
     void show_sound_test(bn::sprite_text_generator& text);
 
     /**
+     * The cheat screen. Returns the number of lives the next run starts with,
+     * or 0 if nothing was entered. Closes itself after ten seconds.
+     */
+    [[nodiscard]] int enter_cheat(bn::sprite_text_generator& text);
+
+    /**
      * Three letters, arcade style. Returns the slot the score landed in so the
      * board can point at it afterwards.
      */

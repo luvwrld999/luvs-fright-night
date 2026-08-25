@@ -34,6 +34,7 @@ SPAWNS = [
     ('wraith', K.WRAITH), ('bat', K.BAT), ('jet', K.JET),
     ('pu_flame', K.PU_FLAME), ('pu_soul', K.PU_SOUL), ('pu_dash', K.PU_DASH),
     ('pu_wings', K.PU_WINGS), ('one_up', K.ONE_UP), ('soul', K.SOUL),
+    ('soul_ten', K.SOUL_TEN),
 ]
 SPAWN_INDEX = {ch: i for i, (name, ch) in enumerate(SPAWNS)}
 

@@ -149,11 +149,41 @@ class Builder:
 
     # -- beats -------------------------------------------------------------
     def flat(self, w, souls=0):
+        """
+        Open ground, optionally strewn with souls.
+
+        Souls are spaced two columns apart at head height, so a run through
+        collects the line without stopping. They cost nothing on the balance
+        sheet - pressure counts enemies, holes and hazards - so a stage can be
+        generous with them without getting harder.
+        """
         self.lv.ground(self.x, self.x + w - 1)
+
         for i in range(souls):
             sx = self.x + 2 + i * 2
+
             if sx <= self.x + w - 2:
                 self.lv.entity(K.SOUL, sx, K.FLOOR - 2)
+
+        self.x += w
+        return self
+
+    def soul_arc(self, w, count=5, peak=6):
+        """
+        A line of souls curving up over solid ground and back down.
+
+        The shape is the point: it traces the arc of a jump, so following it
+        teaches the jump rather than just paying for one.
+        """
+        self.lv.ground(self.x, self.x + w - 1)
+        span = max(count - 1, 1)
+
+        for i in range(count):
+            t = (i / float(span)) * 2.0 - 1.0
+            x = self.x + 2 + int(round(i * (w - 4) / float(span)))
+            y = K.FLOOR - 2 - int(round((1.0 - t * t) * peak))
+            self.lv.entity(K.SOUL, x, max(2, y))
+
         self.x += w
         return self
 
@@ -245,6 +275,7 @@ class Builder:
         for i in range(2, w, 6):
             self.lv.pillar(self.x + i)
             self.lv.lamp(self.x + i, K.FLOOR - 6)
+            self.lv.entity(K.SOUL, self.x + i + 3, K.FLOOR - 2)
         self.lv.entity(flyer or self.e2, self.x + w // 2, K.FLOOR - 6)
         self.x += w
         return self
@@ -261,6 +292,7 @@ class Builder:
         for _ in range(steps):
             top = min(K.ROWS - 3, top + 1)
             self.lv.cliff(self.x, self.x + w - 1, top)
+            self.lv.entity(K.SOUL, self.x + w // 2, top - 1)
             self.x += w
         for _ in range(steps):
             top = max(K.FLOOR, top - 1)
@@ -284,6 +316,7 @@ class Builder:
         for _ in range(steps):
             top = max(6, top - 2)
             self.lv.cliff(self.x, self.x + w - 1, top)
+            self.lv.entity(K.SOUL, self.x + w // 2, top - 1)
             self.x += w
         for _ in range(steps):
             top = min(K.FLOOR, top + 2)
@@ -291,7 +324,7 @@ class Builder:
             self.x += w
         return self
 
-    def stair(self, steps=3, w=3, up=True):
+    def stair(self, steps=3, w=3, up=True, souls=True):
         """
         A block staircase standing on solid ground.
 
@@ -308,6 +341,9 @@ class Builder:
 
             for h in range(height):
                 self.lv.blocks(self.x, K.FLOOR - 1 - h, w)
+
+            if souls:
+                self.lv.entity(K.SOUL, self.x + w // 2, K.FLOOR - 2 - height)
 
             self.x += w
 
@@ -381,9 +417,65 @@ class Builder:
         self.lv.entity(ch, self.x - back, K.FLOOR - height)
         return self
 
+    # Anything a soul cannot be placed inside.
+    SOLID = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT, K.PILLAR, K.SPIKE,
+             K.LAVA, K.LEDGE_L, K.LEDGE_R)
+
+    def _open(self, x, y):
+        """True if this cell is free air rather than terrain or an entity."""
+        if not (0 <= x < self.x and 0 <= y < K.ROWS):
+            return False
+
+        return self.lv.g[y][x] in (K.BG_A, K.BG_B)
+
+    def scatter_bonus(self, count=9):
+        """
+        Nine bonus souls, spread evenly across the finished stage.
+
+        Placed by reading the built level rather than by any one beat, so every
+        shape gets the same nine wherever its ground happens to be - above the
+        local surface, never buried in terrain, and never on top of something
+        already there.
+        """
+        width = self.x
+        placed = 0
+
+        for i in range(count):
+            target = int((i + 0.5) * width / float(count))
+
+            # Search outward from the ideal column for somewhere it fits.
+            for dx in list(range(0, 12)):
+                for x in ((target + dx), (target - dx)):
+                    if not (2 <= x < width - 2):
+                        continue
+
+                    # Find the surface under this column, then float above it.
+                    surface = None
+
+                    for y in range(K.ROWS):
+                        if self.lv.g[y][x] in self.SOLID:
+                            surface = y
+                            break
+
+                    if surface is None or surface < 3:
+                        continue
+
+                    y = surface - 3
+
+                    if self._open(x, y) and self._open(x, y + 1):
+                        self.lv.entity(K.SOUL_TEN, x, y)
+                        placed += 1
+                        break
+
+                if placed > i:
+                    break
+
+        return self
+
     def finish(self):
         self.lv.entity(K.EXIT, self.x - 4, K.FLOOR - 2)
         self.lv.width = self.x
+        self.scatter_bonus()
         self.lv.g = [row[:self.x] for row in self.lv.g]
         return self.lv
 
@@ -394,6 +486,7 @@ class Builder:
 def _march(b):
     """Open ground: enemies, a block row overhead, a couple of honest gaps."""
     b.flat(10).start()
+    b.soul_arc(12, count=5)
     b.enemies(12, count=b.scale(1, 2))
     b.overhead(11, breakables=3, prize=K.PU_SOUL)
     b.gap(b.span(3, 3))
@@ -411,6 +504,7 @@ def _march(b):
 def _ledges(b):
     """Stepped terrain: climb, drop, and mind the edges."""
     b.flat(9).start()
+    b.soul_arc(12, count=5)
     b.rise(3)
     b.enemies(10, count=b.scale(1, 2))
     b.drop(3)
@@ -440,6 +534,7 @@ def _hall(b):
     hill, a stagger of breakables - rather than the same flat run repeated.
     """
     b.flat(7).start()
+    b.soul_arc(12, count=5)
     b.hall(14)
     b.stair(3, 3, up=True)
     b.shelf(9, height=3, souls=2)
@@ -632,7 +727,7 @@ SECRET_ROOMS = [
     # (key, name, world, message, where it lets you out)
     ('secret_999', 'Nine Nine Nine', 0, '999  RIP JUICE WRLD', 2),
     ('warp_0615',  'The Long Way Round', 2, '06/15', 15),
-    ('warp_deep',  'Straight Down', 5, 'NO STAIRS FROM HERE', 21),
+    ('warp_deep',  'Straight Down', 5, 'WE ALL FLOAT DOWN HERE', 21),
 ]
 
 
