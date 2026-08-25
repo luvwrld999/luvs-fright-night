@@ -88,4 +88,6 @@ namespace lfn::audio
     void sfx_boss_die()      { fire(bn::sound_items::boss_die, 1.0); }
     void sfx_menu()          { fire(bn::sound_items::menu, 0.7); }
     void sfx_level_clear()   { fire(bn::sound_items::level_clear, 0.9); }
+    void sfx_boss_tell()     { fire(bn::sound_items::boss_tell, 0.7); }
+    void sfx_warp()          { fire(bn::sound_items::warp, 0.85); }
 }

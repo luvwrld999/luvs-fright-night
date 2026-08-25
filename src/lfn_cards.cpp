@@ -51,6 +51,33 @@ namespace lfn
             {"ACEDIA",   "SLOTH"},   {"HADES",    "THE END OF IT"},
         };
 
+        /**
+         * What each sin has to say for itself, shown once on the way into its
+         * world. Three short lines: a GBA screen at this font size holds about
+         * twenty-six characters, and nobody reads a wall of text on a card
+         * that dismisses itself.
+         */
+        struct sin_words { const char* a; const char* b; const char* c; };
+
+        constexpr sin_words words[] = {
+            {"IT BUILT A MIRROR",     "FOR EVERY WALL, AND CALLED",
+             "THE REFLECTION WORSHIP"},
+            {"IT COUNTED EVERYTHING",  "IT HAD. TWICE.",
+             "THEN IT ASKED FOR YOURS"},
+            {"EVERY LANTERN HERE",     "IS A HEART, STILL WARM,",
+             "STILL ASKING"},
+            {"THE WATER IS GREEN",     "BECAUSE IT HAS BEEN",
+             "LOOKING AT YOU"},
+            {"THE TABLE WAS SET",      "FOR ONE.",
+             "IT ATE THE TABLE"},
+            {"IT HAS BEEN SHOUTING",   "SO LONG THAT THE ROCK",
+             "LEARNED THE WORDS"},
+            {"NOTHING MOVES HERE.",    "NOTHING HAS TO.",
+             "YOU WILL STOP TOO"},
+            {"THE LAST DOOR",          "IS NOT LOCKED.",
+             "THAT IS THE TRICK OF IT"},
+        };
+
         /** Recolour everything generated after `from`, whatever the vector size. */
         template<int Size>
         void tint(bn::vector<bn::sprite_ptr, Size>& sprites, int from,
@@ -838,6 +865,49 @@ namespace lfn
 
         for(int frame = 0; frame < 600; ++frame)
         {
+            if(frame > 20 && skipped())
+            {
+                break;
+            }
+
+            bn::core::update();
+        }
+        }
+
+        settle();
+    }
+
+    void show_world_story(bn::sprite_text_generator& text, int world)
+    {
+        settle();
+        const int which = bn::clamp(world, 0, 7);
+
+        {
+        bn::regular_bg_ptr backdrop = make_backdrop(which, backdrop_style::field);
+        bn::vector<bn::sprite_ptr, 64> sprites;
+
+        text.set_center_alignment();
+        text.generate(0, -60, sins[which].latin, sprites);
+        tint(sprites, 0, bn::sprite_palette_items::text_mag);
+
+        // The lines arrive one at a time. Read at the speed it is spoken.
+        const char* const lines[] = {
+            words[which].a, words[which].b, words[which].c,
+        };
+
+        int shown = 0;
+
+        for(int frame = 0; frame < 400; ++frame)
+        {
+            if(shown < 3 && frame == 30 + (shown * 55))
+            {
+                const int mark = sprites.size();
+                text.generate(0, -16 + (shown * 20), lines[shown], sprites);
+                tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+                ++shown;
+                audio::sfx_menu();
+            }
+
             if(frame > 20 && skipped())
             {
                 break;

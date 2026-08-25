@@ -49,10 +49,18 @@ def write_wav(name, samples, folder=AUDIO):
     return len(data)
 
 
-def env(i, n, attack=0.01, decay=3.0):
+def env(i, n, attack=0.01, decay=3.0, release=0.08):
+    """
+    Attack, exponential decay, and - the part that was missing - a release.
+
+    An exponential decay never reaches zero, so a sample that simply stops is
+    still moving when it ends. On hardware that step is a click on the front of
+    every effect that follows it. The last few percent ramps to silence.
+    """
     t = i / float(n)
     a = min(1.0, t / attack) if attack > 0 else 1.0
-    return a * math.exp(-decay * t)
+    r = 1.0 if t < 1.0 - release else max(0.0, (1.0 - t) / release)
+    return a * math.exp(-decay * t) * r
 
 
 def sweep(n, f0, f1, wave='sine', decay=3.0, amp=0.7, seed=1, curve=1.0):
@@ -215,6 +223,27 @@ def sfx_boss_die():
 @sfx
 def sfx_menu():
     return sweep(500, 1050, 1050, 'pulse', 9.0, 0.35)
+
+
+@sfx
+def sfx_boss_tell():
+    """
+    The half second before a boss commits to something.
+
+    Two rising thirds and a breath under them: enough warning to react to,
+    short enough not to step on the music every time.
+    """
+    return mix(sweep(2600, 300, 620, 'square', 2.2, 0.30, curve=0.7),
+               sweep(2600, 452, 934, 'square', 2.4, 0.16, curve=0.7),
+               noise(2200, 3.0, 0.14, 23, lp=0.06))
+
+
+@sfx
+def sfx_warp():
+    """Falling out of the world and into somewhere else."""
+    return mix(sweep(6000, 900, 120, 'sine', 1.6, 0.42, curve=1.8),
+               sweep(6000, 1350, 180, 'sine', 1.8, 0.20, curve=1.8),
+               noise(5200, 2.2, 0.20, 29, lp=0.04))
 
 
 @sfx

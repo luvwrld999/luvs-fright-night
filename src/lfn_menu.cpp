@@ -92,6 +92,73 @@ namespace lfn
         bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::room);
 
         bn::vector<bn::sprite_ptr, 112> sprites;
+
+        // The reveal runs once a boot. Coming back from a game should put the
+        // menu straight in front of you, not make you sit through it again.
+        static bool unseen = true;
+
+        if(unseen)
+        {
+            unseen = false;
+            bn::vector<bn::sprite_ptr, 40> intro;
+
+            text.set_center_alignment();
+            text.generate(0, -66, "LUV'S FRIGHT NIGHT", intro);
+            const int title_end = intro.size();
+            text.generate(0, -50, "a ghost in bad company", intro);
+
+            for(int i = 0; i < intro.size(); ++i)
+            {
+                intro[i].set_palette(i < title_end
+                                     ? bn::sprite_palette_items::text_gold
+                                     : bn::sprite_palette_items::text_mag);
+                intro[i].set_visible(false);
+            }
+
+            // Luv sweeps across and the title lands behind him.
+            bn::sprite_ptr flier = bn::sprite_items::luv.create_sprite(-140, -58);
+            audio::play_music(audio::track::title);
+
+            for(int frame = 0; frame < 96; ++frame)
+            {
+                flier.set_position(-140 + (frame * 3),
+                                   -58 + bn::lut_sin((frame * 22) & 2047) * 6);
+
+                if((frame % 8) == 0)
+                {
+                    flier.set_tiles(bn::sprite_items::luv.tiles_item()
+                                    .create_tiles(8 + ((frame / 8) & 1)));
+                }
+
+                // Each letter group drops in as he passes it, so the sweep
+                // reads as the thing putting the title there.
+                for(int i = 0; i < intro.size(); ++i)
+                {
+                    const int due = 10 + (i * 4);
+
+                    if(frame >= due)
+                    {
+                        const int fall = bn::min(frame - due, 8);
+                        const bn::fixed y = i < title_end ? -66 : -50;
+                        intro[i].set_visible(true);
+                        intro[i].set_y(y - ((8 - fall) * 3));
+                    }
+                }
+
+                if(frame > 10 && (bn::keypad::a_pressed() ||
+                                  bn::keypad::start_pressed()))
+                {
+                    break;
+                }
+
+                bn::core::update();
+            }
+
+            intro.clear();
+            bn::core::update();
+            bn::core::update();
+        }
+
         bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(0, 0);
         bn::sprite_ptr host = bn::sprite_items::luv.create_sprite(92, 44);
 

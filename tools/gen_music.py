@@ -35,8 +35,25 @@ SCALES = {
 # channel map
 SUB, KICK, PAD_A, PAD_B, ARP, LEAD, AIR, HAT = range(8)
 
-# Authored quiet on purpose; the engine also caps music at 0.35.
-VOL = {SUB: 30, KICK: 27, PAD_A: 19, PAD_B: 16, ARP: 17, LEAD: 21, AIR: 9, HAT: 11}
+# Authored quiet on purpose; the engine also caps music at 0.35. The pads sit
+# further back than they used to and the bell comes forward: at this volume the
+# tune was the first thing the pads buried, and a loop you cannot hear the
+# melody of is just texture.
+VOL = {SUB: 30, KICK: 26, PAD_A: 15, PAD_B: 12, ARP: 16, LEAD: 24, AIR: 8, HAT: 10}
+
+# Where the eight notes of a motif fall inside a bar, in half-rows. Rhythm
+# identifies a tune faster than pitch does, so each world gets its own rather
+# than every track sharing one and differing only in which notes land on it.
+RHYTHMS = [
+    [0, 3, 6, 10, 16, 22, 26, 31],   # even, walking
+    [0, 2, 7, 9, 14, 18, 24, 30],    # front-loaded, then hanging back
+    [0, 5, 8, 11, 16, 19, 27, 30],   # syncopated middle
+    [0, 4, 6, 12, 15, 20, 25, 29],   # limping
+    [0, 6, 9, 12, 18, 21, 24, 28],   # triplet-feeling
+    [0, 1, 6, 8, 13, 17, 23, 31],    # jittery
+    [0, 4, 8, 12, 17, 21, 25, 29],   # square, marching
+    [0, 3, 5, 11, 14, 16, 22, 29],   # lopsided, leaning early
+]
 
 
 class Rng:
@@ -133,7 +150,7 @@ def compose(theme):
     rows = 64
 
     motif = [rng.next(len(scale)) for _ in range(8)]
-    motif_rhythm = [0, 3, 6, 10, 16, 22, 26, 31]
+    motif_rhythm = RHYTHMS[theme['rhythm'] % len(RHYTHMS)]
     # The answer walks the motif backwards and a third higher - recognisably
     # the same idea, coming back the other way.
     answer = [(d + 2) % len(scale) for d in reversed(motif)]
@@ -221,8 +238,27 @@ def compose(theme):
             p.put(48, AIR, xm.note(octv + 1, 0) + root, inst['riser'],
                   0x10 + VOL[AIR] + 6)
 
+            # A fill across the last bar, so the loop point arrives instead of
+            # simply happening. Sixteenths on the hat tightening into the top,
+            # and a kick pickup on the last two rows.
+            if not sparse:
+                for r in range(56, 64):
+                    p.put(r, HAT, xm.note(4, 0), inst['hat'],
+                          0x10 + VOL[HAT] - 4 + ((r - 56) // 2))
+
+                for r in (61, 63):
+                    p.put(r, KICK, xm.note(4, 0), inst['kick'], 0x10 + VOL[KICK] - 4)
+
+                # And the sub climbs back to the root it started on.
+                p.put(62, SUB, xm.note(octv - 1, 0) + root + scale[4], inst['sub'],
+                      0x10 + VOL[SUB] - 5)
+
     song.order = list(range(pattern_count))
     return song
+
+
+for _slot, _theme in enumerate(THEMES):
+    _theme.setdefault('rhythm', _slot)
 
 
 def main(render_previews=True):

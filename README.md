@@ -31,9 +31,21 @@ python3 tools/gen_preview_page.py  # preview/assets.html (the review page)
 
 ## Playing it
 
-The menu offers Continue, New Game, Stage Select (every stage you have reached)
-and a Controls screen. The high score lives on the cartridge and survives a new
-game.
+The title screen offers Continue, New Game, 2 Player, Level Code, Stage Select
+and Extras. Extras holds the high score board, Boss Rush, a sound test, the
+credits and a controls screen. Leave the pad alone for twenty seconds and the
+cartridge starts an attract loop - the board, then a stage playing itself.
+
+- **2 Player** seats two players on one pad, alternating turns on death, arcade
+  style. Each seat keeps its own lives, score and place in the game.
+- **Level Code** takes the four-letter code printed on every world card, so
+  progress survives a dead battery. World 1-1 is `FJTK`.
+- **Continues** — three per run, offered on a countdown when the lives run out.
+  The score stands; a continue spends a limited resource, not the run.
+- **Best times** are recorded per stage and shown as a column on Stage Select.
+  They survive New Game: they are records rather than progress.
+
+The high score board lives on the cartridge and survives a new game too.
 
 | Button | Does |
 |---|---|

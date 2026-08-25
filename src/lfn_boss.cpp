@@ -1,5 +1,7 @@
 #include "lfn_boss.h"
 
+#include "lfn_audio.h"
+
 #include "bn_math.h"
 #include "bn_sprite_tiles_ptr.h"
 
@@ -127,6 +129,12 @@ namespace lfn
         // keeps its distance is one you can never hit.
         if(_stagger <= 0 && (_timer % s.period) > int(s.period) - lunge_frames)
         {
+            if((_timer % s.period) == int(s.period) - lunge_frames + 1)
+            {
+                // One cue as the run begins, not one per frame of it.
+                audio::sfx_boss_tell();
+            }
+
             const bn::fixed step = speed + bn::fixed(1.2);
             const bn::fixed dx = player.x() - _pos.x();
             _pos.set_x(bn::clamp(_pos.x() + bn::clamp(dx, -step, step), left, right));

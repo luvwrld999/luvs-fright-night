@@ -421,7 +421,7 @@ namespace lfn
             _result = game_result::level_cleared;
             _hold = clear_hold;
             audio::stop_music();
-            audio::sfx_checkpoint();
+            audio::sfx_warp();
             return game_result::running;
         }
 

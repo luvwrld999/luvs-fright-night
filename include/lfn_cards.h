@@ -34,6 +34,9 @@ namespace lfn
     int enter_initials(bn::sprite_text_generator& text, save::file& file, int score,
                        int player = 0);
 
+    /** What the sin has to say, once, on the way into its world. */
+    void show_world_story(bn::sprite_text_generator& text, int world);
+
     /**
      * The card before a stage: which world, which sin, how many lives left,
      * and the code that comes back here. Holds for a beat, or until the player

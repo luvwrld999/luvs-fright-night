@@ -1,0 +1,10 @@
+wait 60
+shot 01
+wait 30
+shot 02
+wait 30
+shot 03
+wait 30
+shot 04
+wait 60
+shot 05_menu

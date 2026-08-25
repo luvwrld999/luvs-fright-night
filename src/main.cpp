@@ -177,6 +177,17 @@ int main()
             }
 
             LFN_TRACE("main: starting stage ", me.index);
+
+            // Each sin gets a word in on the way into its world, and only on
+            // the way in - not before every stage, and not in the boss rush,
+            // which is a fight rather than a journey.
+            if(!picked.boss_rush &&
+               (me.index == 0 ||
+                lfn::levels[me.index].world != lfn::levels[me.index - 1].world))
+            {
+                lfn::show_world_story(text, lfn::levels[me.index].world);
+            }
+
             lfn::show_world_card(text, me.index, me.run, label);
 
             // The stage owns the whole entity pool, which is far too big to

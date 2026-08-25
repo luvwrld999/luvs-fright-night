@@ -1,0 +1,10 @@
+wait 240
+tap a 8
+wait 60
+shot 01_story_a
+wait 60
+shot 02_story_b
+wait 60
+shot 03_story_c
+wait 220
+shot 04_card

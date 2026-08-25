@@ -39,6 +39,10 @@ namespace lfn::audio
     void sfx_boss_die();
     void sfx_menu();
     void sfx_level_clear();
+    /** A boss is about to commit to something. */
+    void sfx_boss_tell();
+    /** The floor gives way and somewhere else takes over. */
+    void sfx_warp();
 }
 
 #endif

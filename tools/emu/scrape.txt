@@ -67,7 +67,7 @@ tap up 6
 wait 8
 tap a 8
 wait 10
-wait 40
+wait 480
 shot 02_card
 wait 150
 hold right
@@ -118,7 +118,7 @@ wait 8
 tap up 6
 wait 8
 tap a 8
-wait 70
+wait 510
 hold right
 wait 140
 shot 05_play_5_1
@@ -155,7 +155,7 @@ wait 8
 tap up 6
 wait 8
 tap a 8
-wait 70
+wait 510
 hold right
 wait 150
 shot 07_play_7_1

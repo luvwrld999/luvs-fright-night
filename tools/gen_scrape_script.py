@@ -13,6 +13,11 @@ def out(s):
     LINES.append(s)
 
 
+# A stage that opens a world shows the sin's story card first: three lines
+# arriving over about seven seconds, before the world card even starts.
+STORY_FRAMES = 440
+
+
 def goto(index, settle=70):
     """From a cold boot, walk stage select onto `index` and start it."""
     out('reset')
@@ -53,16 +58,16 @@ out('wait 20')
 
 # World 1-1: the establishing shot, card included.
 goto(0, settle=10)
-out('wait 40')
+out('wait %d' % (STORY_FRAMES + 40))
 out('shot 02_card')
 out('wait 150')
 play(420, [(120, '03_play_1_1'), (300, '04_play_1_1b')])
 
 # Mid-game, so the sheet is not all one tileset.
-goto(12)
+goto(12, settle=70 + STORY_FRAMES)
 play(360, [(140, '05_play_5_1'), (300, '06_play_5_1b')])
 
-goto(18)
+goto(18, settle=70 + STORY_FRAMES)
 play(300, [(150, '07_play_7_1')])
 
 # A boss arena.
