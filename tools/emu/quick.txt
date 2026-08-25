@@ -1,0 +1,8 @@
+wait 240
+tap a 8
+wait 380
+hold right
+wait 250
+shot 01_w1
+wait 250
+shot 02_w1b

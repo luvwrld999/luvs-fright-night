@@ -33,6 +33,71 @@ WORLD_FLAVOUR = [
 
 STAGE_COUNT = 16
 
+# 240px of screen over 16px metatiles, and the stage length the shape weights
+# were measured against.
+SCREEN_COLS = 15.0
+REFERENCE_SCREENS = 10.0
+
+# The curve every stage is solved onto: what balance.py calls pressure, which
+# is enemies per screen plus holes per screen weighted half again. Chosen to
+# open gently and finish hard, and to climb on every single beat.
+PRESSURE_START = 0.80
+PRESSURE_END = 2.30
+
+ENEMY_CHARS = (K.IMP, K.CHERUB, K.GNASHER, K.WRAITH, K.BAT, K.JET)
+HAZARD_CHARS = (K.SPIKE, K.LAVA)
+
+
+def target_pressure(index):
+    """Where stage `index` is meant to land on the curve."""
+    return PRESSURE_START + (PRESSURE_END - PRESSURE_START) * difficulty(index)
+
+
+def measured_pressure(lv, width):
+    """
+    balance.py's metric, computed here so the generator can aim at it.
+
+    Kept deliberately identical: a generator that solves onto a different
+    number than the one we check against is worse than no solving at all.
+    """
+    screens = max(width / SCREEN_COLS, 0.1)
+    enemies = 0
+    holes, run = 0, 0
+    hazards, inside = 0, False
+
+    for col in range(width):
+        solid = any(lv.g[r][col] in (K.GROUND, K.FILL)
+                    for r in range(K.FLOOR, K.ROWS))
+
+        if solid:
+            if run:
+                holes += 1
+
+            run = 0
+        else:
+            run += 1
+
+        # A six-tile lava pit is one hazard you jump, not six.
+        here = False
+
+        for r in range(K.ROWS):
+            if lv.g[r][col] in ENEMY_CHARS:
+                enemies += 1
+
+            if lv.g[r][col] in HAZARD_CHARS:
+                here = True
+
+        if here and not inside:
+            hazards += 1
+
+        inside = here
+
+    if run:
+        holes += 1
+
+    return ((enemies / screens) + (holes / screens) * 1.5
+            + (hazards / screens) * 1.0)
+
 
 def difficulty(index):
     """
@@ -47,21 +112,40 @@ def difficulty(index):
 class Builder:
     """A cursor that walks left to right laying down beats."""
 
-    def __init__(self, key, name, world, index, music=None, weight=1.0):
+    def __init__(self, key, name, world, index, music=None, weight=1.0,
+                 stretch=1.0):
         hazard, e1, e2, bg = WORLD_FLAVOUR[world]
         self.hazard, self.e1, self.e2 = hazard, e1, e2
         self.d = difficulty(index)
-        # Some shapes are inherently calmer than others. Compensating here lets
-        # the shapes stay distinct while the curve still climbs, whichever one
-        # a given stage happens to use.
-        self.comp = 1.0 / weight
+        # Some shapes are inherently calmer than others, and some run much
+        # longer. Compensating for both here lets the shapes stay distinct
+        # while what the player actually feels - how much arrives per screen -
+        # still climbs, whichever shape a stage happens to use.
+        self.comp = stretch / weight
         self.lv = K.Level(key, name, world, width=4096, music=music,
                           background=bg)
         self.x = 0
 
     def scale(self, base, extra):
-        """`base` at the start of the game, roughly `base + extra` by the end."""
-        return base + int(round(self.d * extra * self.comp))
+        """
+        `base` at the start of the game, roughly `base + extra` by the end.
+
+        Compensation applies to the whole count, not just the growth: what the
+        player feels is how much arrives per screen, and a long or a calm shape
+        is thin at the start of the curve as much as at the end.
+        """
+        return max(1, int(round((base + self.d * extra) * self.comp)))
+
+    def span(self, base, extra):
+        """
+        Like `scale`, but for a width rather than a count.
+
+        Compensation exists to control how much arrives per screen. Applying it
+        to a distance does the opposite - a gap stretched to four times its
+        length is one more hole spread over four times the walking - so widths
+        follow the difficulty ramp alone.
+        """
+        return base + int(round(self.d * extra))
 
     # -- beats -------------------------------------------------------------
     def flat(self, w, souls=0):
@@ -75,6 +159,11 @@ class Builder:
 
     def enemies(self, w, kind=None, count=1):
         kind = kind or self.e1
+        # Each enemy needs about three columns to itself. Without this the
+        # placements clamp to the same tile and quietly overwrite each other,
+        # so asking for more than the segment can hold used to be a silent
+        # no-op - and the difficulty solver could never reach its target.
+        w = max(w, 3 * count + 2)
         self.lv.ground(self.x, self.x + w - 1)
         step = max(3, w // (count + 1))
         for i in range(count):
@@ -247,12 +336,12 @@ def _march(b):
     b.flat(10).start()
     b.enemies(12, count=b.scale(1, 2))
     b.overhead(11, breakables=3, prize=K.PU_SOUL)
-    b.gap(b.scale(3, 3))
+    b.gap(b.span(3, 3))
     b.enemies(13, count=b.scale(2, 2))
     b.flat(6, souls=2).checkpoint()
     b.overhead(11, breakables=4, prize=K.PU_FLAME)
     b.enemies(13, kind=b.e2, count=b.scale(1, 3))
-    b.gap(b.scale(3, 4))
+    b.gap(b.span(3, 4))
     b.enemies(12, count=b.scale(1, 2))
     b.flat(7, souls=3).pickup(K.PU_DASH)
     b.flat(9)
@@ -265,14 +354,14 @@ def _ledges(b):
     b.rise(3)
     b.enemies(10, count=b.scale(1, 2))
     b.drop(3)
-    b.gap(b.scale(3, 3))
+    b.gap(b.span(3, 3))
     b.enemies(11, kind=b.e2, count=b.scale(1, 2))
     b.flat(5).checkpoint().pickup(K.PU_SOUL)
     b.rise(3)
     b.overhead(10, breakables=3, prize=K.ONE_UP)
     b.drop(2)
     b.enemies(12, count=b.scale(2, 2))
-    b.gap(b.scale(3, 4))
+    b.gap(b.span(3, 4))
     b.rise(2)
     b.enemies(10, count=b.scale(1, 2))
     b.flat(8, souls=3).pickup(K.PU_WINGS)
@@ -284,15 +373,15 @@ def _hall(b):
     """Pillared halls, things in the air, and spikes underfoot."""
     b.flat(9).start()
     b.hall(16)
-    b.spikes(9, patch=b.scale(1, 2))
+    b.spikes(9, patch=b.span(1, 2))
     b.enemies(11, count=b.scale(1, 2))
     b.hall(16)
     b.flat(5).checkpoint().pickup(K.PU_SOUL)
     b.overhead(10, breakables=3, prize=K.PU_FLAME)
     b.hall(18)
-    b.spikes(10, patch=b.scale(2, 2))
+    b.spikes(10, patch=b.span(2, 2))
     b.enemies(12, kind=b.e2, count=b.scale(2, 3))
-    b.gap(b.scale(3, 3))
+    b.gap(b.span(3, 3))
     b.flat(8, souls=3)
     b.flat(8)
     return b
@@ -304,13 +393,13 @@ def _crossing(b):
     b.enemies(10, count=b.scale(1, 1))
     b.stepping(2)
     b.flat(6).pickup(K.PU_SOUL)
-    b.gap(b.scale(3, 4))
-    b.stepping(b.scale(2, 1))
+    b.gap(b.span(3, 4))
+    b.stepping(b.span(2, 1))
     b.flat(6, souls=2).checkpoint()
     b.enemies(11, kind=b.e2, count=b.scale(1, 2))
-    b.stepping(b.scale(2, 2))
+    b.stepping(b.span(2, 2))
     b.overhead(10, breakables=3, prize=K.PU_WINGS)
-    b.gap(b.scale(4, 4))
+    b.gap(b.span(4, 4))
     b.enemies(11, count=b.scale(1, 3))
     b.flat(7, souls=3).pickup(K.PU_FLAME)
     b.flat(8)
@@ -324,11 +413,11 @@ def _cellar(b):
     b.enemies(10, count=b.scale(1, 2))
     b.ceiling(13, enemies=b.scale(1, 2))
     b.flat(5).checkpoint().pickup(K.PU_SOUL)
-    b.spikes(9, patch=b.scale(1, 2))
+    b.spikes(9, patch=b.span(1, 2))
     b.ceiling(13, enemies=b.scale(1, 3))
     b.overhead(10, breakables=4, prize=K.PU_DASH)
     b.enemies(12, kind=b.e2, count=b.scale(1, 3))
-    b.gap(b.scale(3, 3))
+    b.gap(b.span(3, 3))
     b.ceiling(12, enemies=b.scale(1, 2))
     b.flat(8, souls=3).pickup(K.ONE_UP)
     b.flat(8)
@@ -346,7 +435,7 @@ def _ascent(b):
     b.enemies(11, kind=b.e2, count=b.scale(1, 2))
     b.rise(2)
     b.overhead(10, breakables=3, prize=K.PU_WINGS)
-    b.stepping(b.scale(2, 1))
+    b.stepping(b.span(2, 1))
     b.enemies(11, count=b.scale(1, 3))
     b.rise(3)
     b.flat(7, souls=3).pickup(K.PU_FLAME)
@@ -393,8 +482,37 @@ def world_levels(world, names):
     for half in (0, 1):
         index = world * 2 + half
         shape, weight = SHAPES[SHAPE_ORDER[index]]
+
+        # Shapes differ in how long they run and how busy they are, and both
+        # dilute or concentrate what the player meets per screen. Rather than
+        # hand-tune a weight per shape and watch it go stale, solve for it:
+        # build the stage, measure the same pressure balance.py will measure,
+        # and adjust until it sits on the curve. Counts are integers, so this
+        # converges in a handful of passes and then stops moving.
+        want = target_pressure(index)
+        stretch = 1.0 / weight
+        best, best_err = None, None
+
+        for _ in range(24):
+            probe = Builder('probe', names[half], world, index, weight=1.0,
+                            stretch=stretch)
+            shape(probe)
+            got = measured_pressure(probe.lv, probe.x)
+            err = abs(got - want)
+
+            if best_err is None or err < best_err:
+                best, best_err = stretch, err
+
+            if err < 0.02 or got <= 0.0:
+                break
+
+            # Enemies dominate the metric and scale with stretch, so nudging
+            # by the ratio lands close; the loop mops up the rounding.
+            stretch *= 1.0 + 0.6 * ((want - got) / max(want, 0.1))
+            stretch = min(max(stretch, 0.2), 6.0)
+
         b = Builder('w%d_%d' % (world + 1, half + 1), names[half], world, index,
-                    weight=weight)
+                    weight=1.0, stretch=best)
         shape(b)
 
         if index in SECRET_DOORS:
