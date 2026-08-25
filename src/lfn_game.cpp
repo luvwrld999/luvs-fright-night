@@ -24,13 +24,16 @@ namespace lfn
     }
 
     game::game(int level_index, const run_state& carried,
-               bn::sprite_text_generator& text, int player, bool hand_off) :
+               bn::sprite_text_generator& text, int player, bool hand_off,
+               bool demo) :
         _hud(text),
         _text(text),
         _run(carried),
         _index(level_index),
-        _hand_off(hand_off)
+        _hand_off(hand_off),
+        _demo(demo)
     {
+        _player.set_demo(demo);
         LFN_TRACE("tiles ctor start: ", bn::sprite_tiles::used_items_count());
         _camera = bn::camera_ptr::create(0, 0);
         _level.load(level_index, *_camera);
@@ -299,7 +302,9 @@ namespace lfn
 
     void game::_die()
     {
-        if(!tune::test_invulnerable)
+        // The attract demo plays until the title screen wants it back, so a
+        // bad landing costs it nothing.
+        if(!tune::test_invulnerable && !_demo)
         {
             --_run.lives;
         }

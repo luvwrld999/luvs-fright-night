@@ -47,12 +47,29 @@ namespace lfn
          * a sprite and the GBA runs out of sprite VRAM long before it runs out
          * of things to say.
          */
+        /** Which slot a stage occupies inside its world, counting bosses. */
+        int slot_of(int index)
+        {
+            int slot = 1;
+
+            for(int i = 0; i < index; ++i)
+            {
+                if(levels[i].world == levels[index].world)
+                {
+                    ++slot;
+                }
+            }
+
+            return slot;
+        }
+
         bn::string<32> stage_label(int index)
         {
             bn::string<32> out = bn::format<32>("{}-{}  ", roman(levels[index].world),
-                                                (index & 1) + 1);
+                                                slot_of(index));
 
-            for(const char* c = levels[index].name; *c && out.size() < 22; ++c)
+            // Short enough to leave the best time its own column on the right.
+            for(const char* c = levels[index].name; *c && out.size() < 18; ++c)
             {
                 out.push_back(*c);
             }
@@ -103,6 +120,11 @@ namespace lfn
             host.set_visible(true);
         };
 
+        // Twenty seconds of nobody touching anything and the cartridge starts
+        // showing off, the way one in a shop window would.
+        constexpr int attract_after = 20 * 60;
+        int idle = 0;
+
         screen where = screen::main;
         int choice = 0;
         int stage_pick = 0;
@@ -133,6 +155,7 @@ namespace lfn
         // that stays readable, so the reference screens live one press deeper.
         bn::vector<entry, 6> extras;
         extras.push_back({"HIGH SCORES", 4});
+        extras.push_back({"BOSS RUSH", 10});
         extras.push_back({"SOUND TEST", 9});
         extras.push_back({"CREDITS", 5});
         extras.push_back({"CONTROLS", 3});
@@ -242,11 +265,23 @@ namespace lfn
                             break;
                         }
 
-                        text.generate(4, -40 + (i * 16), stage_label(index), sprites);
+                        text.generate(-100, -40 + (i * 16), stage_label(index),
+                                      sprites);
+
+                        // Your fastest clear, in the same units the stage
+                        // clock counts down. Blank until you have set one.
+                        if(index < save::timed_stages && file.best_time[index])
+                        {
+                            const int mark = sprites.size();
+                            text.generate(62, -40 + (i * 16),
+                                          zero_pad(file.best_time[index], 3),
+                                          sprites);
+                            tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+                        }
                     }
 
                     const int mark = sprites.size();
-                    text.generate(0, 62, "A PLAY    B BACK", sprites);
+                    text.generate(0, 62, "A PLAY   B BACK   BEST TIME", sprites);
                     tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 }
                 else
@@ -268,6 +303,17 @@ namespace lfn
                 }
 
                 dirty = false;
+            }
+
+            if(bn::keypad::any_pressed() || bn::keypad::any_held())
+            {
+                idle = 0;
+            }
+            else if(where == screen::main && ++idle >= attract_after)
+            {
+                result.attract = true;
+                release();
+                return result;
             }
 
             const int bob = (frame >> 4) & 1;
@@ -465,6 +511,17 @@ namespace lfn
                 {
                     const int action = extras[extra_pick].action;
                     audio::sfx_menu();
+
+                    if(action == 10)
+                    {
+                        // All eight sins, one after another, no continues.
+                        result.boss_rush = true;
+                        result.level_index = boss_rush_stages[0];
+                        result.run.lives = tune::start_lives;
+                        result.run.continues = 0;
+                        release();
+                        return result;
+                    }
 
                     if(action == 3)
                     {

@@ -11,7 +11,7 @@ namespace lfn::save
     {
         // Bumped when the layout changes, so an older file is discarded rather
         // than read as nonsense.
-        constexpr uint32_t magic_value = 0x4C464E33;    // "LFN3"
+        constexpr uint32_t magic_value = 0x4C464E34;    // "LFN4"
 
         // The board a fresh cartridge ships with. Somebody has to be at the top
         // before anyone plays it.
@@ -34,6 +34,11 @@ namespace lfn::save
             for(int i = 0; i < table_size; ++i)
             {
                 data.table[i] = factory[i];
+            }
+
+            for(int i = 0; i < timed_stages; ++i)
+            {
+                data.best_time[i] = 0;
             }
 
             data.furthest_level = 0;
@@ -75,10 +80,16 @@ namespace lfn::save
         file fresh = defaults();
         file current = load();
 
-        // Starting again clears your progress, not everyone else's names.
+        // Starting again clears your progress, not everyone else's names -
+        // and not the times, which are records rather than progress.
         for(int i = 0; i < table_size; ++i)
         {
             fresh.table[i] = current.table[i];
+        }
+
+        for(int i = 0; i < timed_stages; ++i)
+        {
+            fresh.best_time[i] = current.best_time[i];
         }
 
         store(fresh);
@@ -110,5 +121,26 @@ namespace lfn::save
         }
 
         data.table[slot].score = uint32_t(score);
+    }
+}
+
+namespace lfn::save
+{
+    bool record_time(file& data, int level_index, int units)
+    {
+        if(level_index < 0 || level_index >= timed_stages || units <= 0)
+        {
+            return false;
+        }
+
+        const uint16_t was = data.best_time[level_index];
+
+        if(was && int(was) <= units)
+        {
+            return false;
+        }
+
+        data.best_time[level_index] = uint16_t(units);
+        return true;
     }
 }

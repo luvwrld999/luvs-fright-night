@@ -1,0 +1,12 @@
+wait 240
+shot 01_menu
+wait 1150
+shot 02_attract_scores
+wait 200
+shot 03_scores
+wait 900
+shot 04_demo
+wait 300
+shot 05_demo2
+wait 500
+shot 06_demo3

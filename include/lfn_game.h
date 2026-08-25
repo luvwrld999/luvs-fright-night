@@ -45,13 +45,15 @@ namespace lfn
          * the stage, for alternating two-player games.
          */
         game(int level_index, const run_state& carried, bn::sprite_text_generator& text,
-             int player = 0, bool hand_off = false);
+             int player = 0, bool hand_off = false, bool demo = false);
 
         ~game();
 
         game_result update();
 
         [[nodiscard]] const run_state& carried() const { return _run; }
+        /** Clock units the stage took, for the records table. */
+        [[nodiscard]] int elapsed() const { return tune::stage_time - _status.time; }
         /** True when the stage was left through a warp door, not the gate. */
         [[nodiscard]] bool warped() const { return _warped; }
 
@@ -77,6 +79,7 @@ namespace lfn
         game_result _result = game_result::running;
         bool _warped = false;
         bool _hand_off = false;
+        bool _demo = false;
         bn::vector<bn::sprite_ptr, 32> _wall_text;
 
         void _restart();

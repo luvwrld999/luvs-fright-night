@@ -3,7 +3,9 @@
 #include "bn_core.h"
 #include "bn_keypad.h"
 #include "bn_sprite_text_generator.h"
+#include "bn_sprite_ptr.h"
 #include "bn_unique_ptr.h"
+#include "bn_vector.h"
 
 #include "common_variable_8x16_sprite_font.h"
 #include "common_variable_8x8_sprite_font.h"
@@ -28,6 +30,59 @@ namespace
         int index = 0;
         bool out = false;
     };
+
+    /**
+     * Nobody has touched the pad. Show the board, then let the autopilot play
+     * a stage, the way a cabinet would. Any button drops straight back to the
+     * menu.
+     */
+    void run_attract(bn::sprite_text_generator& text,
+                     bn::sprite_text_generator& small,
+                     const lfn::save::file& file, int turn)
+    {
+        lfn::show_high_scores(text, file);
+
+        if(bn::keypad::any_pressed())
+        {
+            return;
+        }
+
+        // A different stage each time round, so watching it twice shows two
+        // different places.
+        static constexpr int shown[] = {0, 6, 12, 18};
+        const int index = shown[turn % 4];
+
+        lfn::run_state run;
+        bn::unique_ptr<lfn::game> demo(
+                    new lfn::game(index, run, small, 0, false, true));
+
+        bn::vector<bn::sprite_ptr, 8> label;
+        small.set_center_alignment();
+        small.generate(0, 56, "DEMO", label);
+
+        for(int frame = 0; frame < 60 * 20; ++frame)
+        {
+            if(frame > 8 && (bn::keypad::any_pressed() || bn::keypad::any_held()))
+            {
+                break;
+            }
+
+            if(demo->update() != lfn::game_result::running)
+            {
+                break;
+            }
+
+            bn::core::update();
+        }
+
+        demo.reset();
+        label.clear();
+        lfn::audio::stop_music();
+
+        // Hand the sprite tiles back before the menu asks for them.
+        bn::core::update();
+        bn::core::update();
+    }
 
     /**
      * Offer the board to one finished run. Returns the row it landed on, or
@@ -79,6 +134,13 @@ int main()
         lfn::save::file file = lfn::save::load();
         lfn::menu_result picked = lfn::show_menu(text, file);
 
+        if(picked.attract)
+        {
+            static int attract_turn = 0;
+            run_attract(text, small, file, attract_turn++);
+            continue;
+        }
+
         const int seats_taken = picked.two_player ? 2 : 1;
         seat seats[2];
 
@@ -89,6 +151,7 @@ int main()
         }
 
         int turn = 0;
+        int rush_step = 0;
         // The first turn of a two-player game gets its own card too, so the
         // pad is never handed over without saying whose it is.
         bool announce = picked.two_player;
@@ -137,6 +200,7 @@ int main()
 
             me.run = stage->carried();
             const bool stage_warped = stage->warped();
+            const int took = stage->elapsed();
             stage.reset();
 
             if(abandoned)
@@ -184,6 +248,31 @@ int main()
                 break;
             }
 
+            // Records stand whatever mode set them, and whichever seat did it.
+            if(lfn::save::record_time(file, me.index, took))
+            {
+                lfn::save::store(file);
+            }
+
+            if(picked.boss_rush)
+            {
+                // The rush follows its own list; warps and exits do not apply
+                // because a boss arena has neither.
+                ++rush_step;
+                me.index = rush_step < lfn::boss_rush_count
+                         ? lfn::boss_rush_stages[rush_step] : lfn::story_count;
+
+                if(me.index >= lfn::story_count)
+                {
+                    lfn::show_ending(text, me.run, file);
+                    won = true;
+                    seats[0].out = true;
+                    seats[1].out = true;
+                }
+
+                continue;
+            }
+
             // A warp door, an explicit exit, or simply the next stage.
             const lfn::level_data& done = lfn::levels[me.index];
 
@@ -202,7 +291,7 @@ int main()
 
             // Two seats share one cartridge slot, so only a solo run is
             // allowed to move the saved progress.
-            if(seats_taken == 1)
+            if(seats_taken == 1 && !picked.boss_rush)
             {
                 file.furthest_level = uint16_t(bn::clamp(me.index, 0,
                                                          lfn::story_count - 1));

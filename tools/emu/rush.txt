@@ -1,0 +1,20 @@
+wait 240
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 70
+shot 01_extras
+tap down 8
+wait 20
+shot 02_cursor
+tap a 8
+wait 160
+shot 03_card
+wait 200
+shot 04_fight
+wait 200
+shot 05_fight2

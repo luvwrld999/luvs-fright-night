@@ -154,18 +154,20 @@ namespace lfn
     {
         const int px_now = _pos.x().right_shift_integer();
         const int py_now = _pos.y().right_shift_integer();
-        const pilot ai = tune::test_autopilot
-                       ? autopilot(lv, _grounded, px_now, py_now)
-                       : pilot();
+        // The harness flag and the attract demo want the same thing: nobody
+        // is holding the pad, so something has to hold it for them.
+        const bool driven = tune::test_autopilot || _demo;
+        const pilot ai = driven ? autopilot(lv, _grounded, px_now, py_now)
+                                : pilot();
 
-        const bool left = tune::test_autopilot ? false : bn::keypad::left_held();
-        const bool right = tune::test_autopilot ? true : bn::keypad::right_held();
+        const bool left = driven ? false : bn::keypad::left_held();
+        const bool right = driven ? true : bn::keypad::right_held();
         const bn::fixed accel = _grounded ? tune::run_accel : tune::air_accel;
 
         // B is Mario's button: held, it raises the speed cap; tapped, it throws
         // a soul flame. Holding it does both, which is the point.
         const bool dash_held = _powers.dash &&
-                               (tune::test_autopilot ? false : bn::keypad::b_held());
+                               (driven ? false : bn::keypad::b_held());
         const bn::fixed top = dash_held ? tune::dash_max : tune::run_max;
         const bn::fixed speed_now = _vel.x() < 0 ? -_vel.x() : _vel.x();
 
@@ -204,12 +206,12 @@ namespace lfn
                                                : _vel.x() - sign_of(_vel.x()) * tune::friction);
         }
 
-        if(tune::test_autopilot ? ai.press : bn::keypad::a_pressed())
+        if(driven ? ai.press : bn::keypad::a_pressed())
         {
             _buffer = tune::jump_buffer_frames;
         }
 
-        _jump_held = tune::test_autopilot ? ai.hold : bn::keypad::a_held();
+        _jump_held = driven ? ai.hold : bn::keypad::a_held();
 
         if(_buffer > 0 && (_grounded || _coyote > 0))
         {
@@ -227,7 +229,7 @@ namespace lfn
             _vel.set_y(tune::jump_cut);
         }
 
-        if(_powers.flame && !tune::test_autopilot && bn::keypad::b_pressed())
+        if(_powers.flame && !driven && bn::keypad::b_pressed())
         {
             ev.shot = true;
         }

@@ -39,6 +39,9 @@ namespace lfn
     class luv
     {
     public:
+        /** Hand the pad to the autopilot, for the title screen's demo. */
+        void set_demo(bool demo) { _demo = demo; }
+
         void create(bn::fixed x, bn::fixed y, bn::camera_ptr& camera);
         void respawn(bn::fixed x, bn::fixed y);
 
@@ -65,6 +68,7 @@ namespace lfn
         [[nodiscard]] bool overlaps(bn::fixed ox, bn::fixed oy, int half) const;
 
     private:
+        bool _demo = false;
         bn::fixed_point _pos;
         bn::fixed_point _vel;
         bn::optional<bn::sprite_ptr> _sprite;
