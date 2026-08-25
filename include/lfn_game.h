@@ -12,6 +12,7 @@
 #include "lfn_hud.h"
 #include "lfn_level.h"
 #include "lfn_luv.h"
+#include "lfn_tune.h"
 
 namespace lfn
 {
@@ -28,9 +29,10 @@ namespace lfn
     /** What the player carries from one stage into the next. */
     struct run_state
     {
-        int lives = 3;
+        int lives = tune::start_lives;
         int souls = 0;
         int score = 0;
+        int continues = tune::start_continues;
     };
 
     /** One stage, played start to finish. */

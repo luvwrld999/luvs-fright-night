@@ -1,0 +1,37 @@
+# Extras: sound test, and the continue prompt via the fragile build.
+wait 240
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 70
+shot 01_extras
+tap down 8
+wait 20
+tap a 8
+wait 80
+shot 02_sound_test
+tap a 8
+wait 60
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 20
+shot 03_scrolled
+tap a 8
+wait 60
+shot 04_playing
+tap b 8
+wait 70
+shot 05_back

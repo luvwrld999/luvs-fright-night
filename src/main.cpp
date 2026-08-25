@@ -156,6 +156,18 @@ int main()
 
             if(result == lfn::game_result::game_over)
             {
+                if(me.run.continues > 0 &&
+                   lfn::offer_continue(text, me.run, label))
+                {
+                    // Back on the same stage with a fresh set of lives. The
+                    // score stands: a continue costs a limited resource, not
+                    // the run you have already played.
+                    --me.run.continues;
+                    me.run.lives = lfn::tune::start_lives;
+                    announce = seats_taken > 1;
+                    continue;
+                }
+
                 me.out = true;
 
                 if(seats_taken == 1)

@@ -97,6 +97,9 @@ namespace lfn::tune
 
     // -- rules --------------------------------------------------------------
     constexpr int start_lives          = 3;
+    // Running out of lives is not the end while you still have one of these.
+    constexpr int start_continues      = 3;
+    constexpr int continue_seconds     = 9;
     constexpr int souls_per_life       = 50;
 
     // -- scoring ------------------------------------------------------------

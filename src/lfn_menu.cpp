@@ -131,8 +131,9 @@ namespace lfn
 
         // The second page. Six rows is all the front page can hold at a size
         // that stays readable, so the reference screens live one press deeper.
-        bn::vector<entry, 4> extras;
+        bn::vector<entry, 6> extras;
         extras.push_back({"HIGH SCORES", 4});
+        extras.push_back({"SOUND TEST", 9});
         extras.push_back({"CREDITS", 5});
         extras.push_back({"CONTROLS", 3});
         int extra_pick = 0;
@@ -219,7 +220,7 @@ namespace lfn
 
                     for(int i = 0; i < extras.size(); ++i)
                     {
-                        text.generate(-40, -22 + (i * 20), extras[i].label, sprites);
+                        text.generate(-40, -30 + (i * 19), extras[i].label, sprites);
                     }
 
                     text.set_center_alignment();
@@ -279,7 +280,7 @@ namespace lfn
             else if(where == screen::extras)
             {
                 cursor.set_visible(true);
-                cursor.set_position(-58, -24 + (extra_pick * 20) + bob);
+                cursor.set_position(-58, -32 + (extra_pick * 19) + bob);
             }
             else if(where == screen::confirm)
             {
@@ -478,6 +479,10 @@ namespace lfn
                         if(action == 4)
                         {
                             show_high_scores(text, file);
+                        }
+                        else if(action == 9)
+                        {
+                            show_sound_test(text);
                         }
                         else
                         {

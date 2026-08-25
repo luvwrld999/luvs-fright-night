@@ -435,6 +435,189 @@ namespace lfn
         return 0;
     }
 
+    void show_sound_test(bn::sprite_text_generator& text)
+    {
+        settle();
+
+        // Indices match tools/build_levels.py's MUSIC table.
+        static const char* const names[] = {
+            "TITLE", "I    SUPERBIA", "II   AVARITIA", "III  LUXURIA",
+            "IV   INVIDIA", "V    GULA", "VI   IRA", "VII  ACEDIA",
+            "VIII HADES", "BOSS", "VICTORY", "GAME OVER",
+        };
+        constexpr int count = int(sizeof(names) / sizeof(names[0]));
+        constexpr int rows = 6;
+
+        {
+        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::vector<bn::sprite_ptr, 96> sprites;
+
+        int pick = 0;
+        int top = 0;
+        int playing = -1;
+        bool dirty = true;
+        int frame = 0;
+
+        bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(-96, 0);
+
+        while(true)
+        {
+            ++frame;
+
+            if(dirty)
+            {
+                sprites.clear();
+                text.set_center_alignment();
+                text.generate(0, -70, "SOUND TEST", sprites);
+                tint(sprites, 0, bn::sprite_palette_items::text_gold);
+
+                text.set_left_alignment();
+
+                for(int i = 0; i < rows && top + i < count; ++i)
+                {
+                    const int index = top + i;
+                    const int mark = sprites.size();
+                    text.generate(-80, -44 + (i * 18), names[index], sprites);
+
+                    // The one you are hearing stays lit while you browse past it.
+                    tint(sprites, mark, index == playing
+                                        ? bn::sprite_palette_items::text_gold
+                                        : bn::sprite_palette_items::text_cyan);
+                }
+
+                text.set_center_alignment();
+                const int mark = sprites.size();
+                text.generate(0, 68, "A PLAY   B BACK", sprites);
+                tint(sprites, mark, bn::sprite_palette_items::text_mag);
+                dirty = false;
+            }
+
+            cursor.set_position(-96, -42 + ((pick - top) * 18) + ((frame >> 4) & 1));
+
+            if((frame % 26) == 0)
+            {
+                cursor.set_tiles(bn::sprite_items::luv.tiles_item()
+                                 .create_tiles((frame / 26) & 1));
+            }
+
+            if(frame > 10)
+            {
+                if(bn::keypad::up_pressed() && pick > 0)
+                {
+                    --pick;
+                    audio::sfx_menu();
+                }
+                else if(bn::keypad::down_pressed() && pick < count - 1)
+                {
+                    ++pick;
+                    audio::sfx_menu();
+                }
+
+                const int was = top;
+                top = bn::clamp(top, bn::max(pick - rows + 1, 0), pick);
+                dirty = dirty || top != was;
+
+                if(bn::keypad::a_pressed())
+                {
+                    playing = pick;
+                    audio::play_music(pick);
+                    dirty = true;
+                }
+
+                if(bn::keypad::b_pressed())
+                {
+                    break;
+                }
+            }
+
+            bn::core::update();
+        }
+        }
+
+        settle();
+        audio::play_music(audio::track::title);
+    }
+
+    bool offer_continue(bn::sprite_text_generator& text, const run_state& run,
+                        int player)
+    {
+        settle();
+        bool taken = false;
+
+        {
+        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::vector<bn::sprite_ptr, 48> sprites;
+        bn::vector<bn::sprite_ptr, 8> clock;
+
+        text.set_center_alignment();
+
+        if(player)
+        {
+            text.generate(0, -70, bn::format<16>("PLAYER {}", player), sprites);
+            tint(sprites, 0, bn::sprite_palette_items::text_mag);
+        }
+
+        int mark = sprites.size();
+        text.generate(0, -46, "CONTINUE?", sprites);
+        tint(sprites, mark, bn::sprite_palette_items::text_gold);
+
+        mark = sprites.size();
+        text.generate(0, -20, bn::format<24>("{} LEFT AFTER THIS",
+                                             run.continues - 1), sprites);
+        text.generate(0, 44, "A YES     B NO", sprites);
+        tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+
+        bn::sprite_ptr luv = bn::sprite_items::luv.create_sprite(0, 68);
+        int shown = -1;
+
+        for(int frame = 0; frame < tune::continue_seconds * 60; ++frame)
+        {
+            const int left = tune::continue_seconds - (frame / 60);
+
+            if(left != shown)
+            {
+                // The count is the whole tension of the screen, so it gets
+                // rebuilt only when the digit actually changes.
+                shown = left;
+                clock.clear();
+                text.set_center_alignment();
+                text.generate(0, 12, bn::format<4>("{}", left), clock);
+
+                for(bn::sprite_ptr& sprite : clock)
+                {
+                    sprite.set_palette(left <= 3
+                                       ? bn::sprite_palette_items::text_mag
+                                       : bn::sprite_palette_items::text_gold);
+                }
+
+                audio::sfx_menu();
+            }
+
+            luv.set_position(0, 68 - ((frame >> 4) & 1));
+
+            if(frame > 12)
+            {
+                if(bn::keypad::a_pressed() || bn::keypad::start_pressed())
+                {
+                    audio::sfx_one_up();
+                    taken = true;
+                    break;
+                }
+
+                if(bn::keypad::b_pressed())
+                {
+                    break;
+                }
+            }
+
+            bn::core::update();
+        }
+        }
+
+        settle();
+        return taken;
+    }
+
     void show_player_card(bn::sprite_text_generator& text, int player,
                           const run_state& run)
     {

@@ -24,6 +24,9 @@ namespace lfn
     /** Who made it. */
     void show_credits(bn::sprite_text_generator& text);
 
+    /** Every track in the game, on demand. */
+    void show_sound_test(bn::sprite_text_generator& text);
+
     /**
      * Three letters, arcade style. Returns the slot the score landed in so the
      * board can point at it afterwards.
@@ -38,6 +41,13 @@ namespace lfn
      */
     void show_world_card(bn::sprite_text_generator& text, int stage_index,
                          const run_state& run, int player = 0);
+
+    /**
+     * Out of lives with a continue still in hand. Counts down; A takes it, B
+     * or the clock running out ends the run.
+     */
+    [[nodiscard]] bool offer_continue(bn::sprite_text_generator& text,
+                                      const run_state& run, int player = 0);
 
     /** Handing the pad over: who is up, and what they are carrying. */
     void show_player_card(bn::sprite_text_generator& text, int player,
