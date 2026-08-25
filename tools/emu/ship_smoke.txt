@@ -1,0 +1,17 @@
+wait 240
+shot 01_menu
+tap a 8
+wait 170
+shot 02_card
+wait 200
+hold right
+wait 220
+shot 03_playing
+release all
+wait 10
+tap start 8
+wait 60
+shot 04_paused
+tap b 8
+wait 60
+shot 05_resumed

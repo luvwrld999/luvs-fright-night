@@ -1,0 +1,2011 @@
+wait 150
+tap a 6
+wait 60
+hold right
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f13700
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f14400
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f15200
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f16000
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f17000
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f19000
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot f22000
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15

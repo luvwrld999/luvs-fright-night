@@ -1,0 +1,216 @@
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_1
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_2
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_3
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_4
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_5
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_6
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_7
+reset
+wait 200
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap a 6
+wait 420
+shot world_8

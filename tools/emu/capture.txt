@@ -1,0 +1,2412 @@
+wait 150
+tap start 6
+wait 60
+hold right
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_1
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_2
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_3
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_4
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_5
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_6
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_7
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+shot world_8
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12
+tap a 30
+wait 12

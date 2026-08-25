@@ -1,0 +1,13 @@
+wait 150
+shot 01_title
+tap start 6
+wait 90
+shot 02_stage
+hold right
+wait 120
+tap a 11
+wait 40
+shot 03_playing
+release all
+wait 60
+shot 04_settled

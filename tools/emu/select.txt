@@ -1,0 +1,165 @@
+wait 180
+tap a 6
+wait 60
+hold right
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+release all
+wait 120
+reset
+wait 200
+shot 01_menu_with_save
+tap down 6
+wait 20
+shot 02_new_game_hi
+tap down 6
+wait 20
+tap a 6
+wait 40
+shot 03_stage_select
+tap down 6
+wait 20
+tap down 6
+wait 20
+shot 04_moved
+tap a 6
+wait 120
+shot 05_started

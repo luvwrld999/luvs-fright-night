@@ -1,0 +1,25 @@
+! name: Straight Down
+! world: 5
+! music: title
+! width: 16
+! boss: 0
+! warp: -1
+! exit_to: 21
+! hidden: 1
+! secret: NO STAIRS FROM HERE
+I,,,,,,,,,,,,,,I
+I,,,,,,,,,,,,,,I
+I,,,,,,,,,,,,,,I
+I,,,,,,,,,,,,,,I
+I,,,,,,,,,,,,,,I
+I,,,,,,,,,,,,,,I
+I,BBBBBBBBBBBB,I
+I,,,,,,,,,,,,,,I
+I,,,,,,,S,,,,,,I
+I,,,,,,,,,,,,,,I
+I,,,s,s,s,s,,,,I
+I,p,,,,u,,,,,x,I
+I,,,,,,,,,,,,,,I
+################
+================
+================

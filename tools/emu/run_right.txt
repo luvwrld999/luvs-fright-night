@@ -1,0 +1,36 @@
+# Hold right and jump on a rhythm - a crude but revealing autoplay.
+wait 150
+tap start 6
+wait 60
+hold right
+wait 40
+tap a 12
+wait 45
+tap a 12
+wait 45
+tap a 12
+wait 45
+shot a_early
+tap a 12
+wait 45
+tap a 12
+wait 45
+tap a 12
+wait 45
+tap a 12
+wait 45
+shot b_mid
+tap a 12
+wait 45
+tap a 12
+wait 45
+tap a 12
+wait 45
+tap a 12
+wait 45
+shot c_late
+tap a 12
+wait 60
+tap a 12
+wait 60
+shot d_end

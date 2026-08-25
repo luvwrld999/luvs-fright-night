@@ -1,0 +1,242 @@
+wait 180
+tap down 6
+wait 12
+tap down 6
+wait 12
+tap a 6
+wait 30
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap up 4
+wait 8
+tap a 6
+wait 90
+shot 01_arena
+hold right
+wait 150
+release all
+wait 20
+shot 02_closing
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+shot 03_fight_6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+shot 03_fight_16
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+shot 03_fight_28
+tap a 24
+wait 30
+hold right
+wait 12
+release all
+wait 6
+wait 180
+shot 04_after

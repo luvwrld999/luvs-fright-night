@@ -1,0 +1,62 @@
+wait 150
+tap a 6
+wait 60
+hold right
+wait 160
+release all
+wait 20
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+tap a 22
+wait 45
+hold right
+wait 10
+release all
+wait 10
+wait 40
+shot a_after
+hold right
+wait 40
+release all
+wait 60
+shot b_purple

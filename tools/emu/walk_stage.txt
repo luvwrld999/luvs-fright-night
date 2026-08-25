@@ -1,0 +1,189 @@
+# Walk a whole stage: hold right, jump constantly.
+wait 150
+tap start 6
+wait 60
+hold right
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot stage_00
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot stage_01
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot stage_02
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+shot stage_03
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15
+tap a 11
+wait 15

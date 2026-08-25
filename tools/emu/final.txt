@@ -1,0 +1,20 @@
+wait 180
+shot 01_menu
+tap down 6
+wait 20
+tap a 6
+wait 30
+shot 02_controls
+tap b 6
+wait 20
+tap up 6
+wait 20
+tap a 6
+wait 100
+shot 03_stage
+hold right
+wait 150
+shot 04_running
+tap a 20
+wait 26
+shot 05_airborne

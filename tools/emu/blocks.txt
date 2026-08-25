@@ -1,0 +1,39 @@
+# Break the prize block, then stand still and step back into what falls out.
+wait 180
+tap a 6
+wait 90
+hold right
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+release all
+wait 50
+shot a_just_smashed
+hold left
+wait 34
+release all
+wait 50
+shot b_walked_back

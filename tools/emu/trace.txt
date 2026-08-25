@@ -1,0 +1,4 @@
+wait 120
+tap start 6
+wait 90
+shot after_start

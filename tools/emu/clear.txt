@@ -1,0 +1,21 @@
+wait 180
+tap down 6
+wait 20
+tap a 6
+wait 1420
+wait 25
+shot c0
+wait 25
+shot c1
+wait 25
+shot c2
+wait 25
+shot c3
+wait 25
+shot c4
+wait 25
+shot c5
+wait 25
+shot c6
+wait 25
+shot c7

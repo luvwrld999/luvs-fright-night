@@ -1,0 +1,255 @@
+wait 220
+shot 01_title
+wait 20
+reset
+wait 220
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 10
+wait 40
+shot 02_card
+wait 150
+hold right
+wait 120
+shot 03_play_1_1
+wait 180
+shot 04_play_1_1b
+wait 120
+release all
+reset
+wait 220
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 70
+hold right
+wait 140
+shot 05_play_5_1
+wait 160
+shot 06_play_5_1b
+wait 60
+release all
+reset
+wait 220
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 70
+hold right
+wait 150
+shot 07_play_7_1
+wait 150
+release all
+reset
+wait 220
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 70
+hold right
+wait 120
+shot 08_boss_1
+wait 140
+release all
+reset
+wait 220
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap down 8
+wait 14
+tap a 8
+wait 30
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap up 6
+wait 8
+tap a 8
+wait 70
+hold right
+wait 120
+shot 09_boss_hades
+wait 140
+release all

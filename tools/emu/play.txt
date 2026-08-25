@@ -1,0 +1,35 @@
+# First playthrough of World I-1.
+wait 150
+shot 01_title
+tap start 6
+wait 90
+shot 02_stage_open
+hold right
+wait 70
+shot 03_running
+tap a 10
+wait 14
+shot 04_jump_rising
+wait 40
+shot 05_falling
+release all
+wait 40
+shot 06_landed
+hold right
+wait 150
+shot 07_onward
+tap a 12
+wait 30
+shot 08_over_a_gap
+hold right
+wait 200
+shot 09_deeper
+hold a
+wait 40
+shot 10_hovering
+release all
+wait 120
+shot 11_later
+hold right
+wait 300
+shot 12_far

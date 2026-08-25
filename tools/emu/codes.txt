@@ -1,0 +1,76 @@
+wait 220
+tap down 8
+wait 10
+tap down 8
+wait 10
+wait 20
+shot 01_cursor
+tap a 8
+wait 10
+wait 60
+shot 02_code_blank
+tap a 8
+wait 10
+wait 50
+shot 03_code_bad
+wait 90
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap right 8
+wait 10
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap right 8
+wait 10
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap right 8
+wait 10
+tap up 6
+wait 7
+wait 20
+shot 04_code_typed
+tap a 8
+wait 10
+wait 50
+shot 05_code_good
+wait 130
+shot 06_card
+wait 170
+shot 07_playing

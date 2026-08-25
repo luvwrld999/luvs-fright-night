@@ -1,0 +1,20 @@
+# Front end: the new SCORES and CREDITS screens.
+wait 200
+shot 01_menu
+tap down 12
+wait 30
+shot 02_cursor
+tap a 12
+wait 90
+shot 03_scores
+tap b 12
+wait 90
+shot 04_back
+tap down 12
+wait 30
+tap a 12
+wait 90
+shot 05_credits
+tap b 12
+wait 90
+shot 06_menu_again

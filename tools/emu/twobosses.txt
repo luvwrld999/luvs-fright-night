@@ -1,0 +1,1512 @@
+reset
+wait 200
+tap down 6
+wait 10
+tap down 6
+wait 10
+tap a 6
+wait 24
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap a 6
+wait 80
+hold right
+wait 120
+release all
+wait 10
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+shot s8
+reset
+wait 200
+tap down 6
+wait 10
+tap down 6
+wait 10
+tap a 6
+wait 24
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap up 4
+wait 6
+tap a 6
+wait 80
+hold right
+wait 120
+release all
+wait 10
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold left
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+tap a 26
+wait 24
+hold right
+wait 16
+release all
+wait 6
+shot s17

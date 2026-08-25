@@ -1,0 +1,26 @@
+# A walk through every screen the player sees.
+wait 180
+shot 01_menu
+tap down 6
+wait 20
+tap a 6
+wait 40
+shot 02_controls
+tap b 6
+wait 20
+tap up 6
+wait 16
+tap a 6
+wait 50
+shot 03_card
+wait 160
+shot 04_hud
+hold right
+wait 200
+shot 05_playing
+tap start 6
+wait 40
+shot 06_start_pressed
+release all
+wait 60
+shot 07_after

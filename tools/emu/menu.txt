@@ -1,0 +1,160 @@
+# Front end: look at it, walk into CONTROLS and back, then start a game.
+wait 180
+shot 01_menu
+tap down 6
+wait 20
+tap a 6
+wait 30
+shot 02_controls
+tap b 6
+wait 30
+tap up 6
+wait 20
+shot 03_menu_again
+tap a 6
+wait 100
+shot 04_stage_hud
+hold right
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+shot blocks_24
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+shot blocks_30
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+shot blocks_36
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14
+tap a 12
+wait 14

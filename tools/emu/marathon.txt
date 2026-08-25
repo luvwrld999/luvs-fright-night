@@ -1,0 +1,3004 @@
+wait 150
+tap a 6
+wait 60
+hold right
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20
+tap a 20
+wait 20

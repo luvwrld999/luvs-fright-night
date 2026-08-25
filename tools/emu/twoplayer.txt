@@ -1,0 +1,30 @@
+# Two seats, one pad. The fragile build kills whoever is playing every 200
+# frames, so the whole alternation runs without needing a pit.
+wait 220
+tap down 8
+wait 14
+tap a 8
+wait 40
+shot 01_p1_card
+wait 130
+shot 02_p1_world
+wait 200
+shot 03_p1_playing
+wait 200
+shot 04_p1_dies
+wait 120
+shot 05_p2_card
+wait 150
+shot 06_p2_world
+wait 260
+shot 07_p2_playing
+wait 220
+shot 08_back_to_p1
+wait 400
+shot 09_later
+wait 600
+shot 10_later2
+wait 900
+shot 11_later3
+wait 900
+shot 12_end

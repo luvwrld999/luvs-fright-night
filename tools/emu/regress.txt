@@ -1,0 +1,5 @@
+wait 180
+tap down 6
+wait 20
+tap a 6
+wait 60000

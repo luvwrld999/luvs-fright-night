@@ -1,0 +1,5 @@
+# Luv drives himself; the script only has to start the game.
+wait 150
+tap a 6
+wait 60
+wait 60000

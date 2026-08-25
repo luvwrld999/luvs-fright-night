@@ -1,0 +1,21 @@
+# Test build boots straight into name entry.
+wait 120
+shot 01_entry
+tap up 12
+wait 20
+tap up 12
+wait 20
+shot 02_letter
+tap right 12
+wait 20
+tap up 12
+wait 20
+shot 03_second
+tap right 12
+wait 20
+tap down 12
+wait 20
+shot 04_third
+tap a 12
+wait 120
+shot 05_board

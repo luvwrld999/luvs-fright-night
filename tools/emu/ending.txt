@@ -1,0 +1,230 @@
+wait 200
+tap down 6
+wait 10
+tap down 6
+wait 10
+tap a 6
+wait 24
+tap a 6
+wait 200
+hold right
+wait 110
+release all
+wait 10
+tap a 30
+wait 18
+hold right
+wait 20
+release all
+wait 4
+tap a 30
+wait 26
+hold left
+wait 14
+release all
+wait 4
+tap a 18
+wait 26
+hold left
+wait 8
+release all
+wait 4
+tap a 18
+wait 18
+hold right
+wait 8
+release all
+wait 4
+tap a 24
+wait 26
+hold left
+wait 20
+release all
+wait 4
+tap a 18
+wait 10
+hold left
+wait 14
+release all
+wait 4
+tap a 24
+wait 10
+hold right
+wait 8
+release all
+wait 4
+tap a 18
+wait 10
+hold right
+wait 8
+release all
+wait 4
+tap a 18
+wait 10
+hold left
+wait 8
+release all
+wait 4
+tap a 18
+wait 10
+hold left
+wait 14
+release all
+wait 4
+tap a 24
+wait 10
+hold left
+wait 8
+release all
+wait 4
+tap a 30
+wait 10
+hold right
+wait 14
+release all
+wait 4
+tap a 18
+wait 18
+hold right
+wait 8
+release all
+wait 4
+tap a 18
+wait 18
+hold left
+wait 14
+release all
+wait 4
+tap a 24
+wait 26
+hold left
+wait 20
+release all
+wait 4
+tap a 30
+wait 26
+hold right
+wait 8
+release all
+wait 4
+tap a 24
+wait 18
+hold right
+wait 14
+release all
+wait 4
+tap a 30
+wait 18
+hold left
+wait 14
+release all
+wait 4
+tap a 24
+wait 26
+hold left
+wait 8
+release all
+wait 4
+tap a 24
+wait 10
+hold right
+wait 14
+release all
+wait 4
+tap a 18
+wait 26
+hold right
+wait 14
+release all
+wait 4
+tap a 24
+wait 26
+hold left
+wait 14
+release all
+wait 4
+tap a 18
+wait 26
+hold left
+wait 20
+release all
+wait 4
+tap a 18
+wait 10
+hold left
+wait 14
+release all
+wait 4
+tap a 24
+wait 26
+hold right
+wait 20
+release all
+wait 4
+tap a 24
+wait 18
+hold left
+wait 20
+release all
+wait 4
+tap a 30
+wait 18
+hold right
+wait 8
+release all
+wait 4
+tap a 24
+wait 10
+hold left
+wait 14
+release all
+wait 4
+tap a 30
+wait 26
+hold right
+wait 8
+release all
+wait 4
+tap a 24
+wait 18
+hold left
+wait 14
+release all
+wait 4
+tap a 30
+wait 18
+hold right
+wait 8
+release all
+wait 4
+tap a 18
+wait 26
+hold left
+wait 20
+release all
+wait 4
+tap a 30
+wait 18
+hold right
+wait 8
+release all
+wait 4
+release all
+wait 90
+shot end_0
+wait 90
+shot end_1
+wait 90
+shot end_2
+wait 90
+shot end_3
+wait 90
+shot end_4
+wait 90
+shot end_5
+wait 90
+shot end_6
+wait 90
+shot end_7
+wait 90
+shot end_8

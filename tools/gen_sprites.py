@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""
+Build every graphic in the game.
+
+Writes:
+  graphics/*.bmp + *.json   - what Butano/grit compile into the ROM
+  preview/*.png             - 6x contact sheets for human review
+  include/lfn_tiles.h       - metatile slot names shared with the C++ side
+
+Standard library only for the ROM assets; Pillow is used for the previews.
+"""
+
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import art_bosses
+import art_enemies
+import art_items
+import art_luv
+import art_tiles
+import palette as pal
+import preview
+from pixel import Canvas, stack, write_bmp
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+GFX = os.path.join(ROOT, 'graphics')
+PRE = os.path.join(ROOT, 'preview')
+INC = os.path.join(ROOT, 'include')
+
+
+def emit(name, frames, info):
+    """Write one sheet of equally sized frames plus its Butano json."""
+    sheet = stack(frames) if len(frames) > 1 else frames[0]
+    write_bmp(sheet, os.path.join(GFX, name + '.bmp'))
+    with open(os.path.join(GFX, name + '.json'), 'w') as f:
+        json.dump(info, f, indent=4)
+    return sheet
+
+
+def emit_sprite(name, frames):
+    return emit(name, frames, {'type': 'sprite', 'height': frames[0].h})
+
+
+def main():
+    os.makedirs(GFX, exist_ok=True)
+    counts = {}
+
+    # -- shared background palette -----------------------------------------
+    swatch = Canvas(16, 16)
+    for i in range(16):
+        swatch.rect(i, 0, i, 15, i)
+    emit('lfn_palette', [swatch], {'type': 'bg_palette', 'bpp_mode': 'bpp_4',
+                                   'colors_count': 16})
+
+    # -- recoloured text palettes ------------------------------------------
+    # Butano's stock 8x16 font draws its glyphs with colour indices 12 and 14 -
+    # the body and its edge. Recolour exactly those two and the lettering keeps
+    # its shape; flattening the whole palette thickens every letter instead.
+    for name, colour in (('text_gold', pal.GOLD), ('text_mag', pal.MAG),
+                         ('text_green', pal.GREEN), ('text_cyan', pal.CYAN)):
+        swatch = Canvas(8, 8)
+        swatch.rect(0, 0, 7, 7, 1)
+        table = list(pal.RGB)
+        table[12] = pal.RGB[colour]
+        # Index 14 is the glyph's edge. Tinting it a second shade of the same
+        # colour distorts the letterforms, so it becomes a plain dark shadow.
+        table[14] = pal.RGB[pal.INK]
+        write_bmp(swatch, os.path.join(GFX, name + '.bmp'), table)
+
+        with open(os.path.join(GFX, name + '.json'), 'w') as f:
+            json.dump({'type': 'sprite_palette', 'bpp_mode': 'bpp_4',
+                       'colors_count': 16}, f, indent=4)
+
+    # -- Luv ---------------------------------------------------------------
+    luv = art_luv.sheet_frames()
+    emit_sprite('luv', luv)
+    emit_sprite('luv_soul', art_luv.sheet_frames(art_luv.SKIN_SOUL))
+    emit_sprite('luv_aura', art_luv.aura_frames())
+    emit_sprite('luv_wings', art_luv.wing_frames())
+    counts['luv'] = len(luv) + 8
+
+    # -- demons ------------------------------------------------------------
+    enemy_groups = []
+    for name, fn, n in art_enemies.ENEMIES:
+        frames = [fn(i) for i in range(n)]
+        emit_sprite(name, frames)
+        enemy_groups.append((name, [(str(i), f) for i, f in enumerate(frames)]))
+        counts[name] = n
+
+    # -- bosses ------------------------------------------------------------
+    boss_groups = []
+    for name, fn, size, title in art_bosses.BOSSES:
+        frames = [fn(i) for i in range(8)]
+        emit_sprite('boss_' + name, frames)
+        boss_groups.append(('%s  (%s)' % (name, title),
+                            [(art_bosses.POSE_NAMES[i], f) for i, f in enumerate(frames)]))
+        counts['boss_' + name] = 8
+
+    # -- pickups, projectiles, HUD ----------------------------------------
+    item_groups = []
+    for group in (art_items.ITEMS_8, art_items.ITEMS_16, art_items.ITEMS_16x32):
+        for name, fn, n in group:
+            frames = [fn(i) for i in range(n)]
+            emit_sprite(name, frames)
+            item_groups.append((name, [(str(i), f) for i, f in enumerate(frames)]))
+            counts[name] = n
+
+    # -- world tilesets ----------------------------------------------------
+    tile_groups = []
+    for i, world in enumerate(art_tiles.WORLDS):
+        tiles = art_tiles.world_tiles(i)
+        emit('tiles_' + world['key'], tiles,
+             {'type': 'regular_bg_tiles', 'bpp_mode': 'bpp_4'})
+        tile_groups.append(('%s  %s' % (world['title'], world['key']),
+                            [(art_tiles.NAMES[k], t) for k, t in enumerate(tiles)]))
+        counts['tiles_' + world['key']] = len(tiles)
+
+    # -- the metatile vocabulary, shared with the engine -------------------
+    os.makedirs(INC, exist_ok=True)
+    with open(os.path.join(INC, 'lfn_tiles.h'), 'w') as f:
+        f.write('// Generated by tools/gen_sprites.py - do not edit by hand.\n')
+        f.write('#ifndef LFN_TILES_H\n#define LFN_TILES_H\n\n')
+        f.write('namespace lfn::tile\n{\n')
+        f.write('    // A metatile is 16x16, so it owns four 8x8 tiles:\n')
+        f.write('    //   TL = m*4 + 0, TR = m*4 + 1, BL = m*4 + 2, BR = m*4 + 3\n')
+        f.write('    constexpr int size = %d;\n' % art_tiles.T)
+        f.write('    constexpr int count = %d;\n\n' % art_tiles.COUNT)
+        for i, n in enumerate(art_tiles.NAMES):
+            f.write('    constexpr int %s = %d;\n' % (n, i))
+        f.write('\n    constexpr const char* world_keys[] = {\n')
+        for w in art_tiles.WORLDS:
+            f.write('        "%s",\n' % w['key'])
+        f.write('    };\n}\n\n#endif\n')
+
+    # -- contact sheets ----------------------------------------------------
+    preview.contact_sheet(
+        os.path.join(PRE, '01_luv.png'), "LUV'S FRIGHT NIGHT - Luv",
+        [('Luv - 16x32, one sheet drives every state',
+          list(zip(art_luv.FRAME_NAMES, luv))),
+         ('Purple Soul - carrying an extra hit',
+          list(zip(art_luv.FRAME_NAMES, art_luv.sheet_frames(art_luv.SKIN_SOUL)))),
+         ('Blessed Halo aura (drawn behind Luv)',
+          [(str(i), f) for i, f in enumerate(art_luv.aura_frames())]),
+         ('Wisp Wings overlay (mirrored for the other side)',
+          [(str(i), f) for i, f in enumerate(art_luv.wing_frames())])],
+        scale=6)
+    preview.contact_sheet(os.path.join(PRE, '02_demons.png'),
+                          "LUV'S FRIGHT NIGHT - demons (they all wear stolen halos)",
+                          enemy_groups, scale=6)
+    preview.contact_sheet(os.path.join(PRE, '03_bosses_1.png'),
+                          "LUV'S FRIGHT NIGHT - the sins I-IV", boss_groups[:4], scale=5)
+    preview.contact_sheet(os.path.join(PRE, '04_bosses_2.png'),
+                          "LUV'S FRIGHT NIGHT - the sins V-VII and Hades",
+                          boss_groups[4:], scale=5)
+    preview.contact_sheet(os.path.join(PRE, '05_pickups.png'),
+                          "LUV'S FRIGHT NIGHT - power-ups, pickups and HUD",
+                          item_groups, scale=6)
+    preview.contact_sheet(os.path.join(PRE, '06_tilesets.png'),
+                          "LUV'S FRIGHT NIGHT - the eight worlds",
+                          tile_groups, scale=4, columns=16)
+
+    total = sum(counts.values())
+    print('graphics written to graphics/  (%d frames across %d items)'
+          % (total, len(counts)))
+    print('previews written to preview/')
+
+
+if __name__ == '__main__':
+    main()
