@@ -14,6 +14,7 @@
 
 #include "bn_sprite_items_luv.h"
 #include "bn_sprite_items_soul_orb.h"
+#include "bn_sprite_palette_items_text_cyan.h"
 #include "bn_sprite_palette_items_text_gold.h"
 #include "bn_sprite_palette_items_text_mag.h"
 
@@ -30,7 +31,7 @@ namespace lfn
 {
     namespace
     {
-        enum class screen : uint8_t { main, stages, extras, controls };
+        enum class screen : uint8_t { main, stages, extras, confirm, controls };
 
         constexpr int stage_rows = 5;
         constexpr int drifters = 5;
@@ -135,6 +136,7 @@ namespace lfn
         extras.push_back({"CREDITS", 5});
         extras.push_back({"CONTROLS", 3});
         int extra_pick = 0;
+        int erase_pick = 0;     // starts on NO: erasing should take two decisions
 
         // Test builds can reach the hidden rooms from stage select; the
         // shipping game only ever lists the story.
@@ -188,6 +190,25 @@ namespace lfn
                     text.generate(0, 66, bn::format<24>("BEST {}",
                                   zero_pad(int(save::best(file)), 6)), sprites);
                     tint(sprites, mark, bn::sprite_palette_items::text_gold);
+                }
+                else if(where == screen::confirm)
+                {
+                    text.generate(0, -60, "START AGAIN?", sprites);
+                    tint(sprites, 0, bn::sprite_palette_items::text_gold);
+
+                    int mark = sprites.size();
+                    text.generate(0, -34, "THIS ERASES THE RUN", sprites);
+                    text.generate(0, -18, "SAVED ON THE CARTRIDGE", sprites);
+                    tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+
+                    text.set_left_alignment();
+                    text.generate(-40, 14, "NO, GO BACK", sprites);
+                    text.generate(-40, 38, "YES, ERASE IT", sprites);
+
+                    text.set_center_alignment();
+                    mark = sprites.size();
+                    text.generate(0, 68, "HIGH SCORES ARE KEPT", sprites);
+                    tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 }
                 else if(where == screen::extras)
                 {
@@ -260,6 +281,11 @@ namespace lfn
                 cursor.set_visible(true);
                 cursor.set_position(-58, -24 + (extra_pick * 20) + bob);
             }
+            else if(where == screen::confirm)
+            {
+                cursor.set_visible(true);
+                cursor.set_position(-58, 16 + (erase_pick * 24) + bob);
+            }
             else if(where == screen::stages)
             {
                 cursor.set_visible(true);
@@ -323,12 +349,24 @@ namespace lfn
 
                     if(action == 1)
                     {
-                        save::wipe();
-                        file = save::load();
-                        result.level_index = 0;
-                        release();
-                        return result;
+                        if(has_save)
+                        {
+                            // There is a run on the cartridge. Erasing it
+                            // should never be one button press away.
+                            where = screen::confirm;
+                            erase_pick = 0;
+                            dirty = true;
+                        }
+                        else
+                        {
+                            save::wipe();
+                            file = save::load();
+                            result.level_index = 0;
+                            release();
+                            return result;
+                        }
                     }
+                    else
 
                     if(action == 6)
                     {
@@ -373,6 +411,39 @@ namespace lfn
                         extra_pick = 0;
                     }
 
+                    dirty = true;
+                }
+            }
+            else if(where == screen::confirm)
+            {
+                if(bn::keypad::up_pressed() || bn::keypad::down_pressed())
+                {
+                    erase_pick ^= 1;
+                    audio::sfx_menu();
+                }
+
+                if(bn::keypad::a_pressed() || bn::keypad::start_pressed())
+                {
+                    audio::sfx_menu();
+
+                    if(erase_pick == 1)
+                    {
+                        save::wipe();
+                        file = save::load();
+                        result.level_index = 0;
+                        result.run.lives = tune::start_lives;
+                        release();
+                        return result;
+                    }
+
+                    where = screen::main;
+                    dirty = true;
+                }
+
+                if(bn::keypad::b_pressed())
+                {
+                    where = screen::main;
+                    audio::sfx_menu();
                     dirty = true;
                 }
             }

@@ -45,6 +45,8 @@ namespace lfn
         game(int level_index, const run_state& carried, bn::sprite_text_generator& text,
              int player = 0, bool hand_off = false);
 
+        ~game();
+
         game_result update();
 
         [[nodiscard]] const run_state& carried() const { return _run; }

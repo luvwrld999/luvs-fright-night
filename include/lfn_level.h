@@ -38,6 +38,8 @@ namespace lfn
         void unload();
 
         [[nodiscard]] const level_data& data() const { return *_data; }
+        /** The background the stage draws with, for windowing and effects. */
+        [[nodiscard]] const bn::regular_bg_ptr& bg() const { return *_bg; }
         [[nodiscard]] int columns() const { return _data->columns; }
         [[nodiscard]] int pixel_width() const { return _data->columns * tune::tile; }
         [[nodiscard]] int pixel_height() const { return level_rows * tune::tile; }

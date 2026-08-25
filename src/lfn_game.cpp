@@ -1,5 +1,8 @@
 #include "lfn_game.h"
 
+#include "bn_rect_window.h"
+#include "bn_window.h"
+
 #include "bn_format.h"
 #include "bn_keypad.h"
 #include "bn_sprite_tiles.h"
@@ -110,7 +113,22 @@ namespace lfn
         _refresh_hud();
         _follow_camera();
 
+        // Cut the level out of the top strip so the status row always reads
+        // against the dark backdrop instead of whatever the stage happens to
+        // have up there. A ceiling in a low room used to run straight through
+        // the score.
+        bn::rect_window bar = bn::rect_window::internal();
+        bar.set_boundaries(-80, -120, -65, 120);
+        bar.set_show_bg(_level.bg(), false);
+
         audio::play_music(data.music);
+    }
+
+    game::~game()
+    {
+        // The window is hardware state and outlives this object; menus and
+        // cards must not inherit a black bar across their titles.
+        bn::rect_window::internal().set_show_all();
     }
 
     void game::_say(const char* line, int bonus)
