@@ -1,0 +1,11 @@
+wait 120
+tap start 8
+wait 60
+tap down 8
+wait 16
+tap a 8
+wait 90
+shot 01_files
+tap down 8
+wait 20
+shot 02_second

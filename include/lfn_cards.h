@@ -55,6 +55,9 @@ namespace lfn
     int enter_initials(bn::sprite_text_generator& text, save::file& file, int score,
                        int player = 0, save::board which = save::board::story);
 
+    /** Who Luv is and why he is going down. Once, at the top of a run. */
+    void show_opening(bn::sprite_text_generator& text);
+
     /** What the sin has to say, once, on the way into its world. */
     void show_world_story(bn::sprite_text_generator& text, int world);
 

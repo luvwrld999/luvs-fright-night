@@ -52,15 +52,22 @@ def _body(c, top, head_cy, bot, halfw, wave_phase, wave_amp, flare, color):
 
 
 def _horn(c, path, color):
-    """Tapered devil horn: a continuous stroke, thick at the base, sharp at the tip."""
+    """
+    Tapered devil horn: a continuous stroke, thick at the base, sharp at the
+    tip.
+
+    Wider than it looks like it needs to be on paper. At 16 pixels a horn that
+    tapers below one pixel simply is not there, and these were drawn behind the
+    body as well - half the character brief was invisible on screen.
+    """
     total = len(path) - 1
     for i in range(total):
         (ax, ay), (bx, by) = path[i], path[i + 1]
-        steps = 8
+        steps = 10
         for k in range(steps + 1):
             t = k / float(steps)
             seg = (i + t) / float(total)
-            r = 0.72 * (1.0 - seg) + 0.32
+            r = 1.15 * (1.0 - seg) + 0.45
             c.disc(ax + (bx - ax) * t, ay + (by - ay) * t, r, color)
 
 
@@ -153,16 +160,18 @@ def frame(bob=0.0, halo_bob=0.0, tail_phase=0.0, wave_phase=0.0,
     if halo:
         _halo(c, max(1.4, top - 5.0 + halo_bob), halo_color)
 
-    if horns:
-        hy = top - 2.4
-        _horn(c, [(5.7, hy + 5.0), (4.9, hy + 3.2), (4.3, hy + 1.4), (4.0, hy + 0.4)], horn_color)
-        _horn(c, [(10.3, hy + 5.0), (11.1, hy + 3.2), (11.7, hy + 1.4), (12.0, hy + 0.4)], horn_color)
-        # The skin's own ink, not the default: on the Purple Soul sheet the
-        # body was outlined lime while the horns and tail kept the dark ghost
-        # outline, so the tail read as a separate, unlit thing.
-        c.outline(skin['ink'])
-
     _body(c, top, head_cy, bot, halfw, wave_phase, 1.7, 0.012, body_color)
+
+    if horns:
+        # Drawn after the body, not before it. They used to go down first and
+        # the body painted over their bases, leaving two red specks tucked
+        # behind the halo. They now sweep outward and finish just under the
+        # halo, where there is clear air to read against.
+        hy = top - 1.5
+        _horn(c, [(5.6, hy + 5.5), (4.6, hy + 3.0), (3.6, hy + 1.0),
+                  (2.9, hy - 0.2)], horn_color)
+        _horn(c, [(10.4, hy + 5.5), (11.4, hy + 3.0), (12.4, hy + 1.0),
+                  (13.1, hy - 0.2)], horn_color)
 
     if tail:
         t = Canvas(W, H)

@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import art_bosses
 import art_enemies
 import art_items
+import art_logo
 import art_luv
 import art_tiles
 import palette as pal
@@ -79,6 +80,10 @@ def main():
         with open(os.path.join(GFX, name + '.json'), 'w') as f:
             json.dump({'type': 'sprite_palette', 'bpp_mode': 'bpp_4',
                        'colors_count': 16}, f, indent=4)
+
+    # -- title wordmark ----------------------------------------------------
+    emit_sprite('logo', art_logo.halves())
+    counts['logo'] = 2
 
     # -- Luv ---------------------------------------------------------------
     luv = art_luv.sheet_frames()

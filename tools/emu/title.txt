@@ -1,0 +1,12 @@
+wait 30
+shot 01_drop
+wait 40
+shot 02_settled
+wait 60
+shot 03_press_start
+tap start 8
+wait 60
+shot 04_menu
+tap down 8
+wait 20
+shot 05_cursor

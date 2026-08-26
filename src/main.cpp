@@ -150,6 +150,14 @@ int main()
             seats[i].index = picked.level_index;
         }
 
+        // A run that starts at the top gets the opening once. Stage select,
+        // a level code and the boss rush all skip it - they are not the
+        // beginning of anything.
+        if(!picked.boss_rush && picked.level_index == 0)
+        {
+            lfn::show_opening(text);
+        }
+
         int turn = 0;
         int rush_step = 0;
         // The first turn of a two-player game gets its own card too, so the

@@ -15,6 +15,23 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import level_kit as K
 
+
+class Rng:
+    """
+    A small deterministic generator.
+
+    Deliberately not `random`: the levels have to come out identical on every
+    machine and every run, or the golden screenshots and the balance figures
+    mean nothing.
+    """
+
+    def __init__(self, seed):
+        self.s = (seed * 2654435761) & 0x7FFFFFFF or 1
+
+    def next(self, n):
+        self.s = (self.s * 1103515245 + 12345) & 0x7FFFFFFF
+        return self.s % max(n, 1)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'levels')
 
@@ -127,6 +144,9 @@ class Builder:
         # while what the player actually feels - how much arrives per screen -
         # still climbs, whichever shape a stage happens to use.
         self.comp = stretch / weight
+        self.world = world
+        self.index = index
+        self.stretch = stretch
         self.lv = K.Level(key, name, world, width=4096, music=music,
                           background=bg)
         self.x = 0
@@ -483,9 +503,79 @@ class Builder:
 
         return self
 
+    def place_checkpoints(self):
+        """
+        One checkpoint about two fifths in, and a second for a long stage.
+
+        Placed by position rather than by beat: beat order is shuffled per
+        stage now, so a checkpoint written into a shape could land anywhere.
+        A stage over twelve screens gets two, because one mistake should not
+        cost ten screens of walking.
+        """
+        marks = [0.42] if self.x <= 180 else [0.34, 0.68]
+
+        for share in marks:
+            target = int(self.x * share)
+
+            for dx in range(0, 20):
+                for x in (target + dx, target - dx):
+                    if not (4 <= x < self.x - 6):
+                        continue
+
+                    surface = None
+
+                    for y in range(K.ROWS - 1, 1, -1):
+                        if self.lv.g[y][x] in self.SOLID and self._open(x, y - 1):
+                            surface = y
+                            break
+
+                    if surface is None or surface < 4:
+                        continue
+
+                    if self._open(x, surface - 1) and self._open(x, surface - 2):
+                        self.lv.entity(K.CHECKPOINT, x, surface - 2)
+                        break
+                else:
+                    continue
+
+                break
+
+        return self
+
+    FREE_POWERS = (K.PU_FLAME, K.PU_SOUL, K.PU_DASH, K.PU_WINGS)
+
+    def ensure_power_up(self, which=K.PU_FLAME):
+        """
+        Guarantee one power-up standing in the open.
+
+        The beats that carry them can be dropped by the length cap, and a stage
+        where every power-up is sealed inside a breakable block is a stage most
+        players never see one in.
+        """
+        for row in self.lv.g:
+            for ch in row[:self.x]:
+                if ch in self.FREE_POWERS:
+                    return self
+
+        for x in range(10, min(self.x - 8, 60)):
+            surface = None
+
+            for y in range(K.ROWS - 1, 1, -1):
+                if self.lv.g[y][x] in self.SOLID and self._open(x, y - 1):
+                    surface = y
+                    break
+
+            if surface and self._open(x, surface - 1) and self._open(x, surface - 2):
+                self.lv.entity(which, x, surface - 2)
+                break
+
+        return self
+
     def finish(self):
         self.lv.entity(K.EXIT, self.x - 4, K.FLOOR - 2)
         self.lv.width = self.x
+        self.ensure_power_up()
+        self.place_checkpoints()
         self.scatter_bonus()
         self.lv.g = [row[:self.x] for row in self.lv.g]
         return self.lv
@@ -494,139 +584,178 @@ class Builder:
 # ---------------------------------------------------------------------------
 # Six stage shapes. A stage is one of these, so the two halves of a world play
 # differently from each other and from the world before.
-def _march(b):
+# ---------------------------------------------------------------------------
+# Seven stage shapes. A shape is a list of beats rather than a fixed script:
+# the driver keeps the opening and the closing where they are and shuffles what
+# is between them, so two stages built from the same shape are not the same
+# level with different enemy counts. Checkpoints are not in here - they are
+# placed by position once the stage's real length is known.
+def _march():
     """Open ground: enemies, a block row overhead, a couple of honest gaps."""
-    b.flat(10).start()
-    b.soul_arc(12, count=5)
-    b.flat(6).pickup(K.PU_FLAME)
-    b.enemies(12, count=b.scale(1, 2))
-    b.overhead(11, breakables=3, prize=K.PU_SOUL)
-    b.gap(b.span(3, 3))
-    b.enemies(13, count=b.scale(2, 2))
-    b.flat(6, souls=2).checkpoint()
-    b.overhead(11, breakables=4, prize=K.PU_FLAME)
-    b.enemies(13, kind=b.e2, count=b.scale(1, 3))
-    b.gap(b.span(3, 4))
-    b.enemies(12, count=b.scale(1, 2))
-    b.flat(7, souls=3).pickup(K.PU_DASH)
-    b.flat(9)
-    return b
+    return [
+        lambda b: b.flat(10).start(),
+        lambda b: b.soul_arc(12, count=5),
+        lambda b: b.flat(6).pickup(K.PU_FLAME),
+        lambda b: b.enemies(12, count=b.scale(1, 2)),
+        lambda b: b.overhead(11, breakables=3, prize=K.PU_SOUL),
+        lambda b: b.gap(b.span(3, 3)),
+        lambda b: b.enemies(13, count=b.scale(2, 2)),
+        lambda b: b.flat(6, souls=2),
+        lambda b: b.overhead(11, breakables=4, prize=K.PU_FLAME),
+        lambda b: b.enemies(13, kind=b.e2, count=b.scale(1, 3)),
+        lambda b: b.gap(b.span(3, 4)),
+        lambda b: b.enemies(12, count=b.scale(1, 2)),
+        lambda b: b.flat(7, souls=3).pickup(K.PU_DASH),
+        lambda b: b.flat(9),
+    ]
 
 
-def _ledges(b):
+def _ledges():
     """Stepped terrain: climb, drop, and mind the edges."""
-    b.flat(9).start()
-    b.soul_arc(12, count=5)
-    b.flat(6).pickup(K.PU_SOUL)
-    b.rise(3)
-    b.enemies(10, count=b.scale(1, 2))
-    b.drop(3)
-    b.gap(b.span(3, 3))
-    b.enemies(11, kind=b.e2, count=b.scale(1, 2))
-    b.flat(5).checkpoint().pickup(K.PU_SOUL)
-    b.rise(3)
-    b.overhead(10, breakables=3, prize=K.ONE_UP)
-    b.drop(2)
-    b.enemies(12, count=b.scale(2, 2))
-    b.gap(b.span(3, 4))
-    b.rise(2)
-    b.enemies(10, count=b.scale(1, 2))
-    b.flat(8, souls=3).pickup(K.PU_WINGS)
-    b.flat(8)
-    return b
+    return [
+        lambda b: b.flat(9).start(),
+        lambda b: b.soul_arc(12, count=5),
+        lambda b: b.flat(6).pickup(K.PU_SOUL),
+        lambda b: b.rise(3),
+        lambda b: b.enemies(10, count=b.scale(1, 2)),
+        lambda b: b.drop(3),
+        lambda b: b.gap(b.span(3, 3)),
+        lambda b: b.enemies(11, kind=b.e2, count=b.scale(1, 2)),
+        lambda b: b.flat(5).pickup(K.PU_SOUL),
+        lambda b: b.rise(3),
+        lambda b: b.overhead(10, breakables=3, prize=K.ONE_UP),
+        lambda b: b.drop(2),
+        lambda b: b.enemies(12, count=b.scale(2, 2)),
+        lambda b: b.gap(b.span(3, 4)),
+        lambda b: b.rise(2),
+        lambda b: b.enemies(10, count=b.scale(1, 2)),
+        lambda b: b.flat(8, souls=3).pickup(K.PU_WINGS),
+        lambda b: b.flat(8),
+    ]
 
 
-def _hall(b):
+def _hall():
     """
     Pillared halls, things in the air, and spikes underfoot.
 
     The opening stage of the game, so it has to teach without punishing: the
-    variety here is in the shape of the ground and what is built on it, not in
-    what is trying to kill you. Every beat is a different thing to look at -
-    a hall, a staircase to climb, a shelf worth the detour, a low corridor, a
-    hill, a stagger of breakables - rather than the same flat run repeated.
+    variety is in the shape of the ground and what is built on it, not in what
+    is trying to kill you.
     """
-    b.flat(7).start()
-    b.soul_arc(12, count=5)
-    b.flat(6).pickup(K.PU_FLAME)
-    b.hall(14)
-    b.stair(3, 3, up=True)
-    b.shelf(9, height=3, souls=2)
-    b.stair(3, 3, up=False)
-    b.spikes(9, patch=b.span(1, 2))
-    b.enemies(11, count=b.scale(1, 2))
-    b.arches(14, count=3, prize=K.PU_SOUL)
-    b.flat(5).checkpoint()
-    b.ceiling(12, enemies=0)
-    b.rise(2, 3)
-    b.hall(14)
-    b.shelf(10, height=4, souls=3)
-    b.overhead(10, breakables=3, prize=K.PU_FLAME)
-    b.drop(2, 4)
-    b.stair(2, 3, up=True)
-    b.spikes(10, patch=b.span(2, 2))
-    b.enemies(12, kind=b.e2, count=b.scale(2, 3))
-    b.gap(b.span(3, 3))
-    b.arches(12, count=2)
-    b.flat(8, souls=3)
-    b.flat(7)
-    return b
+    return [
+        lambda b: b.flat(7).start(),
+        lambda b: b.soul_arc(12, count=5),
+        lambda b: b.flat(6).pickup(K.PU_FLAME),
+        lambda b: b.hall(14),
+        lambda b: b.stair(3, 3, up=True),
+        lambda b: b.shelf(9, height=3, souls=2),
+        lambda b: b.stair(3, 3, up=False),
+        lambda b: b.spikes(9, patch=b.span(1, 2)),
+        lambda b: b.enemies(11, count=b.scale(1, 2)),
+        lambda b: b.arches(14, count=3, prize=K.PU_SOUL),
+        lambda b: b.ceiling(12, enemies=0),
+        lambda b: b.rise(2, 3),
+        lambda b: b.hall(14),
+        lambda b: b.shelf(10, height=4, souls=3),
+        lambda b: b.overhead(10, breakables=3, prize=K.PU_FLAME),
+        lambda b: b.drop(2, 4),
+        lambda b: b.stair(2, 3, up=True),
+        lambda b: b.spikes(10, patch=b.span(2, 2)),
+        lambda b: b.enemies(12, kind=b.e2, count=b.scale(2, 3)),
+        lambda b: b.gap(b.span(3, 3)),
+        lambda b: b.arches(12, count=2),
+        lambda b: b.flat(8, souls=3),
+        lambda b: b.flat(7),
+    ]
 
 
-def _crossing(b):
+def _crossing():
     """Mostly air: stepping stones and long gaps over whatever is below."""
-    b.flat(9).start()
-    b.enemies(10, count=b.scale(1, 1))
-    b.stepping(2)
-    b.flat(6).pickup(K.PU_SOUL)
-    b.gap(b.span(3, 4))
-    b.stepping(b.span(2, 1))
-    b.flat(6, souls=2).checkpoint()
-    b.enemies(11, kind=b.e2, count=b.scale(1, 2))
-    b.stepping(b.span(2, 2))
-    b.overhead(10, breakables=3, prize=K.PU_WINGS)
-    b.gap(b.span(4, 4))
-    b.enemies(11, count=b.scale(1, 3))
-    b.flat(7, souls=3).pickup(K.PU_FLAME)
-    b.flat(8)
-    return b
+    return [
+        lambda b: b.flat(9).start(),
+        lambda b: b.enemies(10, count=b.scale(1, 1)),
+        lambda b: b.stepping(2),
+        lambda b: b.flat(6).pickup(K.PU_SOUL),
+        lambda b: b.gap(b.span(3, 4)),
+        lambda b: b.stepping(b.span(2, 1)),
+        lambda b: b.flat(6, souls=2),
+        lambda b: b.enemies(11, kind=b.e2, count=b.scale(1, 2)),
+        lambda b: b.stepping(b.span(2, 2)),
+        lambda b: b.overhead(10, breakables=3, prize=K.PU_WINGS),
+        lambda b: b.gap(b.span(4, 4)),
+        lambda b: b.enemies(11, count=b.scale(1, 3)),
+        lambda b: b.flat(7, souls=3).pickup(K.PU_FLAME),
+        lambda b: b.flat(8),
+    ]
 
 
-def _cellar(b):
+def _cellar():
     """Low ceilings and close quarters - nowhere to jump out of trouble."""
-    b.flat(9).start()
-    b.ceiling(12, enemies=b.scale(1, 1))
-    b.enemies(10, count=b.scale(1, 2))
-    b.ceiling(13, enemies=b.scale(1, 2))
-    b.flat(5).checkpoint().pickup(K.PU_SOUL)
-    b.spikes(9, patch=b.span(1, 2))
-    b.ceiling(13, enemies=b.scale(1, 3))
-    b.overhead(10, breakables=4, prize=K.PU_DASH)
-    b.enemies(12, kind=b.e2, count=b.scale(1, 3))
-    b.gap(b.span(3, 3))
-    b.ceiling(12, enemies=b.scale(1, 2))
-    b.flat(8, souls=3).pickup(K.ONE_UP)
-    b.flat(8)
-    return b
+    return [
+        lambda b: b.flat(9).start(),
+        lambda b: b.ceiling(12, enemies=b.scale(1, 1)),
+        lambda b: b.enemies(10, count=b.scale(1, 2)),
+        lambda b: b.ceiling(13, enemies=b.scale(1, 2)),
+        lambda b: b.flat(5).pickup(K.PU_SOUL),
+        lambda b: b.spikes(9, patch=b.span(1, 2)),
+        lambda b: b.ceiling(13, enemies=b.scale(1, 3)),
+        lambda b: b.overhead(10, breakables=4, prize=K.PU_DASH),
+        lambda b: b.enemies(12, kind=b.e2, count=b.scale(1, 3)),
+        lambda b: b.gap(b.span(3, 3)),
+        lambda b: b.ceiling(12, enemies=b.scale(1, 2)),
+        lambda b: b.flat(8, souls=3).pickup(K.ONE_UP),
+        lambda b: b.flat(8),
+    ]
 
 
-def _ascent(b):
+def _ascent():
     """Climb: every beat gains height, and the exit is at the top."""
-    b.flat(9).start()
-    b.enemies(10, count=b.scale(1, 2))
-    b.rise(2)
-    b.stepping(2)
-    b.rise(2)
-    b.flat(6).checkpoint().pickup(K.PU_SOUL)
-    b.enemies(11, kind=b.e2, count=b.scale(1, 2))
-    b.rise(2)
-    b.overhead(10, breakables=3, prize=K.PU_WINGS)
-    b.stepping(b.span(2, 1))
-    b.enemies(11, count=b.scale(1, 3))
-    b.rise(3)
-    b.flat(7, souls=3).pickup(K.PU_FLAME)
-    b.flat(9)
-    return b
+    return [
+        lambda b: b.flat(9).start(),
+        lambda b: b.enemies(10, count=b.scale(1, 2)),
+        lambda b: b.rise(2),
+        lambda b: b.stepping(2),
+        lambda b: b.rise(2),
+        lambda b: b.flat(6).pickup(K.PU_SOUL),
+        lambda b: b.enemies(11, kind=b.e2, count=b.scale(1, 2)),
+        lambda b: b.rise(2),
+        lambda b: b.overhead(10, breakables=3, prize=K.PU_WINGS),
+        lambda b: b.stepping(b.span(2, 1)),
+        lambda b: b.enemies(11, count=b.scale(1, 3)),
+        lambda b: b.rise(3),
+        lambda b: b.flat(7, souls=3).pickup(K.PU_FLAME),
+        lambda b: b.flat(9),
+    ]
+
+
+def _descent():
+    """
+    Down and down again: deep valleys with the floor dropping away between
+    them, which is what the game is about and what nothing else here does.
+
+    A true vertical stage is not possible with the current data - a level is
+    sixteen rows and the screen is ten of them, so there is about one screen of
+    vertical travel to play with. This gets the feeling out of that budget by
+    going down repeatedly rather than once.
+    """
+    return [
+        lambda b: b.flat(9).start(),
+        lambda b: b.soul_arc(12, count=5),
+        lambda b: b.drop(3, 4),
+        lambda b: b.enemies(11, count=b.scale(1, 2)),
+        lambda b: b.stepping(b.span(2, 1)),
+        lambda b: b.drop(3, 3),
+        lambda b: b.flat(6).pickup(K.PU_WINGS),
+        lambda b: b.gap(b.span(3, 3)),
+        lambda b: b.drop(2, 5),
+        lambda b: b.enemies(12, kind=b.e2, count=b.scale(1, 3)),
+        lambda b: b.shelf(10, height=4, souls=3),
+        lambda b: b.drop(3, 4),
+        lambda b: b.overhead(10, breakables=3, prize=K.PU_DASH),
+        lambda b: b.enemies(11, count=b.scale(1, 2)),
+        lambda b: b.flat(7, souls=3),
+        lambda b: b.flat(8),
+    ]
 
 
 # Each shape, and how busy it is by nature. The weights come from measuring
@@ -638,7 +767,99 @@ SHAPES = {
     'crossing': (_crossing, 1.15),
     'cellar':   (_cellar,   1.22),
     'ascent':   (_ascent,   0.85),
+    'descent':  (_descent,  1.05),
 }
+
+# No stage is longer than this once built. The solver used to raise enemy
+# counts until the pressure target was met, and enemies() widens a beat to fit
+# them, so the busiest stages grew to nineteen screens - with one checkpoint
+# that is ten screens of replay for one mistake.
+MAX_COLUMNS = 190
+
+
+def _threatens(beat, world, index, stretch):
+    """
+    Does this beat put anything dangerous on the ground?
+
+    Measured by running the beat on its own rather than by tagging it by hand,
+    so a beat that gains an enemy later cannot quietly become a beat the
+    opening stretch still thinks is safe.
+    """
+    probe = Builder('probe', 'x', world, index, weight=1.0, stretch=stretch)
+    beat(probe)
+
+    for y in range(K.ROWS):
+        for x in range(probe.x):
+            ch = probe.lv.g[y][x]
+
+            if ch in ('i', 'c', 'g', 'w', 'v', 'f') or ch in (K.SPIKE, K.LAVA):
+                return True
+
+    # A hole counts too: walking into one is the fastest way to lose a life.
+    for x in range(probe.x):
+        if not any(probe.lv.g[y][x] in (K.GROUND, K.FILL)
+                   for y in range(K.FLOOR, K.ROWS)):
+            return True
+
+    return False
+
+
+def run_shape(shape, b, seed, cap=None):
+    """
+    Play a shape's beats into a builder, shuffling the middle.
+
+    The opening beat sets the player down and the last two close the stage out,
+    so those stay put. Everything between them is dealt in a seeded order, and
+    that is what stops the four stages built from `crossing` being the same
+    level three times over.
+
+    `cap` bounds the finished width. Since the order is already shuffled,
+    stopping early drops a different subset of beats for every stage rather
+    than always trimming the same tail - the stage gets shorter without
+    becoming the first half of itself.
+    """
+    beats = shape()
+    head, tail = beats[:1], beats[-2:]
+    middle = beats[1:-2]
+
+    rng = Rng(seed * 31 + 7)
+
+    for i in range(len(middle) - 1, 0, -1):
+        j = rng.next(i + 1)
+        middle[i], middle[j] = middle[j], middle[i]
+
+    # Shuffling threw away the runway the authored order gave the player: World
+    # 1-1 came out with spikes twenty-two columns from the spawn and 3-1 with a
+    # hazard six columns in. The opening stretch is refilled with beats that
+    # carry nothing dangerous, and how much of it a world gets falls away as
+    # the game goes on.
+    runway = max(0, 3 - (b.world // 2))
+
+    if runway:
+        gentle, sharp = [], []
+
+        for beat in middle:
+            (sharp if _threatens(beat, b.world, b.index, b.stretch)
+             else gentle).append(beat)
+
+        middle = gentle[:runway] + sharp + gentle[runway:]
+
+    for beat in head:
+        beat(b)
+
+    # Room for the two closing beats, which always run.
+    budget = (cap - 24) if cap else None
+
+    for beat in middle:
+        if budget is not None and b.x >= budget:
+            break
+
+        beat(b)
+
+    for beat in tail:
+        beat(b)
+
+    return b
 
 # One shape per stage, arranged so the two halves of a world contrast and no
 # shape repeats back to back.
@@ -648,9 +869,9 @@ SHAPE_ORDER = [
     'hall',     'ascent',       # I
     'hall',     'ledges',       # II
     'ascent',   'march',        # III
-    'ledges',   'crossing',     # IV
+    'ledges',   'descent',      # IV
     'march',    'crossing',     # V
-    'ledges',   'cellar',       # VI
+    'descent',  'cellar',       # VI
     'crossing', 'cellar',       # VII
     'crossing', 'cellar',       # VIII
 ]
@@ -682,7 +903,7 @@ def world_levels(world, names):
         for _ in range(24):
             probe = Builder('probe', names[half], world, index, weight=1.0,
                             stretch=stretch)
-            shape(probe)
+            run_shape(shape, probe, index, MAX_COLUMNS)
             got = measured_pressure(probe.lv, probe.x)
             err = abs(got - want)
 
@@ -697,9 +918,13 @@ def world_levels(world, names):
             stretch *= 1.0 + 0.6 * ((want - got) / max(want, 0.1))
             stretch = min(max(stretch, 0.2), 6.0)
 
+        # If nothing fitted the length cap, take the tightest thing tried.
+        if best is None:
+            best = 0.2
+
         b = Builder('w%d_%d' % (world + 1, half + 1), names[half], world, index,
                     weight=1.0, stretch=best)
-        shape(b)
+        run_shape(shape, b, index, MAX_COLUMNS)
 
         if index in SECRET_DOORS:
             b.secret_door()

@@ -56,6 +56,16 @@ def case(name):
     return wrap
 
 
+def boot():
+    """
+    Past the title gate and onto the menu.
+
+    The front end holds on the wordmark until START, once per boot, so every
+    case has to get through that before it can drive anything.
+    """
+    return ['wait 140'] + tap('start') + ['wait 70']
+
+
 def tap(key, times=1, hold=8, gap=11):
     out = []
 
@@ -68,15 +78,15 @@ def tap(key, times=1, hold=8, gap=11):
 
 @case('menu')
 def _menu():
-    """The front end, and the reveal that opens it."""
-    return (['wait 60', 'shot 01_reveal', 'wait 40', 'shot 02_reveal_late',
-             'wait 150', 'shot 03_menu'])
+    """The title gate, the wordmark, and the menu behind it."""
+    return (['wait 40', 'shot 01_logo_drop', 'wait 60', 'shot 02_press_start']
+            + tap('start') + ['wait 70', 'shot 03_menu'])
 
 
 @case('extras')
 def _extras():
     """Every screen behind EXTRAS."""
-    out = ['wait 240'] + tap('down', 3) + ['wait 16'] + tap('a')
+    out = boot() + tap('down', 3) + ['wait 16'] + tap('a')
     out += ['wait 70', 'shot 01_extras']
     out += tap('a') + ['wait 100', 'shot 02_scores']
     out += tap('a') + ['wait 90', 'shot 03_rush_board']
@@ -87,7 +97,7 @@ def _extras():
 
 @case('credits')
 def _credits():
-    out = ['wait 240'] + tap('down', 3) + ['wait 16'] + tap('a') + ['wait 70']
+    out = boot() + tap('down', 3) + ['wait 16'] + tap('a') + ['wait 70']
     out += tap('down', 4) + ['wait 16'] + tap('a') + ['wait 90', 'shot 01_credits']
     return out
 
@@ -95,25 +105,27 @@ def _credits():
 @case('files')
 def _files():
     """New game asks which of the three cartridge files to use."""
-    out = ['wait 240'] + tap('a') + ['wait 80', 'shot 01_files']
+    out = boot() + tap('a') + ['wait 80', 'shot 01_files']
     out += tap('down') + ['wait 20', 'shot 02_second']
     return out
 
 
 @case('story')
 def _story():
-    """The sin's word on the way in, then the world card."""
-    out = ['wait 240'] + tap('a') + ['wait 60'] + tap('a')
-    out += ['wait 90', 'shot 01_line_one', 'wait 110', 'shot 02_line_two',
-            'wait 110', 'shot 03_line_three', 'wait 240', 'shot 04_card']
+    """Luv's opening, then the sin's word on the way in, then the world card."""
+    out = boot() + tap('a') + ['wait 60'] + tap('a')
+    out += ['wait 80', 'shot 01_opening']
+    # The opening runs about nine seconds before the world's own card starts.
+    out += ['wait 520', 'shot 02_line_one', 'wait 110', 'shot 03_line_two',
+            'wait 220', 'shot 04_card']
     return out
 
 
 @case('play')
 def _play():
     """World 1-1 from the start, and the pause over it."""
-    out = ['wait 240'] + tap('a') + ['wait 60'] + tap('a') + ['wait 480']
-    out += ['wait 250', 'shot 01_open']
+    out = boot() + tap('a') + ['wait 60'] + tap('a')
+    out += ['wait 600', 'wait 480', 'wait 250', 'shot 01_open']
     out += ['hold right', 'wait 260', 'shot 02_running', 'release all', 'wait 20']
     out += tap('start') + ['wait 50', 'shot 03_paused']
     return out
@@ -123,7 +135,7 @@ def _play():
 def _codes():
     """Level code entry, refusing a wrong one and taking a right one."""
     letters = 'BCDFGHJKLMNPRSTV'
-    out = ['wait 240'] + tap('down', 2) + ['wait 16'] + tap('a')
+    out = boot() + tap('down', 2) + ['wait 16'] + tap('a')
     out += ['wait 70', 'shot 01_blank']
     out += tap('a') + ['wait 50', 'shot 02_refused', 'wait 100']
 

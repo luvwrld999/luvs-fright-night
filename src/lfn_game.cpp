@@ -128,6 +128,8 @@ namespace lfn
 
         _status.stage = stage;
         _status.player = player;
+        // Each world's air pushes differently; the player has to be told which.
+        _player.set_world(data.world);
         _status.time = tune::stage_time;
         LFN_TRACE("tiles after hud: ", bn::sprite_tiles::used_items_count());
         _refresh_hud();

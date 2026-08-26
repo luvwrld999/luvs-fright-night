@@ -112,19 +112,36 @@ def gnasher(f):
 
 
 def censer_wraith(f):
-    """Spitter: hovers, swings a censer, coughs embers at you."""
-    c = Canvas(S, S)
-    swing = [-2, -1, 1, 2][f % 4]
+    """
+    Spitter: hovers, swings a censer, coughs embers at you.
 
-    halo(c, 8, 1.6, 2.8, 1.5)
-    c.poly([(8, 3.2), (12.6, 13.5), (3.4, 13.5)], pal.PURPLE)
-    c.ellipse(8, 6.0, 2.3, 2.1, pal.INK)                    # hood void
+    The shroud is wide and the censer is large and gold, because the old one
+    was a narrow triangle with a two pixel lamp and read as a smudge. What
+    should identify it across a room is the thing swinging on the chain.
+    """
+    c = Canvas(S, S)
+    swing = [-3, -1, 1, 3][f % 4]
+
+    halo(c, 8, 1.4, 3.2, 1.6)
+
+    # A broader shroud with shoulders, not a plain cone.
+    c.poly([(8, 2.6), (13.4, 11.0), (12.2, 14.4), (3.8, 14.4), (2.6, 11.0)],
+           pal.PURPLE)
+    c.poly([(8, 4.0), (11.4, 10.4), (4.6, 10.4)], pal.SHADOW)
+
+    c.ellipse(8, 5.6, 2.6, 2.3, pal.INK)                    # hood void
     for side in (-1, 1):
-        c.set(int(8 + side * 1.2), 6, pal.CYAN)
+        c.set(int(8 + side * 1.3), 6, pal.CYAN)
+
+    # The censer: chain, bowl, and the ember inside it.
     cx = 8 + swing
-    c.line(8, 9, cx, 12, pal.DGOLD)
-    c.disc(cx, 13.2, 1.4, pal.GOLD)
-    c.set(int(cx), 13, pal.RED)
+    c.line(8, 8, cx, 11, pal.DGOLD)
+    c.disc(cx, 12.8, 2.2, pal.GOLD)
+    c.disc(cx, 12.6, 1.1, pal.RED)
+    c.set(int(cx), 10, pal.DGOLD)
+
+    # Smoke coming off it, drifting the other way from the swing.
+    c.set(int(cx - swing * 0.4), 9, pal.TEAL)
     return finish(c, {pal.PURPLE})
 
 

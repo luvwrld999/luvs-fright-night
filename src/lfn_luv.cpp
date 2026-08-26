@@ -251,12 +251,26 @@ namespace lfn
         }
         else
         {
-            _vel.set_y(_vel.y() + tune::gravity);
+            // Each world's air scales the fall: Gluttony is thick, Sloth
+            // barely bothers.
+            _vel.set_y(_vel.y() + tune::gravity * tune::world_gravity[_world]);
 
             if(_vel.y() > tune::fall_max)
             {
                 _vel.set_y(tune::fall_max);
             }
+        }
+
+        // The air itself, once he is off the ground: a headwind in Envy, a
+        // draught at your back in Lust. Gentle enough that it never turns a
+        // jump the level checker cleared into one he misses - check_levels.py
+        // models these same numbers.
+        const bn::fixed drift = tune::world_drift[_world];
+
+        if(!_grounded && drift != 0)
+        {
+            _vel.set_x(bn::clamp(_vel.x() + drift, -tune::dash_max,
+                                 tune::dash_max));
         }
     }
 

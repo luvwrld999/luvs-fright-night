@@ -109,6 +109,34 @@ namespace lfn::tune
     constexpr bool test_autopilot = LFN_TEST_AUTOPILOT != 0;
 
     // -- rules --------------------------------------------------------------
+    /**
+     * What the air is like in each world, so a world plays differently rather
+     * than only looking different.
+     *
+     * `world_drift` is a horizontal push applied while airborne - a headwind
+     * in Envy, a draught at your back in Lust. `world_gravity` scales the
+     * fall. Both are deliberately gentle and never make a jump shorter than
+     * tools/check_levels.py allows for, which models these same numbers.
+     */
+    constexpr bn::fixed world_drift[8] = {
+        0.000,      // I    Pride - still air; the game is still teaching
+        0.000,      // II   Greed - still
+        0.012,      // III  Lust - a draught pushing you on
+        -0.013,     // IV   Envy - the green water pushes back
+        0.000,      // V    Gluttony - still, but heavy
+        0.014,      // VI   Wrath - it blows out from the fault
+        0.000,      // VII  Sloth - nothing moves, including the air
+        -0.010,     // VIII Hades - something is inhaling
+    };
+
+    constexpr bn::fixed world_gravity[8] = {
+        1.00, 1.00, 1.00, 1.00,
+        0.94,       // V    Gluttony - thick air, a slower fall
+        1.00,
+        0.86,       // VII  Sloth - everything here takes its time
+        1.00,
+    };
+
     constexpr int start_lives          = 3;
     // Running out of lives is not the end while you still have one of these.
     constexpr int start_continues      = 3;

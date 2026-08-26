@@ -12,6 +12,7 @@
 #include "bn_string_view.h"
 #include "bn_vector.h"
 
+#include "bn_sprite_items_logo.h"
 #include "bn_sprite_items_luv.h"
 #include "bn_sprite_items_soul_orb.h"
 #include "bn_sprite_palette_items_text_cyan.h"
@@ -96,40 +97,43 @@ namespace lfn
 
     menu_result show_menu(bn::sprite_text_generator& text, save::file& file)
     {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::room);
+        // A field, not a room: the room style draws a floor line across the
+        // middle of the screen, and the option list sat on top of it.
+        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
 
         bn::vector<bn::sprite_ptr, 112> sprites;
 
-        // The reveal runs once a boot. Coming back from a game should put the
-        // menu straight in front of you, not make you sit through it again.
+        // Two halves of the 128x64 wordmark, side by side.
+        constexpr bn::fixed logo_y = -52;
+        bn::sprite_ptr logo_l = bn::sprite_items::logo.create_sprite(-32, logo_y);
+        bn::sprite_ptr logo_r = bn::sprite_items::logo.create_sprite(32, logo_y);
+        logo_r.set_tiles(bn::sprite_items::logo.tiles_item().create_tiles(1));
+
+        // The title holds on its own before it becomes a list, the way a
+        // cartridge of this era would. Once a boot: coming back from a game
+        // should put the menu straight in front of you.
         static bool unseen = true;
 
         if(unseen)
         {
             unseen = false;
-            bn::vector<bn::sprite_ptr, 40> intro;
-
-            text.set_center_alignment();
-            text.generate(0, -66, "LUV'S FRIGHT NIGHT", intro);
-            const int title_end = intro.size();
-            text.generate(0, -50, "a ghost in bad company", intro);
-
-            for(int i = 0; i < intro.size(); ++i)
-            {
-                intro[i].set_palette(i < title_end
-                                     ? bn::sprite_palette_items::text_gold
-                                     : bn::sprite_palette_items::text_mag);
-                intro[i].set_visible(false);
-            }
-
-            // Luv sweeps across and the title lands behind him.
-            bn::sprite_ptr flier = bn::sprite_items::luv.create_sprite(-140, -58);
             audio::play_music(audio::track::title);
 
-            for(int frame = 0; frame < 96; ++frame)
+            bn::vector<bn::sprite_ptr, 24> gate;
+            bn::sprite_ptr flier = bn::sprite_items::luv.create_sprite(-140, -8);
+            bool asked = false;
+
+            for(int frame = 0; ; ++frame)
             {
+                // The wordmark drops in and settles, rather than simply being
+                // there when the screen appears.
+                const int fall = bn::min(frame, 26);
+                const bn::fixed drop = (26 - fall) * (26 - fall) / bn::fixed(9);
+                logo_l.set_y(logo_y - drop);
+                logo_r.set_y(logo_y - drop);
+
                 flier.set_position(-140 + (frame * 3),
-                                   -58 + bn::lut_sin((frame * 22) & 2047) * 6);
+                                   -8 + bn::lut_sin((frame * 22) & 2047) * 6);
 
                 if((frame % 8) == 0)
                 {
@@ -137,31 +141,37 @@ namespace lfn
                                     .create_tiles(8 + ((frame / 8) & 1)));
                 }
 
-                // Each letter group drops in as he passes it, so the sweep
-                // reads as the thing putting the title there.
-                for(int i = 0; i < intro.size(); ++i)
+                if(!asked && frame > 40)
                 {
-                    const int due = 10 + (i * 4);
+                    asked = true;
+                    text.set_center_alignment();
+                    text.generate(0, 34, "PRESS START", gate);
 
-                    if(frame >= due)
+                    for(bn::sprite_ptr& sprite : gate)
                     {
-                        const int fall = bn::min(frame - due, 8);
-                        const bn::fixed y = i < title_end ? -66 : -50;
-                        intro[i].set_visible(true);
-                        intro[i].set_y(y - ((8 - fall) * 3));
+                        sprite.set_palette(bn::sprite_palette_items::text_gold);
                     }
                 }
 
-                if(frame > 10 && (bn::keypad::a_pressed() ||
+                // Blink it, so the screen never looks stalled.
+                for(bn::sprite_ptr& sprite : gate)
+                {
+                    sprite.set_visible((frame >> 4) & 1);
+                }
+
+                if(frame > 20 && (bn::keypad::a_pressed() ||
                                   bn::keypad::start_pressed()))
                 {
+                    audio::sfx_menu();
                     break;
                 }
 
                 bn::core::update();
             }
 
-            intro.clear();
+            gate.clear();
+            logo_l.set_y(logo_y);
+            logo_r.set_y(logo_y);
             bn::core::update();
             bn::core::update();
         }
@@ -191,7 +201,8 @@ namespace lfn
             }
 
             cursor.set_visible(true);
-            host.set_visible(true);
+            logo_l.set_visible(true);
+            logo_r.set_visible(true);
         };
 
         // Twenty seconds of nobody touching anything and the cartridge starts
@@ -269,6 +280,8 @@ namespace lfn
             souls.clear();
             cursor.set_visible(false);
             host.set_visible(false);
+            logo_l.set_visible(false);
+            logo_r.set_visible(false);
             bn::core::update();
             bn::core::update();
         };
@@ -284,24 +297,16 @@ namespace lfn
 
                 if(where == screen::main)
                 {
-                    text.generate(0, -66, "LUV'S FRIGHT NIGHT", sprites);
-                    tint(sprites, 0, bn::sprite_palette_items::text_gold);
-                    int mark = sprites.size();
-                    text.generate(0, -50, "a ghost in bad company", sprites);
-                    tint(sprites, mark, bn::sprite_palette_items::text_mag);
+                    // The name is a sprite now; only the tagline is text.
+                    text.generate(0, -26, "a ghost in bad company", sprites);
+                    tint(sprites, 0, bn::sprite_palette_items::text_mag);
 
-                    text.set_left_alignment();
-
+                    // Centred, with the cursor to the left of the block, rather
+                    // than a left-aligned list under a centred title.
                     for(int i = 0; i < options.size(); ++i)
                     {
-                        text.generate(-40, -30 + (i * 16), options[i].label, sprites);
+                        text.generate(0, -8 + (i * 14), options[i].label, sprites);
                     }
-
-                    text.set_center_alignment();
-                    mark = sprites.size();
-                    text.generate(0, 66, bn::format<24>("BEST {}",
-                                  zero_pad(int(save::best(file)), 6)), sprites);
-                    tint(sprites, mark, bn::sprite_palette_items::text_gold);
                 }
                 else if(where == screen::confirm)
                 {
@@ -404,12 +409,15 @@ namespace lfn
                 return result;
             }
 
+            logo_l.set_visible(where == screen::main);
+            logo_r.set_visible(where == screen::main);
+
             const int bob = (frame >> 4) & 1;
 
             if(where == screen::main)
             {
                 cursor.set_visible(true);
-                cursor.set_position(-58, -32 + (choice * 16) + bob);
+                cursor.set_position(-72, -6 + (choice * 14) + bob);
             }
             else if(where == screen::extras)
             {
@@ -431,8 +439,7 @@ namespace lfn
                 cursor.set_visible(false);
             }
 
-            host.set_visible(where == screen::main);
-            host.set_position(92, 44 - ((frame >> 5) & 1));
+            host.set_visible(false);
 
             if((frame % 24) == 0)
             {

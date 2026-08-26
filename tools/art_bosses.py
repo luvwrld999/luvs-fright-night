@@ -42,9 +42,27 @@ def sockets(c, cx, cy, spread, color, r=1.6, lid=False):
 
 def _pose(p):
     """Shared timing: (bob, reach, hurt?, dying?, collapse)."""
-    bob = [0, 1, -1, 0, 1, 1, 3, 5][p]
+    # The two idle frames used to differ by a single pixel of bob, which at
+    # this size is no motion at all - every boss looked frozen until it
+    # attacked. Two pixels of rise and a pixel of sway is the difference
+    # between a statue and something breathing.
+    bob = [0, 2, -1, 0, 1, 1, 3, 5][p]
     reach = [0, 0, -2, 3, 5, -1, 0, 0][p]
     return bob, reach, p == 5, p >= 6, (p - 5) * 2 if p >= 6 else 0
+
+
+# Sideways drift per frame, applied to the finished piece. Doing it here rather
+# than inside eight separate boss functions keeps the timing in one place.
+SWAY = [0, 1, 0, -1, 1, 0, 0, 0]
+
+
+def breathing(fn):
+    """Wrap a boss so its idle sways as well as bobs."""
+    def wrapped(p):
+        c = fn(p)
+        return c.shifted(SWAY[p], 0) if SWAY[p] else c
+
+    return wrapped
 
 
 def tint(base, hurt):
@@ -210,25 +228,60 @@ def ira(p):
 
 # VII. ACEDIA - Sloth. Barely moves; the arena does the fighting for it.
 def acedia(p):
+    """
+    Sloth. It never moves, so the silhouette has to do all the work: a mound
+    that has given up standing, a head sliding off the front of it, and a halo
+    that stopped being held up some time ago.
+
+    The old one was a small purple lump on a dark background - the right idea
+    at the wrong size and with nothing to read against. This one fills its
+    frame and carries a pale rim along the top so the shape survives whatever
+    tileset is behind it.
+    """
     c = Canvas(B, B)
     bob, reach, hurt, dying, drop = _pose(p)
     body = tint(pal.PURPLE, hurt)
     droop = [0, 1, 1, 2, 3, 0, 4, 6][p]
 
-    for side in (-1, 1):                          # chains it can't be bothered to drag
-        for k in range(4):
-            c.disc(16 + side * (8 + k * 2), 28 + bob + (k % 2), 1.2, pal.DGOLD)
-    c.paste(piece(B, B, lambda t: t.ellipse(16, 25 + bob, 11.0, 6.0 - drop * 0.5, body)))
-    c.paste(piece(B, B, lambda t: t.ellipse(16, 17 + bob + droop, 6.5, 5.5, body)))
+    # Chains it cannot be bothered to drag, pooled rather than hanging.
+    for side in (-1, 1):
+        for k in range(5):
+            c.disc(16 + side * (9 + k * 2), 29 + bob + (k % 2), 1.3, pal.DGOLD)
+
+    # The mound, wide and low, sagging further as it dies.
+    c.paste(piece(B, B, lambda t: t.ellipse(16, 24 + bob, 14.0,
+                                            8.0 - drop * 0.6, body)))
+
+    # A pale band along the top, so it is never a flat shape in a dark room.
     if not dying:
-        for side in (-1, 1):                      # eyes shut
-            c.rect(int(16 + side * 3) - 1, 16 + bob + droop,
-                   int(16 + side * 3) + 1, 16 + bob + droop, pal.INK)
-    c.rect(13, 20 + bob + droop, 18, 20 + bob + droop, pal.INK)
-    for i in range(3):                            # it is melting
-        c.paste(piece(B, B, lambda t, a=i: t.disc(9 + a * 7, 30 + bob - a, 1.4, body)))
-    horns(c, 16, 13.0 + bob + droop, spread=6.5, height=3.6, color=pal.SHADOW)
-    halo(c, 16, 6.5 + bob + droop, 5.0, 2.0)      # even the halo has given up
+        c.paste(piece(B, B, lambda t: t.ellipse(16, 21 + bob, 11.0, 3.0,
+                                                pal.SHADOW)))
+        c.paste(piece(B, B, lambda t: t.ellipse(16, 19.5 + bob, 7.5, 1.6,
+                                                pal.TEAL)))
+
+    # The head, slumped forward off the mass rather than sitting on it.
+    c.paste(piece(B, B, lambda t: t.ellipse(15, 16 + bob + droop, 8.0, 6.5,
+                                            body)))
+
+    if not dying:
+        # Heavy lids: a lash line with the eye barely under it.
+        for side in (-1, 1):
+            ex = int(15 + side * 4)
+            c.rect(ex - 2, 15 + bob + droop, ex + 1, 15 + bob + droop, pal.INK)
+            c.set(ex, 16 + bob + droop, pal.DMAG)
+
+        # A slack mouth, open because closing it is effort.
+        c.ellipse(15, 20 + bob + droop, 3.2, 1.8, pal.INK, fill=True)
+
+    # It is melting at the edges.
+    for i in range(4):
+        c.paste(piece(B, B, lambda t, a=i: t.disc(7 + a * 6, 31 + bob - (a % 2),
+                                                  1.6, body)))
+
+    horns(c, 15, 11.5 + bob + droop, spread=8.0, height=4.4, color=pal.SHADOW)
+
+    # Even the halo has given up: off centre and tilted off the head.
+    halo(c, 19, 7.5 + bob + droop, 5.4, 2.0)
     return c
 
 
@@ -274,12 +327,12 @@ def hades(p):
 
 
 BOSSES = [
-    ('superbia', superbia, B, 'I. Pride'),
-    ('avaritia', avaritia, B, 'II. Greed'),
-    ('luxuria', luxuria, B, 'III. Lust'),
-    ('invidia', invidia, B, 'IV. Envy'),
-    ('gula', gula, B, 'V. Gluttony'),
-    ('ira', ira, B, 'VI. Wrath'),
-    ('acedia', acedia, B, 'VII. Sloth'),
-    ('hades', hades, BIG, 'VIII. Hades'),
+    ('superbia', breathing(superbia), B, 'I. Pride'),
+    ('avaritia', breathing(avaritia), B, 'II. Greed'),
+    ('luxuria', breathing(luxuria), B, 'III. Lust'),
+    ('invidia', breathing(invidia), B, 'IV. Envy'),
+    ('gula', breathing(gula), B, 'V. Gluttony'),
+    ('ira', breathing(ira), B, 'VI. Wrath'),
+    ('acedia', breathing(acedia), B, 'VII. Sloth'),
+    ('hades', breathing(hades), BIG, 'VIII. Hades'),
 ]

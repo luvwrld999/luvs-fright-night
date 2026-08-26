@@ -167,6 +167,24 @@ A cheat arms **the next run to start**, whichever mode it turns out to be, and
 is spent doing so. It is not a setting, it does not persist to the cartridge,
 and it never touches the high score board's rules.
 
+## The air in each world
+
+Each world's air pushes differently, which is the one thing that makes a world
+play rather than merely look different. `world_drift` is a horizontal push
+applied while airborne; `world_gravity` scales the fall. Both live in
+`include/lfn_tune.h`, and `tools/check_levels.py` reads that same table so
+every gap is proved crossable in the wind it will actually be jumped in.
+
+| World | Air | Jump reach |
+|---|---|---|
+| I Pride, II Greed | still | 70 px |
+| III Lust | a draught at your back | 80 px |
+| IV Envy | the green water pushes back | 58 px |
+| V Gluttony | thick, a slower fall | 75 px |
+| VI Wrath | it blows out from the fault | 82 px |
+| VII Sloth | everything takes its time | 82 px |
+| VIII Hades | something is inhaling | 61 px |
+
 ## Souls
 
 Nine bonus souls per stage are placed by reading the finished level for the

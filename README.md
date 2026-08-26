@@ -67,6 +67,9 @@ cartridge starts an attract loop - the board, then a stage playing itself.
 - **Three save files** share the cartridge. New Game asks which one; Continue
   only asks when more than one is in use. The score boards and best times sit
   outside the files and survive erasing one.
+- **Each world's air** pushes differently - a headwind in Envy, a draught at
+  your back in Lust, a slow fall in Sloth. The gap checker models the same
+  numbers, so a jump is never asked for that the wind will not allow.
 - **Boss Rush** keeps its own score board, because a five minute rush should
   not have to beat a forty minute run.
 

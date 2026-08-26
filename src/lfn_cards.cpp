@@ -60,22 +60,25 @@ namespace lfn
         struct sin_words { const char* a; const char* b; const char* c; };
 
         constexpr sin_words words[] = {
-            {"IT BUILT A MIRROR",     "FOR EVERY WALL, AND CALLED",
-             "THE REFLECTION WORSHIP"},
+            // Three of the eight now answer what Luv is carrying: the halo,
+            // both, and the horns. A ghost wearing one of each walks past
+            // seven things that only ever managed one.
+            {"IT BUILT A MIRROR",     "FOR EVERY WALL, AND IT",
+             "LIKES YOUR HALO BEST"},
             {"IT COUNTED EVERYTHING",  "IT HAD. TWICE.",
              "THEN IT ASKED FOR YOURS"},
             {"EVERY LANTERN HERE",     "IS A HEART, STILL WARM,",
              "STILL ASKING"},
             {"THE WATER IS GREEN",     "BECAUSE IT HAS BEEN",
-             "LOOKING AT YOU"},
+             "LOOKING AT WHAT YOU HAVE"},
             {"THE TABLE WAS SET",      "FOR ONE.",
              "IT ATE THE TABLE"},
             {"IT HAS BEEN SHOUTING",   "SO LONG THAT THE ROCK",
              "LEARNED THE WORDS"},
             {"NOTHING MOVES HERE.",    "NOTHING HAS TO.",
              "YOU WILL STOP TOO"},
-            {"THE LAST DOOR",          "IS NOT LOCKED.",
-             "THAT IS THE TRICK OF IT"},
+            {"THE LAST DOOR IS NOT",   "LOCKED, AND NEVER WAS.",
+             "NOT FOR SOMETHING LIKE YOU"},
         };
 
         /** Recolour everything generated after `from`, whatever the vector size. */
@@ -513,7 +516,7 @@ namespace lfn
         {
         bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 64> sprites;
-        bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(-86, 0);
+        bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(-108, 0);
 
         bool dirty = true;
         int frame = 0;
@@ -537,22 +540,33 @@ namespace lfn
                     const save::progress& p = data.slots[i];
                     const int mark = sprites.size();
 
+                    const int row = -34 + (i * 24);
+
                     if(p.used)
                     {
-                        // Where they got to and what they are carrying, which
-                        // is all anyone needs to recognise their own game.
+                        // Where they got to, what they are carrying, and how
+                        // far through the eight worlds they are - enough for
+                        // someone to recognise their own game at a glance.
                         const level_data& where = levels[bn::min<int>(
                                     p.furthest_level, story_count - 1)];
-                        text.generate(-70, -34 + (i * 24),
-                                      bn::format<24>("{}  {}-{}  x{}", i + 1,
+                        text.generate(-92, row,
+                                      bn::format<16>("{}  {}-{}", i + 1,
                                                      roman(where.world),
-                                                     (p.furthest_level % 3) + 1,
-                                                     int(p.lives)), sprites);
+                                                     (p.furthest_level % 3) + 1),
+                                      sprites);
                         tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+
+                        const int stat = sprites.size();
+                        text.generate(-16, row,
+                                      bn::format<24>("x{}   {} SOULS",
+                                                     int(p.lives), int(p.souls)),
+                                      sprites);
+                        tint(sprites, stat, bn::sprite_palette_items::text_gold);
+
                     }
                     else
                     {
-                        text.generate(-70, -34 + (i * 24),
+                        text.generate(-92, row,
                                       bn::format<16>("{}  EMPTY", i + 1), sprites);
                         tint(sprites, mark, bn::sprite_palette_items::text_mag);
                     }
@@ -565,7 +579,7 @@ namespace lfn
                 dirty = false;
             }
 
-            cursor.set_position(-86, -32 + (pick * 24) + ((frame >> 4) & 1));
+            cursor.set_position(-108, -32 + (pick * 24) + ((frame >> 4) & 1));
 
             if((frame % 26) == 0)
             {
@@ -1167,6 +1181,59 @@ namespace lfn
 
         for(int frame = 0; frame < 600; ++frame)
         {
+            if(frame > 20 && skipped())
+            {
+                break;
+            }
+
+            bn::core::update();
+        }
+        }
+
+        settle();
+    }
+
+    void show_opening(bn::sprite_text_generator& text)
+    {
+        settle();
+
+        {
+        bn::regular_bg_ptr backdrop = make_backdrop(0, backdrop_style::field);
+        bn::vector<bn::sprite_ptr, 64> sprites;
+
+        // Who he is and why he is going down. The game said neither before,
+        // and it is the one thing the sins are all reacting to.
+        static const char* const lines[] = {
+            "HORNS HE DID NOT ASK FOR",
+            "A HALO THAT WILL NOT SIT",
+            "NEITHER SIDE WILL HAVE HIM",
+            "SO HE IS GOING DOWN TO ASK",
+        };
+
+        text.set_center_alignment();
+        bn::sprite_ptr luv = bn::sprite_items::luv.create_sprite(0, 52);
+        int shown = 0;
+
+        for(int frame = 0; frame < 560; ++frame)
+        {
+            if(shown < 4 && frame == 30 + (shown * 62))
+            {
+                const int mark = sprites.size();
+                text.generate(0, -56 + (shown * 20), lines[shown], sprites);
+                tint(sprites, mark, shown < 2 ? bn::sprite_palette_items::text_cyan
+                                              : bn::sprite_palette_items::text_gold);
+                ++shown;
+                audio::sfx_menu();
+            }
+
+            luv.set_position(0, 52 - ((frame >> 4) & 1));
+
+            if((frame % 26) == 0)
+            {
+                luv.set_tiles(bn::sprite_items::luv.tiles_item()
+                              .create_tiles((frame / 26) & 1));
+            }
+
             if(frame > 20 && skipped())
             {
                 break;

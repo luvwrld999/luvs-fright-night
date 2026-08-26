@@ -33,10 +33,21 @@ def tunables():
         m = re.search(r'%s\s*=\s*(-?[\d.]+)' % name, src)
         return float(m.group(1))
 
-    return {n: value(n) for n in
-            ('run_max', 'gravity', 'fall_max', 'jump_speed',
-             'hover_gravity', 'hover_fall_max', 'hover_frames',
-             'luv_half_w', 'luv_half_h')}
+    out = {n: value(n) for n in
+           ('run_max', 'dash_max', 'gravity', 'fall_max', 'jump_speed',
+            'hover_gravity', 'hover_fall_max', 'hover_frames',
+            'luv_half_w', 'luv_half_h')}
+
+    # Each world's air, read out of the same header. A checker that models
+    # different physics from the game is worse than no checker.
+    def table(name):
+        m = re.search(r'%s\[8\]\s*=\s*\{(.*?)\};' % name, src, re.S)
+        body = re.sub(r'//[^\n]*', '', m.group(1))
+        return [float(v) for v in re.findall(r'-?\d+\.\d+', body)]
+
+    out['world_drift'] = table('world_drift')
+    out['world_gravity'] = table('world_gravity')
+    return out
 
 
 T = tunables()
@@ -72,7 +83,8 @@ def surfaces(grid, width):
     return out
 
 
-def simulate(grid, width, start_col, start_row, hover, back=0, jump=True):
+def simulate(grid, width, start_col, start_row, hover, back=0, jump=True,
+             world=0):
     """
     Jump from a surface and report the column landed on.
 
@@ -86,13 +98,21 @@ def simulate(grid, width, start_col, start_row, hover, back=0, jump=True):
     vx, vy = T['run_max'], (T['jump_speed'] if jump else 0.0)
     budget = T['hover_frames'] if hover else 0
 
+    # The world's air. A headwind shortens the jump, so the gap that has to
+    # clear is measured in the same wind the player will be flying in.
+    drift = T['world_drift'][world]
+    heavy = T['world_gravity'][world]
+
     for _ in range(240):
         if vy > 0 and budget > 0 and hover:
             budget -= 1
             vy = min(vy + T['hover_gravity'], T['hover_fall_max'])
         else:
-            vy = min(vy + T['gravity'], T['fall_max'])
+            vy = min(vy + T['gravity'] * heavy, T['fall_max'])
 
+        # Clamped to dash speed, not run speed, because that is what the
+        # engine clamps to: a tailwind can carry Luv faster than he runs.
+        vx = max(-T['dash_max'], min(T['dash_max'], vx + drift))
         x += vx
         y += vy
 
@@ -111,8 +131,18 @@ def simulate(grid, width, start_col, start_row, hover, back=0, jump=True):
     return None
 
 
+def world_of(path):
+    """Which world's air this level is played in, from its header."""
+    for line in open(path):
+        if line.startswith('!') and 'world' in line.split(':', 1)[0]:
+            return int(line.split(':', 1)[1])
+
+    return 0
+
+
 def check(path):
     grid, width = load(path)
+    world = world_of(path)
     segs = sorted(surfaces(grid, width), key=lambda s: s[1])
     problems = []
 
@@ -130,15 +160,19 @@ def check(path):
         if not ahead:
             continue
 
-        walk = simulate(grid, width, last, row, hover=False, jump=False) is not None
+        walk = simulate(grid, width, last, row, hover=False, jump=False,
+                        world=world) is not None
         edge = walk or \
-               simulate(grid, width, last, row, hover=True) is not None or \
-               simulate(grid, width, last, row, hover=False) is not None
+               simulate(grid, width, last, row, hover=True,
+                        world=world) is not None or \
+               simulate(grid, width, last, row, hover=False,
+                        world=world) is not None
         # The standard: reachable by walking off, or by a plain jump launched a
         # tile early. Hover should make a gap comfortable, never be the only way
         # over it.
         forgiving = walk or \
-                    simulate(grid, width, last, row, hover=False, back=1) is not None
+                    simulate(grid, width, last, row, hover=False, back=1,
+                             world=world) is not None
 
         if not edge:
             problems.append(('unreachable', row, last, ahead[0][1]))

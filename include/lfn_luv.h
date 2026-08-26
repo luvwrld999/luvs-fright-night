@@ -42,6 +42,9 @@ namespace lfn
         /** Hand the pad to the autopilot, for the title screen's demo. */
         void set_demo(bool demo) { _demo = demo; }
 
+        /** Which world's air Luv is moving through. */
+        void set_world(int world) { _world = world < 0 || world > 7 ? 0 : world; }
+
         void create(bn::fixed x, bn::fixed y, bn::camera_ptr& camera);
         void respawn(bn::fixed x, bn::fixed y);
 
@@ -69,6 +72,7 @@ namespace lfn
 
     private:
         bool _demo = false;
+        int _world = 0;
         bn::fixed_point _pos;
         bn::fixed_point _vel;
         bn::optional<bn::sprite_ptr> _sprite;
