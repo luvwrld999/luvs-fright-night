@@ -64,6 +64,10 @@ def parse(path):
 
     prize_of = {block: pickup for pickup, block in K.PRIZE_BLOCKS.items()}
 
+    # Emitted first, whatever their position in the grid: a stage without its
+    # exit cannot be finished, and the pool fills in order.
+    ESSENTIAL = (K.PLAYER, K.EXIT, K.CHECKPOINT, K.BOSS, K.WARP, K.SIGN)
+
     spawns, tiles = [], []
     for y, row in enumerate(rows):
         for x, ch in enumerate(row):
@@ -79,6 +83,9 @@ def parse(path):
                 raise ValueError('%s: unknown character %r at %d,%d'
                                  % (path, ch, x, y))
             tiles.append(TERRAIN[ch])
+
+    essential_codes = {SPAWN_INDEX[c] for c in ESSENTIAL}
+    spawns.sort(key=lambda s: 0 if s[0] in essential_codes else 1)
 
     if not any(s[0] == SPAWN_INDEX[K.PLAYER] for s in spawns):
         raise ValueError('%s: no player start' % path)

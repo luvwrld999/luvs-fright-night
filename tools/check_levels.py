@@ -153,6 +153,13 @@ def check(path):
 # is exactly what "the floating enemies do nothing" looked like.
 GROUNDED = (K.IMP, K.GNASHER, K.WRAITH)
 
+# Must match entities::capacity in include/lfn_entities.h. A level with more
+# spawns than the pool holds loses the overflow silently, and because spawns
+# are emitted top to bottom what it loses is whatever sits lowest - the exit
+# gate and the checkpoint.
+POOL = 96
+SPAWNABLE = set(K.ENTITY_CHARS) | set(K.PRIZE_CHARS)
+
 SOLID = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT, K.PILLAR, K.SPIKE,
          K.LAVA, K.LEDGE_L, K.LEDGE_R)
 
@@ -182,6 +189,14 @@ def placements(path):
             # complaining about. Six rows is a comfortable jump.
             elif ch == K.SOUL_TEN and not floor_within(x, y, 6):
                 problems.append(('soul out of reach', x, y))
+
+    spawns = sum(1 for row in rows for ch in row if ch in SPAWNABLE)
+
+    if spawns > POOL:
+        problems.append(('%d spawns over a pool of %d' % (spawns, POOL), 0, 0))
+    elif spawns > POOL - 12:
+        problems.append(('%d spawns, close to the pool of %d' % (spawns, POOL),
+                         0, 0))
 
     return problems
 

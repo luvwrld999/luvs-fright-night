@@ -84,7 +84,12 @@ namespace lfn
         [[nodiscard]] bool has_checkpoint() const { return _has_checkpoint; }
 
     private:
-        static constexpr int capacity = 48;
+        // Big enough for the busiest stage with room to spare. When a level
+        // declares more spawns than this, load() drops the overflow silently -
+        // and since spawns are emitted top to bottom, what it drops is
+        // whatever sits lowest, which is the exit gate and the checkpoint.
+        // check_levels.py fails a level that gets anywhere near it.
+        static constexpr int capacity = 96;
 
         bn::vector<entity, capacity> _pool;
         bn::optional<bn::camera_ptr> _camera;
