@@ -446,6 +446,33 @@ class Builder:
     SOLID = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT, K.PILLAR, K.SPIKE,
              K.LAVA, K.LEDGE_L, K.LEDGE_R)
 
+    # What the engine will actually let Luv stand on. Pillars are deliberately
+    # not in here: lfn_level.cpp maps them to surface::open, because a solid
+    # one would wall a stage off. Placing anything on top of a pillar puts it
+    # in mid-air over a hole - twelve bonus souls were floating on scenery
+    # before this was two separate lists.
+    STANDABLE = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT,
+                 K.LEDGE_L, K.LEDGE_R)
+
+    def _floor_under(self, x, reach=8):
+        """Row of the first thing Luv could stand on below `x`, or None."""
+        for y in range(K.ROWS):
+            if self.lv.g[y][x] in self.STANDABLE:
+                return y
+
+        return None
+
+    def _over_a_hole(self, x):
+        """True if this column, or either neighbour, has no standable ground."""
+        for col in (x - 1, x, x + 1):
+            if not (0 <= col < self.x):
+                continue
+
+            if self._floor_under(col) is None:
+                return True
+
+        return False
+
     def _open(self, x, y):
         """True if this cell is free air rather than terrain or an entity."""
         if not (0 <= x < self.x and 0 <= y < K.ROWS):
@@ -474,17 +501,17 @@ class Builder:
                     if not (2 <= x < width - 2):
                         continue
 
-                    # The surface the player actually stands on: the lowest
-                    # solid cell with air above it. Scanning from the top
-                    # instead finds the ceiling wherever a column has one, and
-                    # puts the soul above it where nobody can reach it.
+                    # Never over a hole, and never on top of scenery: the
+                    # surface has to be something the engine will stand him on.
+                    if self._over_a_hole(x):
+                        continue
+
                     surface = None
 
                     for y in range(K.ROWS - 1, 1, -1):
-                        if self.lv.g[y][x] in self.SOLID and not self._open(x, y):
-                            if self._open(x, y - 1):
-                                surface = y
-                                break
+                        if self.lv.g[y][x] in self.STANDABLE and self._open(x, y - 1):
+                            surface = y
+                            break
 
                     if surface is None or surface < 4:
                         continue
@@ -522,10 +549,13 @@ class Builder:
                     if not (4 <= x < self.x - 6):
                         continue
 
+                    if self._over_a_hole(x):
+                        continue
+
                     surface = None
 
                     for y in range(K.ROWS - 1, 1, -1):
-                        if self.lv.g[y][x] in self.SOLID and self._open(x, y - 1):
+                        if self.lv.g[y][x] in self.STANDABLE and self._open(x, y - 1):
                             surface = y
                             break
 
@@ -558,10 +588,13 @@ class Builder:
                     return self
 
         for x in range(10, min(self.x - 8, 60)):
+            if self._over_a_hole(x):
+                continue
+
             surface = None
 
             for y in range(K.ROWS - 1, 1, -1):
-                if self.lv.g[y][x] in self.SOLID and self._open(x, y - 1):
+                if self.lv.g[y][x] in self.STANDABLE and self._open(x, y - 1):
                     surface = y
                     break
 

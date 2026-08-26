@@ -67,7 +67,7 @@ def _horn(c, path, color):
         for k in range(steps + 1):
             t = k / float(steps)
             seg = (i + t) / float(total)
-            r = 1.15 * (1.0 - seg) + 0.45
+            r = 0.95 * (1.0 - seg) + 0.40
             c.disc(ax + (bx - ax) * t, ay + (by - ay) * t, r, color)
 
 
@@ -78,22 +78,29 @@ def _halo(c, cy, color):
 # The tail is authored pixel by pixel. Three columns beside a body this wide is
 # not enough room for a curve to survive rasterising - what reads as a devil
 # tail at 16px is a thin stalk, a clear gap from the sheet, and a barbed spade.
+# Read top to bottom: the forked tip is up and away from the body, the stalk
+# curls out and back, and the root tucks under the hem. The old one was eight
+# rows of mostly-straight stalk with a blob on the end, which is why it read as
+# a squiggle rather than a tail.
 _TAIL_ROWS = [
-    '.R..',     # spade: a tip over a solid barb, not a cross
-    'RRR.',
-    'RRR.',
-    '.R..',     # stalk, curving back toward the hem
-    '.R..',
-    '..R.',
-    '..r.',
-    '...r',     # root, tucked under the sheet
+    '.R.R.',    # forked spade, tip held high
+    '.RRR.',
+    '..R..',
+    '..R..',    # stalk, curling out from under him
+    '.R...',
+    'R....',
+    'R....',
+    '.R...',    # and back in toward the hem
+    '..R..',
+    '..r..',
+    '...r.',    # root
 ]
 
 
 def _tail(c, phase, color):
     """Devil tail, swaying with `phase`. Drawn to the left of the body."""
     sway = 1 if math.sin(phase) > 0.35 else 0
-    top = 17
+    top = 14
 
     for row, line in enumerate(_TAIL_ROWS):
         # Only the spade end swings; the root stays anchored to the body.
@@ -103,8 +110,10 @@ def _tail(c, phase, color):
             if ch == '.':
                 continue
 
-            # Swing toward the body, never off the left edge of the frame.
-            c.set(col + shift, top + row, color if ch == 'R' else pal.DRED)
+            # Shifted a column right so the root meets the hem: drawn hard
+            # against the frame edge it read as a separate object floating
+            # beside him rather than something attached.
+            c.set(col + shift + 1, top + row, color if ch == 'R' else pal.DRED)
 
 
 def _face(c, dy, look, eyes='open', mouth='o', ink=pal.INK, glint=pal.CYAN):
@@ -158,7 +167,9 @@ def frame(bob=0.0, halo_bob=0.0, tail_phase=0.0, wave_phase=0.0,
         c.paste(a)
 
     if halo:
-        _halo(c, max(1.4, top - 5.0 + halo_bob), halo_color)
+        # A row higher than it used to sit, so there is clear air between the
+        # ring and the horn tips instead of the three of them touching.
+        _halo(c, max(0.8, top - 6.0 + halo_bob), halo_color)
 
     _body(c, top, head_cy, bot, halfw, wave_phase, 1.7, 0.012, body_color)
 
@@ -167,11 +178,17 @@ def frame(bob=0.0, halo_bob=0.0, tail_phase=0.0, wave_phase=0.0,
         # the body painted over their bases, leaving two red specks tucked
         # behind the halo. They now sweep outward and finish just under the
         # halo, where there is clear air to read against.
-        hy = top - 1.5
-        _horn(c, [(5.6, hy + 5.5), (4.6, hy + 3.0), (3.6, hy + 1.0),
-                  (2.9, hy - 0.2)], horn_color)
-        _horn(c, [(10.4, hy + 5.5), (11.4, hy + 3.0), (12.4, hy + 1.0),
-                  (13.1, hy - 0.2)], horn_color)
+        # From the crown, rising and curving outward. They used to start at
+        # eye level and sweep sideways, which at this size reads as a pair of
+        # angry eyebrows rather than horns.
+        # Short enough to stop under the halo rather than growing into it -
+        # at full height the two of them and the ring merged into one red mass
+        # across the top of his head.
+        hy = top
+        _horn(c, [(5.8, hy + 1.0), (5.0, hy - 0.4), (4.3, hy - 1.7),
+                  (3.9, hy - 2.8)], horn_color)
+        _horn(c, [(10.2, hy + 1.0), (11.0, hy - 0.4), (11.7, hy - 1.7),
+                  (12.1, hy - 2.8)], horn_color)
 
     if tail:
         t = Canvas(W, H)

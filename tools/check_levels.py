@@ -194,8 +194,10 @@ GROUNDED = (K.IMP, K.GNASHER, K.WRAITH)
 POOL = 96
 SPAWNABLE = set(K.ENTITY_CHARS) | set(K.PRIZE_CHARS)
 
-SOLID = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT, K.PILLAR, K.SPIKE,
-         K.LAVA, K.LEDGE_L, K.LEDGE_R)
+# What the engine will stand Luv on. Pillars are scenery he walks in front of -
+# lfn_level.cpp maps them to surface::open - so a pickup sitting on top of one
+# is a pickup floating in mid-air.
+SOLID = (K.GROUND, K.FILL, K.BLOCK, K.BREAK, K.PLAT, K.LEDGE_L, K.LEDGE_R)
 
 
 def placements(path):
