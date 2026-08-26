@@ -203,14 +203,25 @@ int main()
             bn::unique_ptr<lfn::game> stage(
                         new lfn::game(me.index, me.run, small, label, !alone));
             lfn::game_result result = lfn::game_result::running;
+            bool restarting = false;
 
             while(result == lfn::game_result::running)
             {
-                if(bn::keypad::start_pressed() &&
-                   lfn::run_pause(text) == lfn::pause_result::quit)
+                if(bn::keypad::start_pressed())
                 {
-                    abandoned = true;
-                    break;
+                    const lfn::pause_result choice = lfn::run_pause(text);
+
+                    if(choice == lfn::pause_result::quit)
+                    {
+                        abandoned = true;
+                        break;
+                    }
+
+                    if(choice == lfn::pause_result::restart)
+                    {
+                        restarting = true;
+                        break;
+                    }
                 }
 
                 result = stage->update();
@@ -221,6 +232,14 @@ int main()
             const bool stage_warped = stage->warped();
             const int took = stage->elapsed();
             stage.reset();
+
+            if(restarting)
+            {
+                // Asked for, so it costs nothing: the same stage from the top
+                // with what they were carrying when they asked.
+                lfn::audio::stop_music();
+                continue;
+            }
 
             if(abandoned)
             {

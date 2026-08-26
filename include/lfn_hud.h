@@ -22,6 +22,7 @@ namespace lfn
         int boss = 0;           // remaining boss health, 0 when there is none
         int boss_max = 0;
         int player = 0;         // 0 solo, else which seat is playing
+        int continues = 0;      // how many are left to spend
         bool flame = false;     // power-ups in hand, shown as icons
         bool dash = false;
         bool wings = false;
@@ -54,6 +55,7 @@ namespace lfn
         bn::sprite_text_generator& _text;
         bn::vector<bn::sprite_ptr, 4> _life_icons;
         bn::vector<bn::sprite_ptr, 4> _lives_text;
+        bn::vector<bn::sprite_ptr, 6> _continues_text;
         bn::vector<bn::sprite_ptr, 6> _meter;
         bn::vector<bn::sprite_ptr, 10> _boss_pips;
         bn::vector<bn::sprite_ptr, 6> _souls_text;

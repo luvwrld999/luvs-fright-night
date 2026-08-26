@@ -188,6 +188,7 @@ namespace lfn
     {
         _status.lives = bn::max(_run.lives, 0);
         _status.souls = _run.souls;
+        _status.continues = _run.continues;
         _status.score = _run.score;
         _status.hover = _player.hover_left();
 

@@ -94,6 +94,12 @@ THEMES = [
     dict(key='game_over',   name='Claimed',           scale='locrian',
          root=9,  bpm=84,  prog=[0, 1], octave=2, seed=9, air=True,
          short=True, sparse=True),
+    # The last fight in the game should not sound like the first one. Slower
+    # and lower than the boss theme, in the mode World VIII is written in, so
+    # it arrives as the same place rather than a different game.
+    dict(key='hades_boss',  name='The King Below',    scale='hungarian_minor',
+         root=9,  bpm=138, prog=[0, 6, 3, 1], octave=2, seed=13, air=True,
+         boss=True),
 ]
 
 

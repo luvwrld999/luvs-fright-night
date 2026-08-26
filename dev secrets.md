@@ -167,6 +167,26 @@ A cheat arms **the next run to start**, whichever mode it turns out to be, and
 is spent doing so. It is not a setting, it does not persist to the cartridge,
 and it never touches the high score board's rules.
 
+## Boss arenas
+
+Every sin's room is shaped for the thing that lives in it. All eight used to be
+the same sixteen columns with the same two ledges, so eight different fights
+happened in one room.
+
+| Sin | Room |
+|---|---|
+| I Superbia | two ledges clear of the middle |
+| II Avaritia | a stepped floor, so its hops land somewhere different |
+| III Luxuria | pillars for cover, for something that drifts and charms |
+| IV Invidia | bare - a charger rebounding off walls is the whole fight |
+| V Gula | a hole in the floor, because it eats the floor |
+| VI Ira | a lid on the room, so a slam leaves nowhere to jump |
+| VII Acedia | a ceiling with teeth; it never moves, the room attacks |
+| VIII Hades | three tiers, for a fight with three phases |
+
+Hades also has its own music - `hades_boss`, *The King Below* - rather than
+sharing the boss theme with the other seven.
+
 ## The air in each world
 
 Each world's air pushes differently, which is the one thing that makes a world

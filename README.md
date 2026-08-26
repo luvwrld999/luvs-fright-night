@@ -70,6 +70,11 @@ cartridge starts an attract loop - the board, then a stage playing itself.
 - **Each world's air** pushes differently - a headwind in Envy, a draught at
   your back in Lust, a slow fall in Sloth. The gap checker models the same
   numbers, so a jump is never asked for that the wind will not allow.
+- **Every boss has its own room**, shaped for how it fights, and Hades has its
+  own music rather than sharing the boss theme.
+- **The hover buys distance, not height** - 4.4 tiles of jump becomes 11.4. A
+  few stages string souls out at apex height, ending in a bonus soul past
+  where a plain jump reaches.
 - **Boss Rush** keeps its own score board, because a five minute rush should
   not have to beat a forty minute run.
 

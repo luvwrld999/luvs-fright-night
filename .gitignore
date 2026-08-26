@@ -24,3 +24,5 @@ tools/emu/warptest/
 tools/emu/quit/
 tools/emu/check2/
 tools/emu/exitcheck/
+tools/emu/bossnew/
+tools/emu/ui/

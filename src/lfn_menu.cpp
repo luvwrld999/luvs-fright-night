@@ -379,19 +379,25 @@ namespace lfn
                 }
                 else
                 {
-                    text.generate(0, -66, "CONTROLS", sprites);
+                    text.generate(0, -70, "CONTROLS", sprites);
                     tint(sprites, 0, bn::sprite_palette_items::text_gold);
 
                     text.set_left_alignment();
-                    text.generate(-92, -40, "PAD    RUN", sprites);
-                    text.generate(-92, -22, "A      JUMP", sprites);
-                    text.generate(-92, -6,  "       HOLD IT TO HOVER", sprites);
-                    text.generate(-92, 14,  "B      SOUL FLAME", sprites);
-                    text.generate(-92, 30,  "       HOLD IT TO DASH", sprites);
+                    text.generate(-92, -48, "PAD    RUN", sprites);
+                    text.generate(-92, -32, "A      JUMP", sprites);
+                    text.generate(-92, -18, "       HOLD IT TO HOVER", sprites);
+                    text.generate(-92, 0,   "B      SOUL FLAME", sprites);
+                    text.generate(-92, 14,  "       HOLD IT TO DASH", sprites);
+
+                    // Nothing in the game said which power-ups a hit takes.
+                    const int note = sprites.size();
+                    text.generate(-92, 38, "A HIT TAKES THE SOUL,", sprites);
+                    text.generate(-92, 52, "THEN THE FLAME. NOT DASH.", sprites);
+                    tint(sprites, note, bn::sprite_palette_items::text_cyan);
 
                     text.set_center_alignment();
                     const int mark = sprites.size();
-                    text.generate(0, 62, "B BACK", sprites);
+                    text.generate(0, 70, "B BACK", sprites);
                     tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 }
 

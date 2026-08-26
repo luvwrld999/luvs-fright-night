@@ -7,6 +7,7 @@ namespace lfn::audio
     namespace track
     {
         constexpr int title = 0, boss = 9, victory = 10, game_over = 11;
+        constexpr int hades_boss = 12;
     }
 
     /**

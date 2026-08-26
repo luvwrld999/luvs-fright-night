@@ -29,9 +29,14 @@ namespace lfn
         constexpr int boss_x = 118;
         constexpr int boss_y = -58;
         // Second row, left of the boss pips, so it never fights the status bar.
-        constexpr int player_x = -84;
+        // The second row, left to right: hover meter, whose turn it is, how
+        // many continues are left, then the power-ups being carried. Laid out
+        // once here so nothing lands on top of anything else - the meter alone
+        // is six pips wide and reaches to -79.
+        constexpr int player_x = -76;
+        constexpr int continues_x = -54;
         // What you are carrying, on the same row as the meter.
-        constexpr int power_x = -58;
+        constexpr int power_x = -20;
         constexpr int power_step = 17;
 
         const char* const ROMAN[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII"};
@@ -141,7 +146,30 @@ namespace lfn
 
         if(_first || now.time != _shown.time)
         {
-            _show(_time_text, time_x, bn::format<6>("{}", now.time).c_str());
+            // Labelled, because a bare number up there reads as a second
+            // score rather than as a clock running down.
+            _show(_time_text, time_x,
+                  bn::format<8>("T{}", now.time).c_str());
+        }
+
+        // What is left to spend when the lives run out. Worth knowing before
+        // the countdown asks, not during it.
+        if(_first || now.continues != _shown.continues)
+        {
+            _continues_text.clear();
+
+            if(now.continues > 0)
+            {
+                _text.generate(continues_x, meter_y - 3,
+                               bn::format<6>("C{}", now.continues),
+                               _continues_text);
+
+                for(bn::sprite_ptr& sprite : _continues_text)
+                {
+                    sprite.set_bg_priority(0);
+                    sprite.set_visible(_visible);
+                }
+            }
         }
 
         if(_first || now.score != _shown.score)
@@ -243,6 +271,7 @@ namespace lfn
 
         for(bn::sprite_ptr& sprite : _life_icons) { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _lives_text) { sprite.set_visible(visible); }
+        for(bn::sprite_ptr& sprite : _continues_text){ sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _meter)      { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _souls_text) { sprite.set_visible(visible); }
         for(bn::sprite_ptr& sprite : _world_text) { sprite.set_visible(visible); }

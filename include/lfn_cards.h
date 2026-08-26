@@ -8,7 +8,7 @@
 
 namespace lfn
 {
-    enum class pause_result : uint8_t { resume, quit };
+    enum class pause_result : uint8_t { resume, restart, quit };
 
     /** START during play. Freezes the scene and puts a choice over it. */
     [[nodiscard]] pause_result run_pause(bn::sprite_text_generator& text);

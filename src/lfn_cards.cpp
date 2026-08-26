@@ -122,10 +122,11 @@ namespace lfn
         bn::bg_palettes::set_fade(bn::color(0, 0, 0), dim);
         bn::sprite_palettes::set_fade(bn::color(0, 0, 0), dim);
 
-        bn::vector<bn::sprite_ptr, 40> sprites;
+        bn::vector<bn::sprite_ptr, 48> sprites;
         int choice = 0;
         bool dirty = true;
         int frame = 0;
+        constexpr int options = 3;
 
         audio::sfx_menu();
 
@@ -141,8 +142,11 @@ namespace lfn
                 tint(sprites, 0, bn::sprite_palette_items::text_gold);
 
                 const int mark = sprites.size();
-                text.generate(0, -4, choice == 0 ? "> RESUME" : "  RESUME", sprites);
-                text.generate(0, 16, choice == 1 ? "> QUIT TO MENU"
+                text.generate(0, -10, choice == 0 ? "> RESUME" : "  RESUME",
+                              sprites);
+                text.generate(0, 8, choice == 1 ? "> RESTART STAGE"
+                                                : "  RESTART STAGE", sprites);
+                text.generate(0, 26, choice == 2 ? "> QUIT TO MENU"
                                                  : "  QUIT TO MENU", sprites);
                 tint(sprites, mark, bn::sprite_palette_items::text_cyan);
 
@@ -155,11 +159,17 @@ namespace lfn
                 dirty = false;
             }
 
-            if(bn::keypad::up_pressed() || bn::keypad::down_pressed())
+            if(bn::keypad::up_pressed())
             {
-                choice = 1 - choice;
+                choice = (choice + options - 1) % options;
                 audio::sfx_menu();
                 dirty = true;      // this menu marks its choice in the text
+            }
+            else if(bn::keypad::down_pressed())
+            {
+                choice = (choice + 1) % options;
+                audio::sfx_menu();
+                dirty = true;
             }
 
             // The button that opened the pause is still down on the first
@@ -188,7 +198,9 @@ namespace lfn
 
             if(listening && bn::keypad::a_pressed())
             {
-                return leave(choice == 0 ? pause_result::resume : pause_result::quit);
+                return leave(choice == 0 ? pause_result::resume
+                             : (choice == 1 ? pause_result::restart
+                                            : pause_result::quit));
             }
 
             bn::core::update();

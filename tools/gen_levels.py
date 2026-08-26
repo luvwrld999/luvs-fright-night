@@ -193,6 +193,29 @@ class Builder:
         self.x += w
         return self
 
+    def hover_line(self, w=14, count=6):
+        """
+        A line of souls strung out at the height of a jump's apex, ending in a
+        bonus soul beyond where a plain jump can reach.
+
+        The hover buys distance, not height - measured, a plain jump carries
+        4.4 tiles and a hover carries 11.4, off the same 4.5 tile apex. So the
+        only honest way to ask for the hover is horizontal, and this is it: the
+        first souls come free with a jump, the last one does not. The ground
+        underneath stays solid the whole way, so trying and missing costs
+        nothing but the climb back up.
+        """
+        self.lv.ground(self.x, self.x + w - 1)
+        height = K.FLOOR - 5
+
+        for i in range(count):
+            self.lv.entity(K.SOUL, self.x + 3 + i * 2, height)
+
+        # The pay-off, two tiles past the end of the line.
+        self.lv.entity(K.SOUL_TEN, self.x + 3 + count * 2, height)
+        self.x += w
+        return self
+
     def soul_arc(self, w, count=5, peak=6):
         """
         A line of souls curving up over solid ground and back down.
@@ -629,6 +652,7 @@ def _march():
         lambda b: b.flat(10).start(),
         lambda b: b.soul_arc(12, count=5),
         lambda b: b.flat(6).pickup(K.PU_FLAME),
+        lambda b: b.hover_line(),
         lambda b: b.enemies(12, count=b.scale(1, 2)),
         lambda b: b.overhead(11, breakables=3, prize=K.PU_SOUL),
         lambda b: b.gap(b.span(3, 3)),
@@ -679,6 +703,7 @@ def _hall():
         lambda b: b.flat(7).start(),
         lambda b: b.soul_arc(12, count=5),
         lambda b: b.flat(6).pickup(K.PU_FLAME),
+        lambda b: b.hover_line(),
         lambda b: b.hall(14),
         lambda b: b.stair(3, 3, up=True),
         lambda b: b.shelf(9, height=3, souls=2),
@@ -709,6 +734,7 @@ def _crossing():
         lambda b: b.enemies(10, count=b.scale(1, 1)),
         lambda b: b.stepping(2),
         lambda b: b.flat(6).pickup(K.PU_SOUL),
+        lambda b: b.hover_line(),
         lambda b: b.gap(b.span(3, 4)),
         lambda b: b.stepping(b.span(2, 1)),
         lambda b: b.flat(6, souls=2),
@@ -1009,26 +1035,99 @@ BOSS_NAMES = [
 ]
 
 
+# How each sin's room is shaped. All eight used to be the same sixteen columns
+# with the same two ledges, so eight different fights happened in one room.
+def _arena_open(lv, width):
+    """Two ledges clear of the middle. Room to run, not room to escape."""
+    lv.platform(2, K.FLOOR - 4, 4)
+    lv.platform(10, K.FLOOR - 4, 4)
+
+
+def _arena_stepped(lv, width):
+    """A stepped floor, so a hopping boss's arcs land somewhere different."""
+    lv.fill(3, K.FLOOR - 1, 5, K.FLOOR - 1, K.BLOCK)
+    lv.fill(10, K.FLOOR - 1, 12, K.FLOOR - 1, K.BLOCK)
+    lv.platform(6, K.FLOOR - 5, 4)
+
+
+def _arena_pillars(lv, width):
+    """Cover in the middle, for something that drifts and charms."""
+    for col in (5, 10):
+        lv.pillar(col, K.FLOOR - 6, K.FLOOR - 1)
+
+    lv.platform(6, K.FLOOR - 5, 4)
+
+
+def _arena_corridor(lv, width):
+    """
+    Bare. A charger that rebounds off the walls is the whole fight, and
+    anything to stand on lets you sit it out above the charge.
+    """
+    return
+
+
+def _arena_pit(lv, width):
+    """It eats the floor, so the floor has a hole in it and ledges either side."""
+    lv.fill(6, K.FLOOR, 9, K.ROWS - 1, K.BG_A)
+    lv.put(5, K.FLOOR, K.LEDGE_R)
+    lv.put(10, K.FLOOR, K.LEDGE_L)
+    lv.platform(2, K.FLOOR - 4, 3)
+    lv.platform(11, K.FLOOR - 4, 3)
+
+
+def _arena_low(lv, width):
+    """A lid on the room, so a slam leaves nowhere to jump to."""
+    lv.fill(1, K.FLOOR - 6, width - 2, K.FLOOR - 6, K.BLOCK)
+    lv.platform(4, K.FLOOR - 3, 3)
+    lv.platform(9, K.FLOOR - 3, 3)
+
+
+def _arena_ceiling(lv, width):
+    """It never moves; the ceiling does the work, so give it a ceiling."""
+    lv.fill(1, K.FLOOR - 7, width - 2, K.FLOOR - 7, K.BLOCK)
+    lv.fill(4, K.FLOOR - 6, 5, K.FLOOR - 6, K.BLOCK)
+    lv.fill(10, K.FLOOR - 6, 11, K.FLOOR - 6, K.BLOCK)
+    lv.platform(6, K.FLOOR - 3, 4)
+
+
+def _arena_throne(lv, width):
+    """Tiers, for a fight with three phases to climb through."""
+    lv.platform(1, K.FLOOR - 3, 4)
+    lv.platform(11, K.FLOOR - 3, 4)
+    lv.platform(6, K.FLOOR - 6, 4)
+
+
+ARENAS = [
+    _arena_open,        # I    Superbia - holds station and rains
+    _arena_stepped,     # II   Avaritia - hops and lobs
+    _arena_pillars,     # III  Luxuria - drifts and charms
+    _arena_corridor,    # IV   Invidia - charges wall to wall
+    _arena_pit,         # V    Gula - eats the floor
+    _arena_low,         # VI   Ira - charges and slams
+    _arena_ceiling,     # VII  Acedia - never moves
+    _arena_throne,      # VIII Hades - three phases
+]
+
+
 def boss_arena(world):
     """
-    A closed room, two screens wide, with a floor and two ledges to break the
-    line of sight. Wide enough to run away in, small enough that you cannot
-    simply keep running.
+    A closed room, one screen wide, shaped for the thing that lives in it.
+
+    Exactly sixteen metatiles: the compiler pads a stage up to a multiple of
+    sixteen and any padding it adds has no floor, so an arena has to be a whole
+    number of them or the room ends in a pit.
     """
     hazard, e1, e2, bg, _air = WORLD_FLAVOUR[world]
 
-    # Exactly one screen wide. The level compiler pads a stage up to a multiple
-    # of sixteen metatiles, and any padding it adds has no floor - so an arena
-    # has to be a whole number of them or the room ends in a pit.
     width = 16
+    # Hades gets its own music. Seven fights sharing one theme is fair enough;
+    # the last one sounding exactly like the first is not.
+    track = 'hades_boss' if world == 7 else 'boss'
     lv = K.Level('w%d_boss' % (world + 1), BOSS_NAMES[world], world, width=width,
-                 music='boss', background=bg, boss=world + 1)
+                 music=track, background=bg, boss=world + 1)
 
     lv.ground(0, width - 1)
-
-    # Two ledges to jump between, clear of the middle where the fight happens.
-    lv.platform(2, K.FLOOR - 4, 4)
-    lv.platform(10, K.FLOOR - 4, 4)
+    ARENAS[world](lv, width)
 
     # A pillar at each end so the room reads as a room.
     for col in (0, width - 1):

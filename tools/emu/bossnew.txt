@@ -1,0 +1,152 @@
+reset
+wait 140
+tap start 8
+wait 12
+wait 70
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+wait 30
+tap a 8
+wait 12
+wait 520
+wait 220
+shot w5_gula_pit
+reset
+wait 140
+tap start 8
+wait 12
+wait 70
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+wait 30
+tap a 8
+wait 12
+wait 520
+wait 220
+shot w6_ira_lid
+reset
+wait 140
+tap start 8
+wait 12
+wait 70
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+wait 30
+tap a 8
+wait 12
+wait 520
+wait 220
+shot w7_acedia_ceiling
+reset
+wait 140
+tap start 8
+wait 12
+wait 70
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+wait 30
+tap a 8
+wait 12
+wait 520
+wait 220
+shot w8_hades_tiers

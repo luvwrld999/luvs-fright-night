@@ -521,7 +521,7 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:14px}
 <section>
   <div class="wrap">
     <div class="eyebrow">Soundtrack</div>
-    <h2>Twelve modules, all in dark modes</h2>
+    <h2>Thirteen modules, all in dark modes</h2>
     <p class="lede">Synthesised from scratch and written straight to Maxmod tracker
       modules — nothing sampled. Eight channels: sub, heartbeat, two pads, a
       sixteenth-note arpeggio, a glass-bell motif, room tone and offbeat ash. These
@@ -534,7 +534,7 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:14px}
 <section>
   <div class="wrap">
     <div class="eyebrow">Effects</div>
-    <h2>Seventeen sounds</h2>
+    <h2>Twenty sounds</h2>
     <p class="lede">Click to hear one.</p>
     <div class="chips">__SFX__</div>
   </div>
