@@ -359,14 +359,21 @@ def gamelist(path, shots):
     <name>Luv's Fright Night</name>
     <sortname>Luvs Fright Night</sortname>
     <desc>%s</desc>
-    <image>./media/screenshot/gameplay-world-1.png</image>
+    <image>./media/mix/mix.png</image>
+    <mix>./media/mix/mix.png</mix>
+    <screenshot>./media/screenshot/gameplay-world-1.png</screenshot>
     <thumbnail>./media/box/box-front.png</thumbnail>
+    <box>./media/box/box-front.png</box>
+    <box3d>./media/box3d/box-3d.png</box3d>
+    <support>./media/cartridge/cart.png</support>
+    <cartridge>./media/cartridge/cart.png</cartridge>
     <marquee>./media/marquee/logo.png</marquee>
+    <wheel>./media/marquee/logo.png</wheel>
     <fanart>./media/fanart/fanart.png</fanart>
     <titleshot>./media/titlescreen/title.png</titleshot>
     <developer>LuvWrld</developer>
     <publisher>Retro Rumble</publisher>
-    <manual>./manual.html</manual>
+    <manual>./manual.pdf</manual>
     <genre>Platform</genre>
     <genreid>256</genreid>
     <players>2</players>
@@ -388,6 +395,17 @@ def build_manual():
     """The booklet is generated from the same graphics as the ROM."""
     import gen_manual
     gen_manual.build()
+
+
+def build_print():
+    """
+    The cartridge, the 3D box, the mix image and the PDF booklet.
+
+    Runs last because every one of them is built out of the flat assets this
+    script has just written.
+    """
+    import gen_print
+    gen_print.main()
 
 
 def main():
@@ -433,6 +451,7 @@ def main():
         shutil.copy(rom, os.path.join(OUT, 'LuvsFrightNight.gba'))
 
     build_manual()
+    build_print()
 
     gamelist(os.path.join(OUT, 'gamelist.xml'), written)
 

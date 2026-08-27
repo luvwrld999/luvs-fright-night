@@ -260,3 +260,184 @@ def mix(path, w=1920, h=1080):
 
     img.convert('RGB').save(path)
     return path
+
+
+# --------------------------------------------------------------- pdf manual
+
+PAGE = (1240, 1754)          # A4 at 150 dpi
+
+
+def _sheet():
+    img = gs.backdrop(PAGE[0], PAGE[1], seed=11)
+    gs.neon_frame(img, 46, 3)
+    return img
+
+
+def _heading(img, words, y):
+    block = Image.new('RGBA', (PAGE[0], 120), (0, 0, 0, 0))
+    boxfont.centered(block, words, 0, gs.GOLD, 7)
+    bloom, off = gs.glow(block, 9, 1.8, gs.MAG)
+    img.alpha_composite(bloom, (off, y + off))
+    img.alpha_composite(block, (0, y))
+
+
+def _body(img, lines, y, size=30, colour=(214, 206, 236, 255), x=140):
+    d = ImageDraw.Draw(img)
+    f = font(size)
+
+    for line in lines:
+        d.text((x, y), line, font=f, fill=colour)
+        y += int(size * 1.55)
+
+    return y
+
+
+def _entry(img, sheet_name, title, text, y, height=16, scale=5):
+    """One creature or pickup: its own sprite, its name, what it does."""
+    art = gs.sprite(sheet_name, 0, height, scale)
+    img.alpha_composite(art, (150, y))
+    d = ImageDraw.Draw(img)
+    d.text((150 + art.width + 40, y + 4), title, font=font(34), fill=gs.GOLD)
+    wrapped = []
+    words, line = text.split(), ''
+
+    for word in words:
+        trial = (line + ' ' + word).strip()
+
+        if len(trial) > 52:
+            wrapped.append(line)
+            line = word
+        else:
+            line = trial
+
+    wrapped.append(line)
+    _body(img, wrapped, y + 52, 26, x=150 + art.width + 40)
+    return y + max(art.height, 52 + len(wrapped) * 40) + 34
+
+
+def manual_pdf(path):
+    """
+    The manual as a booklet.
+
+    Headings in the game's own block face, body text in a plain mono so it can
+    actually be read at arm's length, and every creature illustrated with the
+    sprite the ROM ships rather than a drawing of it.
+    """
+    pages = []
+
+    # -- cover
+    cover = _sheet()
+    lockup, _pad = gs.title_block(15, 10)
+    cover.alpha_composite(lockup, ((PAGE[0] - lockup.width) // 2, 190))
+    luv = gs.sprite('luv', 0, 32, 11)
+    cover.alpha_composite(luv, ((PAGE[0] - luv.width) // 2, 780))
+    tag = Image.new('RGBA', (PAGE[0], 120), (0, 0, 0, 0))
+    boxfont.centered(tag, 'A GHOST IN BAD COMPANY', 0, gs.CYAN, 5)
+    cover.alpha_composite(tag, (0, 1240))
+    boxfont.centered(cover, 'INSTRUCTION BOOKLET', 1400, gs.MAG, 4)
+    boxfont.centered(cover, 'RETRO RUMBLE', 1560, gs.DGOLD, 4)
+    pages.append(cover)
+
+    # -- the story and the controls
+    p = _sheet()
+    _heading(p, 'THE RUN', 120)
+    y = _body(p, [
+        'Luv is a ghost with a devil\'s horns and an angel\'s halo,',
+        'and neither side will have him. Eight worlds lie between',
+        'him and the floor of the underworld. Seven of them are',
+        'ruled by a sin. The eighth is ruled by Hades.',
+        '',
+        'Take each stage from left to right, find the gate at the',
+        'end, and put down whatever is waiting in the third room.',
+    ], 300)
+
+    _heading(p, 'CONTROLS', y + 70)
+    _body(p, [
+        'PAD          run, and duck at a gate',
+        'A            jump - hold it to hover on the way down',
+        'A (held)     the hover meter drains, and fills on the ground',
+        'B (tap)      throw a soul flame, once you are carrying one',
+        'B (held)     run horns-first, fast enough to break blocks',
+        'START        pause: resume, restart, or leave',
+        'SELECT       nothing, and it never will',
+    ], y + 230, 28, (150, 240, 255, 255))
+    pages.append(p)
+
+    # -- what you are carrying
+    p = _sheet()
+    _heading(p, 'WHAT YOU CARRY', 120)
+    y = 320
+
+    for key, title, text in man.POWERS:
+        y = _entry(p, key, title.upper(), text, y, 16, 5)
+
+    _body(p, [
+        'A hit costs the last thing you picked up.',
+        'With nothing left to lose, it costs a life.',
+        '',
+        'Ninety-nine souls is a life, and the count starts again.',
+    ], y + 30, 27, gs.LILAC)
+    pages.append(p)
+
+    # -- what is in the way
+    p = _sheet()
+    _heading(p, 'BAD COMPANY', 120)
+    y = 320
+
+    for key, height, title, text in man.ENEMIES:
+        y = _entry(p, key, title.upper(), text, y, height, 5)
+
+    pages.append(p)
+
+    # -- the sins, over two pages
+    for half in (0, 1):
+        p = _sheet()
+        _heading(p, 'THE SEVEN' if half == 0 else 'AND THE KING', 120)
+        y = 320
+
+        for key, numeral, name, sin, text in man.SINS[half * 4:half * 4 + 4]:
+            y = _entry(p, key, '%s  %s' % (numeral, name.upper()),
+                       '%s. %s' % (sin, text), y, 32, 4)
+
+        pages.append(p)
+
+    # -- the back page
+    p = _sheet()
+    _heading(p, 'AND ONE MORE THING', 120)
+    _body(p, [
+        'Every stage prints a four letter code on its world card.',
+        'Write it down and LEVEL CODE will take you back there.',
+        '',
+        'Some walls are not walls. Some rooms are not on the way.',
+        '',
+        'Nothing in this cartridge was sampled or borrowed. Every',
+        'sprite, every tile and every note was generated by the',
+        'tools in this project, and so was this booklet.',
+    ], 320, 29)
+    boxfont.centered(p, 'RETRO RUMBLE', 1420, gs.GOLD, 5)
+    boxfont.centered(p, 'A LUVWRLD GAME', 1520, gs.MAG, 4)
+    pages.append(p)
+
+    flat = [q.convert('RGB') for q in pages]
+    flat[0].save(path, save_all=True, append_images=flat[1:], resolution=150.0)
+    return path
+
+
+def main():
+    for sub in ('cartridge', 'box3d', 'mix'):
+        os.makedirs(os.path.join(MEDIA, sub), exist_ok=True)
+
+    made = [
+        cartridge(os.path.join(MEDIA, 'cartridge', 'cart.png')),
+        box_3d(os.path.join(MEDIA, 'box3d', 'box-3d.png')),
+        mix(os.path.join(MEDIA, 'mix', 'mix.png')),
+        manual_pdf(os.path.join(OUT, 'manual.pdf')),
+    ]
+
+    for path in made:
+        print('%9d  %s' % (os.path.getsize(path),
+                           os.path.relpath(path, ROOT)))
+
+
+if __name__ == '__main__':
+    main()
