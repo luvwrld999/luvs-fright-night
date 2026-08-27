@@ -1,6 +1,6 @@
 ! name: Straight Down
 ! world: 5
-! music: title
+! music: secret
 ! width: 16
 ! boss: 0
 ! warp: -1

@@ -45,7 +45,7 @@ SPAWN_INDEX = {ch: i for i, (name, ch) in enumerate(SPAWNS)}
 
 MUSIC = ['title', 'w1_pride', 'w2_greed', 'w3_lust', 'w4_envy', 'w5_gluttony',
          'w6_wrath', 'w7_sloth', 'w8_hades', 'boss', 'victory', 'game_over',
-         'hades_boss']
+         'hades_boss', 'secret']
 
 
 def parse(path):

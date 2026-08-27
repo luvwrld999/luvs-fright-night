@@ -1386,9 +1386,9 @@ namespace lfn
         {"The Descent", w8_1_tiles, w8_1_spawns, 192, 41, 7, 8, 0, -1, -1, 0, nullptr},
         {"Below Everything", w8_2_tiles, w8_2_spawns, 144, 39, 7, 8, 0, -1, -1, 0, nullptr},
         {"Hades", w8_boss_tiles, w8_boss_spawns, 16, 2, 7, 12, 8, -1, -1, 0, nullptr},
-        {"Nine Nine Nine", secret_999_tiles, secret_999_spawns, 16, 8, 0, 0, 0, -1, 2, 1, "999  RIP JUICE WRLD"},
-        {"The Long Way Round", warp_0615_tiles, warp_0615_spawns, 16, 8, 2, 0, 0, -1, 15, 1, "06/15"},
-        {"Straight Down", warp_deep_tiles, warp_deep_spawns, 16, 8, 5, 0, 0, -1, 21, 1, "WE ALL FLOAT DOWN HERE"},
+        {"Nine Nine Nine", secret_999_tiles, secret_999_spawns, 16, 8, 0, 13, 0, -1, 2, 1, "999  RIP JUICE WRLD"},
+        {"The Long Way Round", warp_0615_tiles, warp_0615_spawns, 16, 8, 2, 13, 0, -1, 15, 1, "06/15"},
+        {"Straight Down", warp_deep_tiles, warp_deep_spawns, 16, 8, 5, 13, 0, -1, 21, 1, "WE ALL FLOAT DOWN HERE"},
     };
     constexpr int level_count = 27;
     // Stages the story runs through; the rest are secret rooms.
@@ -1398,7 +1398,7 @@ namespace lfn
     // asserts its own list is this long: the two used to be
     // kept by hand and quietly disagreed, so the Hades fight
     // asked for track 12 of a table that stopped at 11.
-    constexpr int music_count = 13;
+    constexpr int music_count = 14;
 }
 
 #endif

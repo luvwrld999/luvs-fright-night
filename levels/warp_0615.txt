@@ -1,6 +1,6 @@
 ! name: The Long Way Round
 ! world: 2
-! music: title
+! music: secret
 ! width: 16
 ! boss: 0
 ! warp: -1

@@ -1005,7 +1005,7 @@ def secret_room(key, name, world, message, exit_to, reward=K.ONE_UP):
     """
     hazard, e1, e2, bg, _air = WORLD_FLAVOUR[world]
     width = 16
-    lv = K.Level(key, name, world, width=width, music='title', background=bg,
+    lv = K.Level(key, name, world, width=width, music='secret', background=bg,
                  exit_to=exit_to, secret=message, hidden=True)
 
     lv.ground(0, width - 1)

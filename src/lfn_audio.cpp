@@ -30,6 +30,7 @@ namespace lfn::audio
             bn::music_items::victory,
             bn::music_items::game_over,
             bn::music_items::hades_boss,
+            bn::music_items::secret,
         };
 
         // The level table names tracks by index. If these two lists ever

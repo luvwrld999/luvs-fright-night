@@ -184,7 +184,8 @@ int main()
                 announce = false;
             }
 
-            LFN_TRACE("main: starting stage ", me.index);
+            LFN_TRACE("main: starting stage ", me.index, " seat ", turn,
+                      " lives ", me.run.lives, " continues ", me.run.continues);
 
             // Each sin gets a word in on the way into its world, and only on
             // the way in - not before every stage, and not in the boss rush,
@@ -251,6 +252,7 @@ int main()
             {
                 // A life lost with someone waiting. They keep their stage and
                 // start it again when the pad comes back to them.
+                LFN_TRACE("main: handover, seat ", turn, " to ", turn ^ 1);
                 turn ^= 1;
                 announce = true;
                 continue;
@@ -258,6 +260,9 @@ int main()
 
             if(result == lfn::game_result::game_over)
             {
+                LFN_TRACE("main: game over, seat ", turn, " continues ",
+                          me.run.continues);
+
                 if(me.run.continues > 0 &&
                    lfn::offer_continue(text, me.run, label))
                 {
@@ -266,6 +271,7 @@ int main()
                     // the run you have already played.
                     --me.run.continues;
                     me.run.lives = lfn::tune::start_lives;
+                    LFN_TRACE("main: continued, ", me.run.continues, " left");
                     announce = seats_taken > 1;
                     continue;
                 }

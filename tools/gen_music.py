@@ -100,6 +100,13 @@ THEMES = [
     dict(key='hades_boss',  name='The King Below',    scale='hungarian_minor',
          root=9,  bpm=138, prog=[0, 6, 3, 1], octave=2, seed=13, air=True,
          boss=True),
+    # The hidden rooms used to play the title theme, which is the one piece of
+    # music the player already associates with the menu. Finding a room should
+    # not sound like backing out to the front end. Slow, thin and unresolved -
+    # it sits under the writing on the wall rather than announcing anything.
+    dict(key='secret',      name='Nobody Comes Here',  scale='harmonic_minor',
+         root=5,  bpm=92,  prog=[0, 5], octave=3, seed=17, air=True,
+         sparse=True),
 ]
 
 

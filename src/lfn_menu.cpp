@@ -21,6 +21,7 @@
 
 #include "lfn_audio.h"
 #include "lfn_backdrop.h"
+#include "lfn_trace.h"
 #include "lfn_cards.h"
 #include "lfn_code.h"
 #include "bn_core.h"
@@ -687,6 +688,7 @@ namespace lfn
                         if(lives)
                         {
                             cheat_lives = lives;
+                            LFN_TRACE("menu: cheat accepted, lives ", lives);
                         }
 
                         restore();

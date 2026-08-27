@@ -228,6 +228,202 @@ def check_warps():
     return 1 if bad else 0
 
 
+# In a test build the menu is six rows - CONTINUE, NEW GAME, 2 PLAYER,
+# LEVEL CODE, STAGE SELECT, EXTRAS - because the flags unlock everything.
+MENU_TWO_PLAYER = 2
+MENU_EXTRAS = 5
+EXTRAS_BOSS_RUSH = 1
+EXTRAS_CHEAT = 3
+
+# up up down down left right A B select start
+KONAMI = ['up', 'up', 'down', 'down', 'left', 'right', 'a', 'b', 'select',
+          'start']
+
+
+def into_extras(row):
+    out = regress.boot() + regress.tap('down', MENU_EXTRAS) + ['wait 16']
+    out += regress.tap('a') + ['wait 70']
+    out += regress.tap('down', row) + ['wait 16'] + regress.tap('a')
+    return out + ['wait 70']
+
+
+def mode_boss_rush():
+    """Eight arenas back to back, its own board, and the ending at the end."""
+    out = into_extras(EXTRAS_BOSS_RUSH)
+    out += ['wait 200'] + ['wait 600'] * 20
+    out += ['shot final']
+
+    def judge_it(log):
+        bad = []
+        order = [w * 3 - 1 for w in range(1, 9)]
+        seen = [i for i in order
+                if 'main: starting stage %d seat' % i in log]
+
+        if len(seen) < len(order):
+            missing = [i for i in order if i not in seen]
+            bad.append('only reached %d of 8 arenas (missing %s)'
+                       % (len(seen), missing))
+
+        if 'main: ending' not in log:
+            bad.append('the rush never reached the ending')
+
+        return bad
+
+    return out, judge_it
+
+
+def mode_cheat():
+    """The pad code grants 99 lives, and a run actually starts with them."""
+    out = into_extras(EXTRAS_CHEAT)
+
+    for key in KONAMI:
+        out += regress.tap(key, hold=6, gap=9)
+
+    out += ['wait 90']
+    # Back out to the menu and start a run, which is where the lives land.
+    out += regress.tap('b') + ['wait 40'] + regress.tap('b') + ['wait 60']
+    out += regress.tap('down') + ['wait 16'] + regress.tap('a')
+    out += ['wait 80'] + regress.tap('a') + ['wait 60']
+    out += regress.tap('down') + ['wait 16'] + regress.tap('a')
+    out += ['wait 600'] * 3 + ['shot final']
+
+    def judge_it(log):
+        bad = []
+
+        if 'menu: cheat accepted, lives 99' not in log:
+            bad.append('the code was not accepted')
+
+        if not re.search(r'starting stage \d+ seat \d+ lives 99', log):
+            bad.append('the run did not start with 99 lives')
+
+        return bad
+
+    return out, judge_it
+
+
+def mode_two_player():
+    """The pad passes to the other seat when one of them dies."""
+    out = regress.boot() + regress.tap('down', MENU_TWO_PLAYER) + ['wait 16']
+    out += regress.tap('a') + ['wait 80'] + regress.tap('a') + ['wait 60']
+    out += regress.tap('down') + ['wait 16'] + regress.tap('a')
+    out += ['wait 600'] * 8 + ['shot final']
+
+    def judge_it(log):
+        bad = []
+
+        if 'main: handover' not in log:
+            bad.append('the pad never passed to the other seat')
+
+        seats = set(re.findall(r'starting stage \d+ seat (\d)', log))
+
+        if len(seats) < 2:
+            bad.append('only seat %s ever played' % (seats or 'none'))
+
+        return bad
+
+    return out, judge_it
+
+
+def mode_continues():
+    """Running out of lives offers a continue, and taking it works."""
+    out = regress.boot() + regress.tap('down') + ['wait 16'] + regress.tap('a')
+    out += ['wait 80'] + regress.tap('a') + ['wait 60']
+    out += regress.tap('down') + ['wait 16'] + regress.tap('a')
+    out += ['wait 600'] * 5
+    # The prompt counts down and then decides for you - about nine seconds.
+    # One press after a fixed wait missed that window by a hundred frames, so
+    # this knocks on the door for as long as the door is open.
+    for _ in range(8):
+        out += regress.tap('a') + ['wait 40']
+
+    out += ['wait 600'] * 2 + ['shot final']
+
+    def judge_it(log):
+        bad = []
+
+        if 'main: game over' not in log:
+            bad.append('never ran out of lives')
+        elif 'main: continued' not in log:
+            bad.append('the continue was offered but taking it did nothing')
+        elif not re.search(r'starting stage \d+ seat \d+ lives 3', log):
+            bad.append('lives were not restored after continuing')
+
+        return bad
+
+    return out, judge_it
+
+
+MODES = {
+    'boss_rush': (mode_boss_rush, ''),
+    'cheat': (mode_cheat, ''),
+    # Both of these need a player who dies on a clock, which is what
+    # LFN_TEST_FRAGILE is for - the pilot cannot be relied on to die on cue,
+    # and with LFN_TEST_INVULNERABLE it never would.
+    'two_player': (mode_two_player, 'fragile'),
+    'continues': (mode_continues, 'fragile'),
+}
+
+
+def check_modes(only):
+    """Drive the parts of the game nothing has ever run."""
+    bad = 0
+
+    for name in (only or sorted(MODES)):
+        make, variant = MODES[name]
+        flags = FLAGS
+
+        if variant == 'fragile':
+            flags = flags.replace('-DLFN_TEST_INVULNERABLE=1',
+                                  '-DLFN_TEST_FRAGILE=420')
+
+        print('building for %s...' % name)
+        subprocess.run(['./build.sh', 'clean'], cwd=ROOT, check=True,
+                       stdout=subprocess.DEVNULL)
+        proc = subprocess.run(['./build.sh', 'USERFLAGS=' + flags], cwd=ROOT,
+                              capture_output=True, text=True)
+
+        if proc.returncode or 'error:' in proc.stdout:
+            print(proc.stdout[-2000:])
+            raise SystemExit('build failed')
+
+        shutil.move(os.path.join(ROOT, 'LuvsFrightNight.gba'), ROM)
+        lines, judge_it = make()
+        path = os.path.join(EMU, 'soak_%s.txt' % name)
+
+        with open(path, 'w') as f:
+            f.write('\n'.join(lines) + '\n')
+
+        into = os.path.join(WORK, name)
+        os.makedirs(into, exist_ok=True)
+        regress.fresh_cartridge(ROM)
+        run_log = subprocess.run(
+            ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w',
+             'lfn-mgba', '/w/' + os.path.relpath(ROM, ROOT),
+             '/w/' + os.path.relpath(path, ROOT),
+             '/w/' + os.path.relpath(into, ROOT)],
+            capture_output=True, text=True)
+        os.remove(path)
+        os.remove(ROM)
+        log = run_log.stdout + run_log.stderr
+
+        with open(os.path.join(into, 'trace.log'), 'w') as f:
+            f.write(log)
+
+        problems = judge_it(log)
+
+        if BAD.search(log):
+            problems.append('crashed')
+
+        if problems:
+            bad += 1
+            print('  FAIL  %-12s %s' % (name, '; '.join(problems)))
+        else:
+            print('  ok    %s' % name)
+
+    print('\n%d mode(s) driven, %d failed' % (len(only or MODES), bad))
+    return 1 if bad else 0
+
+
 def check_sram():
     """
     A save written by one run is still there for the next one.
@@ -334,6 +530,9 @@ def main(argv):
 
     if '--sram' in argv:
         return check_sram()
+
+    if '--modes' in argv:
+        return check_modes(argv[argv.index('--modes') + 1:])
 
     only = [int(a) for a in argv[argv.index('--only') + 1:]] \
         if '--only' in argv else list(range(LEVELS))
