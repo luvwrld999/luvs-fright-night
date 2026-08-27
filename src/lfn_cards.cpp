@@ -236,7 +236,7 @@ namespace lfn
     void show_game_over(bn::sprite_text_generator& text, const run_state& run,
                         const save::file& file)
     {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 48> sprites;
 
         text.set_center_alignment();
@@ -284,7 +284,7 @@ namespace lfn
         settle();
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 96> sprites;
 
         save::board showing = which;
@@ -429,7 +429,7 @@ namespace lfn
         int slot = 0;
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 64> fixed_text;
         bn::vector<bn::sprite_ptr, 32> entry_text;
 
@@ -552,7 +552,7 @@ namespace lfn
         int chosen = -1;
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 64> sprites;
         bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(-108, 0);
 
@@ -685,7 +685,7 @@ namespace lfn
         int granted = 0;
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 64> fixed_text;
         bn::vector<bn::sprite_ptr, 24> progress;
         bn::vector<bn::sprite_ptr, 16> clock;
@@ -831,7 +831,7 @@ namespace lfn
         constexpr int rows = 7;
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 96> sprites;
 
         int pick = 0;
@@ -933,7 +933,7 @@ namespace lfn
         bool taken = false;
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 48> sprites;
         bn::vector<bn::sprite_ptr, 8> clock;
 
@@ -1054,7 +1054,7 @@ namespace lfn
         int found = -1;
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 64> fixed_text;
         bn::vector<bn::sprite_ptr, 32> entry_text;
 
@@ -1199,7 +1199,7 @@ namespace lfn
         settle();
 
         {
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
         bn::vector<bn::sprite_ptr, 64> sprites;
 
         text.set_center_alignment();

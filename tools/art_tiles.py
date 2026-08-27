@@ -33,13 +33,28 @@ WORLDS = [
          cap=pal.GREEN,  accent=pal.TEAL,   glow=pal.GREEN, hazard=pal.GREEN,  motif='drip'),
     dict(key='gluttony',  title='V. Gula',      rock=pal.DRED,   dark=pal.SHADOW,
          cap=pal.RED,    accent=pal.GOLD,   glow=pal.MAG,   hazard=pal.RED,    motif='bone'),
-    dict(key='wrath',     title='VI. Ira',      rock=pal.SHADOW, dark=pal.INK,
+    dict(key='wrath',     title='VI. Ira',      rock=pal.DGOLD,  dark=pal.SHADOW,
          cap=pal.RED,    accent=pal.GOLD,   glow=pal.GOLD,  hazard=pal.GOLD,   motif='crack'),
-    dict(key='sloth',     title='VII. Acedia',  rock=pal.SHADOW, dark=pal.INK,
-         cap=pal.PURPLE, accent=pal.DGOLD,  glow=pal.DGOLD, hazard=pal.PURPLE, motif='cobweb'),
-    dict(key='hades',     title='VIII. Hades',  rock=pal.SHADOW, dark=pal.INK,
+    dict(key='sloth',     title='VII. Acedia',  rock=pal.TEAL,   dark=pal.SHADOW,
+         cap=pal.LILAC,  accent=pal.DGOLD,  glow=pal.DGOLD, hazard=pal.PURPLE, motif='cobweb'),
+    dict(key='hades',     title='VIII. Hades',  rock=pal.DMAG,   dark=pal.SHADOW,
          cap=pal.PURPLE, accent=pal.MAG,    glow=pal.MAG,   hazard=pal.MAG,    motif='skull'),
 ]
+
+# The front end's own masonry, and deliberately not a world's.
+#
+# The menu, the boards and the code screen used to borrow the Hades tileset,
+# which meant the one knob that made Hades readable to play in also made every
+# screen of text busier to read. This is the near-black wall those screens
+# actually want: the same brickwork, drawn so far down that it reads as depth
+# behind the letters rather than as pattern competing with them.
+FRONTEND = dict(key='menu', title='Front end', rock=pal.SHADOW, dark=pal.INK,
+                cap=pal.PURPLE, accent=pal.MAG, glow=pal.MAG, hazard=pal.MAG,
+                motif='skull')
+
+
+def frontend_tiles():
+    return [BUILDERS[i](FRONTEND) for i in range(COUNT)]
 
 
 def _noise(x, y, seed=0):

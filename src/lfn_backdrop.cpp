@@ -15,6 +15,7 @@
 #include "bn_regular_bg_tiles_items_tiles_greed.h"
 #include "bn_regular_bg_tiles_items_tiles_hades.h"
 #include "bn_regular_bg_tiles_items_tiles_lust.h"
+#include "bn_regular_bg_tiles_items_tiles_menu.h"
 #include "bn_regular_bg_tiles_items_tiles_pride.h"
 #include "bn_regular_bg_tiles_items_tiles_sloth.h"
 #include "bn_regular_bg_tiles_items_tiles_wrath.h"
@@ -49,6 +50,7 @@ namespace lfn
         {
             switch(world)
             {
+            case backdrop_front: return bn::regular_bg_tiles_items::tiles_menu;
             case 0:  return bn::regular_bg_tiles_items::tiles_pride;
             case 1:  return bn::regular_bg_tiles_items::tiles_greed;
             case 2:  return bn::regular_bg_tiles_items::tiles_lust;

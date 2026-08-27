@@ -99,7 +99,7 @@ namespace lfn
     {
         // A field, not a room: the room style draws a floor line across the
         // middle of the screen, and the option list sat on top of it.
-        bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
+        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
 
         bn::vector<bn::sprite_ptr, 112> sprites;
 

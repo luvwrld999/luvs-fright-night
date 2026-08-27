@@ -6,6 +6,16 @@
 
 namespace lfn
 {
+    /**
+     * Not a world: the front end's own masonry.
+     *
+     * The menu, the boards, the code screen and the system cards all used to
+     * ask for world 7 and get the Hades tileset. That tied how readable a
+     * screen of text was to how readable the last world was to play in, and
+     * the two want opposite things. They ask for this instead.
+     */
+    constexpr int backdrop_front = -1;
+
     /** How far the menu and card backdrops are pushed toward black. */
     constexpr bn::fixed backdrop_dim = 0.45;
 

@@ -156,8 +156,15 @@ namespace lfn
 
         if(_first || now.world != _shown.world || now.stage != _shown.stage)
         {
-            _show(_world_text, world_x,
-                  bn::format<8>("{}-{}", roman(now.world), now.stage + 1).c_str());
+            const bn::string<8> label =
+                        bn::format<8>("{}-{}", roman(now.world), now.stage + 1);
+
+            // The bar is left-aligned, so VIII-1 is half again as wide as I-1
+            // and used to run into the clock. Widen leftwards instead: the
+            // slot stays put and the long numerals grow into the gap before
+            // the soul count rather than over the time.
+            _show(_world_text, world_x - (int(label.size()) - 3) * 4,
+                  label.c_str());
         }
 
         if(_first || now.time != _shown.time)

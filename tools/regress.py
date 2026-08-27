@@ -149,6 +149,61 @@ def _codes():
     return out
 
 
+# The first stage of each world, and the alphabet the code screen scrolls
+# through. Kept here rather than imported so this file stays runnable on its
+# own; check_levels.py fails if the two ever disagree about the level table.
+CODE_LETTERS = 'BCDFGHJKLMNPRSTV'
+WORLD_ENTRY = {2: 3, 3: 6, 4: 9, 5: 12, 6: 15, 7: 18, 8: 21}
+
+
+def level_code(index):
+    """The same scramble lfn_code.cpp uses, so the cases type real codes."""
+    v = ((index + 1) * 2749 ^ 0x3C5A) & 0xFFFF
+    return ''.join(CODE_LETTERS[(v >> ((3 - k) * 4)) & 0xF] for k in range(4))
+
+
+def type_code(text):
+    """Drive the code screen: scroll each column up to its letter, then right."""
+    out = []
+
+    for i, ch in enumerate(text):
+        out += tap('up', CODE_LETTERS.index(ch), hold=6, gap=7)
+
+        if i < len(text) - 1:
+            out += tap('right')
+
+    return out + ['wait 20'] + tap('a')
+
+
+def world_case(world):
+    """
+    One stage of one world, reached by typing its level code.
+
+    World 1-1 is already covered by `play`; this is worlds two through eight,
+    so a tileset, palette or layout change anywhere in the game shows up here
+    instead of only in whichever world someone happened to look at. The frame
+    is taken where Luv lands, not after a blind run right: walking right into
+    VII-1's spike bed only proves the autopilot cannot see, and a baseline
+    that depends on surviving is a baseline that changes for the wrong reason.
+    Camera scroll and parallax are covered by `play` in world one.
+    """
+    def build():
+        out = boot() + tap('down', 2) + ['wait 16'] + tap('a') + ['wait 70']
+        out += type_code(level_code(WORLD_ENTRY[world]))
+        # The code screen holds on the stage name, then the sin gets its say
+        # (560 frames), then the world card (190).
+        out += ['wait 120', 'wait 600', 'wait 200', 'wait 120']
+        out += ['shot 01_stage']
+        return out
+
+    build.__doc__ = 'World %d, entered by level code.' % world
+    return build
+
+
+for _w in sorted(WORLD_ENTRY):
+    case('world%d' % _w)(world_case(_w))
+
+
 def build_rom():
     print('building a clean ROM...')
     subprocess.run(['./build.sh', 'clean'], cwd=ROOT, check=True,

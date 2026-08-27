@@ -1,216 +1,432 @@
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_1
+shot w1
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_2
+shot w2
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_3
+shot w3
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_4
+shot w4
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_5
+shot w5
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_6
+shot w6
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_7
+shot w7
 reset
-wait 200
-tap down 6
+wait 140
+tap start 8
 wait 12
-tap down 6
+wait 70
+tap down 8
 wait 12
-tap a 6
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 40
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
+tap up 8
+wait 12
 wait 30
-tap up 4
-wait 8
-tap a 6
+tap a 8
+wait 12
+wait 620
 wait 420
-shot world_8
+shot w8

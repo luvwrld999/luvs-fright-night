@@ -129,6 +129,12 @@ def main():
                             [(art_tiles.NAMES[k], t) for k, t in enumerate(tiles)]))
         counts['tiles_' + world['key']] = len(tiles)
 
+    # The front end's backdrop, which belongs to no world.
+    menu_tiles = art_tiles.frontend_tiles()
+    emit('tiles_menu', menu_tiles,
+         {'type': 'regular_bg_tiles', 'bpp_mode': 'bpp_4'})
+    counts['tiles_menu'] = len(menu_tiles)
+
     # -- the metatile vocabulary, shared with the engine -------------------
     os.makedirs(INC, exist_ok=True)
     with open(os.path.join(INC, 'lfn_tiles.h'), 'w') as f:
