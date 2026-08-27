@@ -446,6 +446,14 @@ namespace lfn
             return game_result::running;
         }
 
+        if constexpr(tune::test_autopilot)
+        {
+            // Harness only: point the pilot at the boss, so a full run can get
+            // past an arena instead of stopping at the first one.
+            _player.set_pilot_target(_boss.x(), _boss.y(),
+                                     _boss.active() && !_boss.dying());
+        }
+
         const luv_events le = _player.update(_level);
         world_events we = _entities.update(_player, _level);
 

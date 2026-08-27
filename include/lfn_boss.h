@@ -58,6 +58,8 @@ namespace lfn
         boss_events update(luv& player, level& lv, entities& ents);
 
         [[nodiscard]] bool active() const { return _which > 0; }
+        [[nodiscard]] bn::fixed x() const { return _pos.x(); }
+        [[nodiscard]] bn::fixed y() const { return _pos.y(); }
         [[nodiscard]] int health() const { return _health; }
         [[nodiscard]] int max_health() const { return _max_health; }
         [[nodiscard]] bool dying() const { return _dying; }

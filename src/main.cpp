@@ -304,6 +304,7 @@ int main()
 
                 if(me.index >= lfn::story_count)
                 {
+                    LFN_TRACE("main: ending, score ", me.run.score);
                     lfn::show_ending(text, me.run, file);
                     won = true;
                     seats[0].out = true;
@@ -360,6 +361,7 @@ int main()
             if(story_over)
             {
                 // Hades is down: the run is over however many seats are taken.
+                LFN_TRACE("main: ending, score ", me.run.score);
                 lfn::show_ending(text, me.run, file);
                 won = true;
                 seats[0].out = true;

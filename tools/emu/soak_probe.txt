@@ -1,0 +1,91 @@
+wait 140
+tap start 8
+wait 11
+wait 70
+tap down 8
+wait 11
+tap down 8
+wait 11
+tap down 8
+wait 11
+wait 16
+tap a 8
+wait 11
+wait 70
+tap up 6
+wait 7
+tap right 8
+wait 11
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap right 8
+wait 11
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap right 8
+wait 11
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+tap up 6
+wait 7
+wait 20
+tap a 8
+wait 11
+wait 120
+wait 200
+wait 2400
+shot arena

@@ -42,6 +42,20 @@ namespace lfn
         /** Hand the pad to the autopilot, for the title screen's demo. */
         void set_demo(bool demo) { _demo = demo; }
 
+        /**
+         * Where the autopilot should go, when it is not simply "right".
+         *
+         * A boss is not level geometry, so the pilot cannot see it the way it
+         * sees a hole in the floor. Without this the harness walks into the
+         * arena wall and jumps on the spot, and a full run stops at the first
+         * boss - which is most of the game left unproven.
+         */
+        void set_pilot_target(bn::fixed x, bn::fixed y, bool on)
+        {
+            _target = bn::fixed_point(x, y);
+            _has_target = on;
+        }
+
         /** Which world's air Luv is moving through. */
         void set_world(int world) { _world = world < 0 || world > 7 ? 0 : world; }
 
@@ -72,6 +86,8 @@ namespace lfn
 
     private:
         bool _demo = false;
+        bn::fixed_point _target;
+        bool _has_target = false;
         int _world = 0;
         bn::fixed_point _pos;
         bn::fixed_point _vel;

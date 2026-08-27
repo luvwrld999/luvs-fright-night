@@ -104,7 +104,128 @@ namespace lfn
         {
             bool press = false;
             bool hold = false;
+            bool go_right = true;
+            bool go_left = false;
         };
+
+        /**
+         * Is there a reason to jump right now - a hole, a hazard, a wall?
+         *
+         * `dir` is which way we are travelling, because a driver chasing a
+         * boss can be walking left, and the ground it is about to run out of
+         * is the ground on that side.
+         */
+        bool must_jump(level& lv, int px, int py, int dir)
+        {
+            const int probe = py + tune::luv_half_h + 4;
+
+            for(int d = 10; d <= 26; d += 8)
+            {
+                const int at = px + (d * dir);
+
+                if(!lv.blocks(at, probe) &&
+                   lv.at_pixel(at, probe) != surface::platform)
+                {
+                    return true;
+                }
+
+                if(lv.hurts(at, probe - 8))
+                {
+                    return true;
+                }
+            }
+
+            return lv.blocks(px + ((tune::luv_half_w + 3) * dir), py);
+        }
+
+        /**
+         * Drive at a boss and come down on top of it.
+         *
+         * A boss is only hurt by a flame or by a player falling onto it, so
+         * walking into one just takes the hit. This closes the distance, jumps
+         * from about a body's width away, and - crucially - does not hover on
+         * the way down, because a hover is what stops the descent that counts
+         * as the stomp.
+         */
+        /** Nothing solid within a few tiles below: we are over the hole. */
+        bool over_gap(level& lv, int px, int py)
+        {
+            for(int d = 8; d <= 72; d += 8)
+            {
+                if(lv.blocks(px, py + d))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        pilot hunt(level& lv, bn::fixed tx, bn::fixed ty, bool grounded,
+                   int px, int py)
+        {
+            pilot out;
+            const int dx = tx.right_shift_integer() - px;
+            const int adx = dx < 0 ? -dx : dx;
+            const int dir = dx < 0 ? -1 : 1;
+            constexpr int reach = 26;       // close enough to jump on it
+
+            if(!grounded)
+            {
+                // Close in, stop hovering: a hover is what cancels the descent,
+                // and only a descent counts as a hit. Acedia never moves and
+                // fights under a ceiling, so a pilot that keeps hovering just
+                // hangs above it.
+                out.go_right = dx > 0;
+                out.go_left = dx < 0;
+
+                // Nothing underneath: hover whatever else is true. Stomping
+                // Gula over the lip of its pit bounced the pilot straight down
+                // the hole - one hit, then dead at column nine, thirteen times.
+                if(over_gap(lv, px, py))
+                {
+                    out.hold = true;
+                    return out;
+                }
+
+                if(adx <= reach)
+                {
+                    if(adx <= 10 && py < ty.right_shift_integer())
+                    {
+                        out.go_right = false;
+                        out.go_left = false;
+                    }
+
+                    return out;
+                }
+
+                out.hold = true;            // still crossing ground
+                return out;
+            }
+
+            const bool edge = must_jump(lv, px, py, dir);
+
+            if(adx <= reach)
+            {
+                out.go_right = dx > 0;
+                out.go_left = dx < 0;
+                out.press = true;
+                out.hold = true;
+                return out;
+            }
+
+            if(edge)
+            {
+                // Gula stands on the far side of a hole it ate in its own
+                // floor. Chasing across cost a life every time and reset the
+                // fight; it hops, so waiting on this side brings it to us.
+                return out;
+            }
+
+            out.go_right = dx > 0;
+            out.go_left = dx < 0;
+            return out;
+        }
 
         pilot autopilot(level& lv, bool grounded, int px, int py)
         {
@@ -112,30 +233,9 @@ namespace lfn
             const int col = px / tune::tile;
             const int row = (py + tune::luv_half_h) / tune::tile;
 
-            if(grounded)
+            if(grounded && must_jump(lv, px, py, 1))
             {
-                const int probe = py + tune::luv_half_h + 4;
-
-                for(int d = 10; d <= 26; d += 8)
-                {
-                    if(!lv.blocks(px + d, probe) &&
-                       lv.at_pixel(px + d, probe) != surface::platform)
-                    {
-                        out.press = true;
-                        break;
-                    }
-
-                    if(lv.hurts(px + d, probe - 8))
-                    {
-                        out.press = true;
-                        break;
-                    }
-                }
-
-                if(lv.blocks(px + tune::luv_half_w + 3, py))
-                {
-                    out.press = true;                 // something in the way
-                }
+                out.press = true;
             }
             else
             {
@@ -158,11 +258,17 @@ namespace lfn
         // The harness flag and the attract demo want the same thing: nobody
         // is holding the pad, so something has to hold it for them.
         const bool driven = tune::test_autopilot || _demo;
-        const pilot ai = driven ? autopilot(lv, _grounded, px_now, py_now)
-                                : pilot();
+        pilot ai;
 
-        const bool left = driven ? false : bn::keypad::left_held();
-        const bool right = driven ? true : bn::keypad::right_held();
+        if(driven)
+        {
+            ai = _has_target ? hunt(lv, _target.x(), _target.y(), _grounded,
+                                    px_now, py_now)
+                             : autopilot(lv, _grounded, px_now, py_now);
+        }
+
+        const bool left = driven ? ai.go_left : bn::keypad::left_held();
+        const bool right = driven ? ai.go_right : bn::keypad::right_held();
         const bn::fixed accel = _grounded ? tune::run_accel : tune::air_accel;
 
         // B is Mario's button: held, it raises the speed cap; tapped, it throws
