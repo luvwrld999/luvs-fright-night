@@ -100,7 +100,14 @@ namespace lfn
     {
         // A field, not a room: the room style draws a floor line across the
         // middle of the screen, and the option list sat on top of it.
-        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
+        // The main list sits in a framed panel; the sub-screens are their own
+        // full-screen layouts and a panel would cut straight across them, so
+        // the backdrop is rebuilt whenever the screen changes.
+        // The title gate is not a list, so it opens on plain masonry; the
+        // panel arrives with the menu on the first pass through the loop.
+        bn::optional<bn::regular_bg_ptr> backdrop =
+                    make_backdrop(backdrop_front, backdrop_style::field);
+        backdrop_style built_as = backdrop_style::field;
 
         bn::vector<bn::sprite_ptr, 112> sprites;
 
@@ -293,20 +300,44 @@ namespace lfn
 
             if(dirty)
             {
+                const backdrop_style want = where == screen::main
+                                          ? backdrop_style::panel
+                                          : backdrop_style::field;
+
+                if(want != built_as)
+                {
+                    backdrop.reset();
+                    backdrop = make_backdrop(backdrop_front, want);
+                    built_as = want;
+                }
+
                 sprites.clear();
                 text.set_center_alignment();
 
                 if(where == screen::main)
                 {
                     // The name is a sprite now; only the tagline is text.
-                    text.generate(0, -26, "a ghost in bad company", sprites);
+                    text.generate(0, -32, "a ghost in bad company", sprites);
                     tint(sprites, 0, bn::sprite_palette_items::text_mag);
 
                     // Centred, with the cursor to the left of the block, rather
-                    // than a left-aligned list under a centred title.
+                    // than a left-aligned list under a centred title. The row
+                    // you are on is gold and the rest are cyan: a cursor alone
+                    // left every line looking equally chosen.
+                    // Centred in the panel whether the list is four rows or
+                    // six, so a cartridge with a save on it does not push the
+                    // whole menu down the screen.
+                    const int step = 13;
+                    const int first = 40 - (((options.size() - 1) * step) / 2) - 7;
+
                     for(int i = 0; i < options.size(); ++i)
                     {
-                        text.generate(0, -8 + (i * 14), options[i].label, sprites);
+                        const int mark = sprites.size();
+                        text.generate(0, first + (i * step), options[i].label,
+                                      sprites);
+                        tint(sprites, mark,
+                             i == choice ? bn::sprite_palette_items::text_gold
+                                         : bn::sprite_palette_items::text_cyan);
                     }
                 }
                 else if(where == screen::confirm)
@@ -337,8 +368,13 @@ namespace lfn
 
                     for(int i = 0; i < extras.size(); ++i)
                     {
+                        const int mark = sprites.size();
                         text.generate(-40, layout::body_top + (i * 18),
                                       extras[i].label, sprites);
+                        tint(sprites, mark,
+                             i == extra_pick
+                                 ? bn::sprite_palette_items::text_gold
+                                 : bn::sprite_palette_items::text_cyan);
                     }
 
                     text.set_center_alignment();
@@ -426,7 +462,9 @@ namespace lfn
             if(where == screen::main)
             {
                 cursor.set_visible(true);
-                cursor.set_position(-72, -6 + (choice * 14) + bob);
+                const int step = 13;
+                const int first = 40 - (((options.size() - 1) * step) / 2) - 7;
+                cursor.set_position(-72, first + 2 + (choice * step) + bob);
             }
             else if(where == screen::extras)
             {
@@ -486,11 +524,13 @@ namespace lfn
                 {
                     choice = (choice + options.size() - 1) % options.size();
                     audio::sfx_menu();
+                    dirty = true;       // the highlight moves with the cursor
                 }
                 else if(bn::keypad::down_pressed())
                 {
                     choice = (choice + 1) % options.size();
                     audio::sfx_menu();
+                    dirty = true;
                 }
 
                 if(bn::keypad::a_pressed() || bn::keypad::start_pressed())
@@ -668,11 +708,13 @@ namespace lfn
                 {
                     extra_pick = (extra_pick + extras.size() - 1) % extras.size();
                     audio::sfx_menu();
+                    dirty = true;       // the highlight moves with the cursor
                 }
                 else if(bn::keypad::down_pressed())
                 {
                     extra_pick = (extra_pick + 1) % extras.size();
                     audio::sfx_menu();
+                    dirty = true;
                 }
 
                 if(bn::keypad::a_pressed() || bn::keypad::start_pressed())

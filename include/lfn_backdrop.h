@@ -24,6 +24,7 @@ namespace lfn
     {
         room,       // masonry, pillars with lamps, and a floor
         field,      // masonry only, for a card with nothing standing on it
+        panel,      // masonry with a framed dark box for a list to sit in
     };
 
     /**

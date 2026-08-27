@@ -1,6 +1,7 @@
 #include "lfn_game.h"
 
 #include "bn_bg_palettes.h"
+#include "bn_blending.h"
 #include "bn_rect_window.h"
 #include "bn_window.h"
 
@@ -159,13 +160,18 @@ namespace lfn
     game::~game()
     {
         // The window is hardware state and outlives this object; menus and
-        // cards must not inherit a black bar across their titles.
+        // cards must not inherit a black bar across their titles. The same
+        // goes for the blending alpha a fading banner may have been part way
+        // through - a card drawn at 30% is not a card.
         bn::rect_window::internal().set_show_all();
+        bn::blending::set_transparency_alpha(1);
     }
 
-    void game::_say(const char* line, int bonus)
+    void game::_say(const char* line, int bonus, int frames)
     {
         _banner.clear();
+        _banner_timer = frames;
+        bn::blending::set_transparency_alpha(1);
         _text.set_center_alignment();
         _text.generate(0, -20, line, _banner);
 
@@ -183,6 +189,39 @@ namespace lfn
             {
                 _banner[i].set_palette(bn::sprite_palette_items::text_mag);
             }
+        }
+    }
+
+    void game::_tick_banner()
+    {
+        if(_banner_timer <= 0)
+        {
+            return;
+        }
+
+        --_banner_timer;
+
+        // Nothing else in the game blends, so the global alpha only ever
+        // touches these sprites. Picking up a flame used to leave SOUL FLAME
+        // sitting over the stage for the rest of the level: nothing cleared
+        // it, because only a death or a level clear ever set a timer.
+        constexpr int fade = 26;
+
+        if(_banner_timer <= fade)
+        {
+            for(bn::sprite_ptr& sprite : _banner)
+            {
+                sprite.set_blending_enabled(true);
+            }
+
+            bn::blending::set_transparency_alpha(
+                        bn::fixed(_banner_timer) / fade);
+        }
+
+        if(_banner_timer == 0)
+        {
+            _banner.clear();
+            bn::blending::set_transparency_alpha(1);
         }
     }
 
@@ -406,13 +445,15 @@ namespace lfn
 
         _hold = death_hold;
         _say(_run.lives <= 0 ? "NO LIVES LEFT"
-                            : (_hand_off ? "YOUR TURN IS OVER" : "ONE LESS LIFE"), 0);
+                            : (_hand_off ? "YOUR TURN IS OVER" : "ONE LESS LIFE"),
+             0, death_hold);
         _refresh_hud();
     }
 
     game_result game::update()
     {
         audio::new_frame();
+        _tick_banner();
 
         if constexpr(tune::test_fragile > 0)
         {
@@ -433,7 +474,6 @@ namespace lfn
 
             if(_hold == 0)
             {
-                _banner.clear();
 
                 if(_result != game_result::running)
                 {
@@ -513,7 +553,8 @@ namespace lfn
             };
 
             const int which = bn::clamp(int(_level.data().boss) - 1, 0, 7);
-            _say(undone[which], _status.time * tune::score_time_bonus);
+            _say(undone[which], _status.time * tune::score_time_bonus,
+                 clear_hold);
             _result = game_result::level_cleared;
             _hold = clear_hold;
             audio::stop_music();
@@ -526,7 +567,7 @@ namespace lfn
             LFN_TRACE("ev: WARPED to ", _level.data().warp);
             _warped = true;
             _refresh_hud();
-            _say("A WAY THROUGH", 0);
+            _say("A WAY THROUGH", 0, clear_hold);
             _result = game_result::level_cleared;
             _hold = clear_hold;
             audio::stop_music();

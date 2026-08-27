@@ -92,6 +92,7 @@ namespace lfn
         hud _hud;
         bn::sprite_text_generator& _text;
         bn::vector<bn::sprite_ptr, 40> _banner;
+        int _banner_timer = 0;
         bn::optional<bn::camera_ptr> _camera;
         bn::fixed_point _start;
         bn::fixed_point _boss_home;
@@ -117,7 +118,14 @@ namespace lfn
         void _add_score(int points);
         void _die();
         void _refresh_hud();
-        void _say(const char* line, int bonus);
+        /**
+         * Put a line up over the stage for `frames`, then fade it out.
+         *
+         * The default outlives a pickup without hanging around; a death or a
+         * level clear passes its own hold so the words last the whole pause.
+         */
+        void _say(const char* line, int bonus, int frames = 100);
+        void _tick_banner();
     };
 }
 

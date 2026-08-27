@@ -8,6 +8,7 @@
 #include "bn_regular_bg_item.h"
 #include "bn_regular_bg_map_cell_info.h"
 #include "bn_regular_bg_map_item.h"
+#include "bn_regular_bg_map_ptr.h"
 #include "bn_size.h"
 
 #include "bn_regular_bg_tiles_items_tiles_envy.h"
@@ -86,6 +87,28 @@ namespace lfn
             }
         }
 
+        if(style == backdrop_style::panel)
+        {
+            // A menu that is only words on a wall reads as words floating on a
+            // wall. This is the field they sit in: a dark box, framed in the
+            // world's own blocks, so the list has an edge and a middle.
+            // The map is 32x32 cells - sixteen metatiles square - against a
+            // screen ten metatiles tall, so the screen's top row is map row
+            // three. These are map rows: screen rows four down to nine.
+            constexpr int left = 2, right = 12, top = 7, bottom = 12;
+
+            for(int row = top; row <= bottom; ++row)
+            {
+                for(int col = left; col <= right; ++col)
+                {
+                    // No bottom edge: the panel runs off the foot of the
+                    // screen, which leaves the list room to breathe.
+                    const bool edge = row == top || col == left || col == right;
+                    put(col, row, edge ? tile::block : tile::empty);
+                }
+            }
+        }
+
         if(floored)
         {
             for(int row = 1; row < 9; ++row)
@@ -105,6 +128,14 @@ namespace lfn
         bn::regular_bg_ptr bg = item.create_bg(0, 0);
         bn::bg_tiles::set_allow_offset(true);
         bg.set_priority(3);
+
+        // Every backdrop in the game shares one cells array, and Butano caches
+        // a map by that pointer - so the second style to ask for a backdrop
+        // got the first one's map back, still in VRAM. That was invisible
+        // while every screen drew the same masonry, and became a panel frame
+        // bleeding across the file select the moment the styles differed.
+        bn::regular_bg_map_ptr map = bg.map();
+        map.reload_cells_ref();
 
         // These screens exist to be read. The backdrop is atmosphere, and at
         // full strength its brickwork and stars compete with every letter on
