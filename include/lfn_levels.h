@@ -1393,6 +1393,12 @@ namespace lfn
     constexpr int level_count = 27;
     // Stages the story runs through; the rest are secret rooms.
     constexpr int story_count = 24;
+
+    // How many tracks the level table can name. lfn_audio.cpp
+    // asserts its own list is this long: the two used to be
+    // kept by hand and quietly disagreed, so the Hades fight
+    // asked for track 12 of a table that stopped at 11.
+    constexpr int music_count = 13;
 }
 
 #endif

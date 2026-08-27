@@ -125,6 +125,11 @@ int main(int argc, char** argv) {
         fprintf(stderr, "lfn-run: failed to load %s\n", rom);
         return 1;
     }
+    /* Map the cartridge's SRAM to a .sav beside the ROM, so a save written by
+       one run is still there for the next one. Without this the battery only
+       ever lives in memory and every run starts on a blank cartridge - which
+       makes "does the save survive a reset?" a question nothing could ask. */
+    mCoreAutoloadSave(core);
     core->reset(core);
 
     FILE* script = fopen(script_path, "r");
@@ -182,6 +187,8 @@ int main(int argc, char** argv) {
 
     fclose(script);
     printf("ran %ld frames\n", total_frames);
+    /* Flush the battery back to disk before the core goes away. */
+    core->unloadROM(core);
     core->deinit(core);
     free(g_pixels);
     return 0;

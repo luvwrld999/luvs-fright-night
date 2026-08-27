@@ -102,6 +102,7 @@ def run(name, lines, into):
         f.write('\n'.join(lines) + '\n')
 
     os.makedirs(into, exist_ok=True)
+    regress.fresh_cartridge(ROM)
     subprocess.run(
         ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w', 'lfn-mgba',
          '/w/' + os.path.relpath(ROM, ROOT),

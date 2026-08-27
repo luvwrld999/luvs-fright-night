@@ -185,6 +185,12 @@ def main():
     story = sum(1 for lv in levels if not lv['hidden'])
     out.append('    // Stages the story runs through; the rest are secret rooms.')
     out.append('    constexpr int story_count = %d;' % story)
+    out.append('')
+    out.append('    // How many tracks the level table can name. lfn_audio.cpp')
+    out.append('    // asserts its own list is this long: the two used to be')
+    out.append('    // kept by hand and quietly disagreed, so the Hades fight')
+    out.append('    // asked for track 12 of a table that stopped at 11.')
+    out.append('    constexpr int music_count = %d;' % len(MUSIC))
     out += ['}', '', '#endif', '']
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)

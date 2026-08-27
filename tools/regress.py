@@ -200,8 +200,37 @@ def world_case(world):
     return build
 
 
+def boss_case(world):
+    """
+    One boss arena, entered by code.
+
+    A boss is the third stage of its world, so no sin speaks on the way in -
+    the card goes straight to the fight. The frame is taken once the boss has
+    walked in but before it has reached a player who is standing still, which
+    down there is about a second.
+    """
+    # Most arenas read well a second in. Invidia charges wall to wall at
+    # 1.5px a frame and is off the side of the screen by then; Hades reaches
+    # a standing player faster than anything else and the frame caught the
+    # hit rather than the boss.
+    settle = {4: 22, 8: 20}.get(world, 60)
+
+    def build():
+        out = boot() + tap('down', 2) + ['wait 16'] + tap('a') + ['wait 70']
+        out += type_code(level_code(world * 3 - 1))
+        out += ['wait 120', 'wait 200', 'wait %d' % settle]
+        out += ['shot 01_arena']
+        return out
+
+    build.__doc__ = 'World %d boss arena.' % world
+    return build
+
+
 for _w in sorted(WORLD_ENTRY):
     case('world%d' % _w)(world_case(_w))
+
+for _w in range(1, 9):
+    case('boss%d' % _w)(boss_case(_w))
 
 
 def build_rom():
@@ -218,6 +247,21 @@ def build_rom():
     shutil.move(os.path.join(ROOT, 'LuvsFrightNight.gba'), ROM)
 
 
+def fresh_cartridge(rom):
+    """
+    Start every run on a blank battery.
+
+    The runner keeps SRAM in a .sav beside the ROM now, so without this each
+    run inherits the last one's save - and a cartridge with a save on it has
+    CONTINUE and STAGE SELECT on the menu, which moves every row these scripts
+    count down to. Only the save test wants the battery kept.
+    """
+    sav = rom[:-4] + '.sav'
+
+    if os.path.exists(sav):
+        os.remove(sav)
+
+
 def run_case(name, lines, into):
     script = os.path.join(EMU, 'regress_%s.txt' % name)
 
@@ -228,6 +272,7 @@ def run_case(name, lines, into):
         shutil.rmtree(into)
 
     os.makedirs(into)
+    fresh_cartridge(ROM)
     subprocess.run(
         ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w', 'lfn-mgba',
          '/w/tools/emu/lfn_regress.gba',

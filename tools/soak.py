@@ -85,6 +85,7 @@ def run(index):
         shutil.rmtree(into)
 
     os.makedirs(into)
+    regress.fresh_cartridge(ROM)
     proc = subprocess.run(
         ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w', 'lfn-mgba',
          '/w/' + os.path.relpath(ROM, ROOT),
@@ -93,6 +94,16 @@ def run(index):
         capture_output=True, text=True)
     os.remove(path)
     return proc.stdout + proc.stderr
+
+
+def wanted_track(index):
+    """Which track index the level table says this stage should ask for."""
+    import re
+    src = open(os.path.join(ROOT, 'include', 'lfn_levels.h')).read()
+    rows = re.findall(
+        r'\{"[^"]+",\s*\w+_tiles,\s*\w+_spawns,\s*[-\d]+,\s*[-\d]+,'
+        r'\s*[-\d]+,\s*([-\d]+),', src)
+    return int(rows[index]) if index < len(rows) else -1
 
 
 def judge(index, log):
@@ -105,6 +116,16 @@ def judge(index, log):
 
     if 'main: starting stage %d' % index not in log:
         problems.append('never entered')
+
+    want = wanted_track(index)
+
+    if want >= 0:
+        if 'audio: no such track' in log:
+            problems.append('asked for a track that does not exist')
+        elif 'audio: track %d playing 1' % want not in log:
+            got = re.findall(r'audio: track (\d+) playing (\d)', log)
+            problems.append('music: wanted track %d, saw %s'
+                            % (want, got[-3:] or 'nothing'))
 
     if index == 23 and 'main: ending' not in log:
         # Beating Hades is the only thing that finishes the story, and the
@@ -171,6 +192,7 @@ def check_warps():
 
         into = os.path.join(WORK, name)
         os.makedirs(into, exist_ok=True)
+        regress.fresh_cartridge(ROM)
         log = subprocess.run(
             ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w',
              'lfn-mgba', '/w/' + os.path.relpath(ROM, ROOT),
@@ -206,6 +228,92 @@ def check_warps():
     return 1 if bad else 0
 
 
+def check_sram():
+    """
+    A save written by one run is still there for the next one.
+
+    This has to use a release ROM: the test flags deliberately unlock every
+    stage on load, which would answer the question before it was asked.
+    """
+    print('building a release ROM...')
+    subprocess.run(['./build.sh', 'clean'], cwd=ROOT, check=True,
+                   stdout=subprocess.DEVNULL)
+    proc = subprocess.run(['./build.sh'], cwd=ROOT, capture_output=True,
+                          text=True)
+
+    if proc.returncode or 'error:' in proc.stdout:
+        print(proc.stdout[-2000:])
+        raise SystemExit('build failed')
+
+    rom = os.path.join(EMU, 'lfn_sram.gba')
+    shutil.move(os.path.join(ROOT, 'LuvsFrightNight.gba'), rom)
+    sav = rom[:-4] + '.sav'
+
+    if os.path.exists(sav):
+        os.remove(sav)                  # a brand new cartridge
+
+    def session(name, lines):
+        path = os.path.join(EMU, 'soak_%s.txt' % name)
+
+        with open(path, 'w') as f:
+            f.write('\n'.join(lines) + '\n')
+
+        into = os.path.join(WORK, name)
+        os.makedirs(into, exist_ok=True)
+        subprocess.run(
+            ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w',
+             'lfn-mgba', '/w/' + os.path.relpath(rom, ROOT),
+             '/w/' + os.path.relpath(path, ROOT),
+             '/w/' + os.path.relpath(into, ROOT)],
+            check=True, capture_output=True)
+        os.remove(path)
+        return into
+
+    # A blank cartridge has a four-row menu - NEW GAME, 2 PLAYER, LEVEL CODE,
+    # EXTRAS. CONTINUE and STAGE SELECT only appear once there is something to
+    # continue, which is the whole thing being tested, so the rows move.
+    first = regress.boot() + ['shot 01_menu_blank']
+    first += regress.tap('down', 2) + ['wait 16'] + regress.tap('a')
+    first += ['wait 70'] + regress.type_code(regress.level_code(6))
+    first += ['wait 120', 'wait 560', 'wait 300', 'shot 02_playing']
+    a = session('sram_a', first)
+
+    raw = open(sav, 'rb').read() if os.path.exists(sav) else b''
+    written = sum(1 for byte in raw if byte not in (0, 255))
+
+    if not written:
+        print('  FAIL  the battery file is %d bytes of nothing' % len(raw))
+        os.remove(rom)
+        return 1
+
+    # Second boot, same cartridge: CONTINUE should be on the menu now.
+    second = regress.boot() + ['shot 01_menu_after']
+    b = session('sram_b', second)
+
+    from PIL import Image
+
+    def frame(d, n):
+        return Image.open(os.path.join(d, n + '.ppm')).convert('RGB')
+
+    blank = frame(a, '01_menu_blank')
+    after = frame(b, '01_menu_after')
+    same = sum(1 for x, y in zip(blank.getdata(), after.getdata()) if x == y)
+    share = same / float(blank.width * blank.height)
+
+    os.remove(rom)
+    print('  battery file: %d bytes' % os.path.getsize(sav))
+
+    if share > 0.999:
+        print('  FAIL  the menu is identical after saving and rebooting - '
+              'nothing was remembered')
+        return 1
+
+    print('  ok    %d byte(s) of progress written, and the menu came back '
+          'changed (%.1f%% redrawn)' % (written, (1 - share) * 100))
+    print('  look:  %s' % os.path.join(b, '01_menu_after.ppm'))
+    return 0
+
+
 def build():
     print('building the soak ROM...')
     subprocess.run(['./build.sh', 'clean'], cwd=ROOT, check=True,
@@ -223,6 +331,9 @@ def build():
 def main(argv):
     if '--warps' in argv:
         return check_warps()
+
+    if '--sram' in argv:
+        return check_sram()
 
     only = [int(a) for a in argv[argv.index('--only') + 1:]] \
         if '--only' in argv else list(range(LEVELS))

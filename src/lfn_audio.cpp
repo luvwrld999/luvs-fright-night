@@ -2,6 +2,9 @@
 
 #include "bn_music.h"
 #include "bn_music_items.h"
+
+#include "lfn_levels.h"
+#include "lfn_trace.h"
 #include "bn_sound.h"
 #include "bn_sound_item.h"
 #include "bn_sound_items.h"
@@ -26,7 +29,14 @@ namespace lfn::audio
             bn::music_items::boss,
             bn::music_items::victory,
             bn::music_items::game_over,
+            bn::music_items::hades_boss,
         };
+
+        // The level table names tracks by index. If these two lists ever
+        // differ again, this stops the build instead of reading past the end.
+        static_assert(int(sizeof(tracks) / sizeof(tracks[0])) == music_count,
+                      "lfn_audio tracks[] and tools/build_levels.py MUSIC "
+                      "must list the same tracks in the same order");
 
         int current = -1;
 
@@ -53,6 +63,12 @@ namespace lfn::audio
 
     void play_music(int track_index)
     {
+        if(track_index < 0 || track_index >= music_count)
+        {
+            LFN_TRACE("audio: no such track ", track_index);
+            return;
+        }
+
         if(track_index == current && bn::music::playing())
         {
             return;
@@ -60,6 +76,13 @@ namespace lfn::audio
 
         current = track_index;
         tracks[track_index].play(tune::music_volume);
+
+        // The audio linter checks the rendered modules, not the ROM. This is
+        // how the harness sees that a stage asked for its own track, that the
+        // request reached Maxmod, and at what volume.
+        LFN_TRACE("audio: track ", track_index, " playing ",
+                  bn::music::playing() ? 1 : 0, " vol ",
+                  tune::music_volume.data());
     }
 
     void stop_music()
