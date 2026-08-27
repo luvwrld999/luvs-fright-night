@@ -403,9 +403,11 @@ def main():
         ('04_play_1_1b', 'shots', 'screenshot/gameplay-world-1b.png'),
         ('05_play_5_1', 'shots', 'screenshot/gameplay-world-5.png'),
         ('07_play_7_1', 'shots', 'screenshot/gameplay-world-7.png'),
-        ('boss_1', 'shots2', 'screenshot/boss-avaritia.png'),
-        ('boss_4', 'shots2', 'screenshot/boss-gula.png'),
-        ('boss_7', 'shots2', 'screenshot/boss-hades.png'),
+        # boss_N is world N's arena - the numbering used to be off by one
+        # against the sin it was named for.
+        ('boss_2', 'shots2', 'screenshot/boss-avaritia.png'),
+        ('boss_5', 'shots2', 'screenshot/boss-gula.png'),
+        ('boss_8', 'shots2', 'screenshot/boss-hades.png'),
     ]
 
     written = []

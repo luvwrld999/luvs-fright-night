@@ -8,6 +8,15 @@
 
 namespace lfn
 {
+    /**
+     * The bottom edge of the status strip, in screen space.
+     *
+     * The game cuts both background layers out of this band with a rect
+     * window, and the entities hide anything that would draw inside it -
+     * a window clips backgrounds but not sprites. Both need the same number.
+     */
+    constexpr int strip_bottom = -65;
+
     /** Everything the status bar shows. */
     struct status
     {

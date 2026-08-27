@@ -163,7 +163,7 @@ namespace lfn
             // and used to run into the clock. Widen leftwards instead: the
             // slot stays put and the long numerals grow into the gap before
             // the soul count rather than over the time.
-            _show(_world_text, world_x - (int(label.size()) - 3) * 4,
+            _show(_world_text, world_x - (label.size() - 3) * 4,
                   label.c_str());
         }
 

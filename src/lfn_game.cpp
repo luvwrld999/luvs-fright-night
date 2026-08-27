@@ -143,7 +143,7 @@ namespace lfn
         bn::bg_palettes::set_fade_intensity(0);
 
         bn::rect_window bar = bn::rect_window::internal();
-        bar.set_boundaries(-80, -120, -65, 120);
+        bar.set_boundaries(-80, -120, strip_bottom, 120);
         bar.set_show_bg(_level.bg(), false);
 
         // The far layer has to be cut out of the status strip too, or it shows

@@ -1,5 +1,7 @@
 #include "lfn_entities.h"
 
+#include "lfn_hud.h"
+
 #include "lfn_trace.h"
 
 #include "bn_math.h"
@@ -803,6 +805,17 @@ namespace lfn
         {
             e.sprite->set_position(e.pos);
             e.sprite->set_horizontal_flip(e.facing_right);
+
+            // A rect window cuts the status strip out of both background
+            // layers, but a window does not clip sprites. Giving the bar a
+            // lower z_order stopped a soul drawing over the clock; it did not
+            // stop it showing through the gaps between the letters. Anything
+            // that would land inside the strip is not drawn at all.
+            if(_camera)
+            {
+                const bn::fixed top = e.pos.y() - _camera->y() - 8;
+                e.sprite->set_visible(top > strip_bottom);
+            }
         }
     }
 
