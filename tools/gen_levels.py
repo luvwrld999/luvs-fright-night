@@ -938,7 +938,11 @@ SHAPE_ORDER = [
 
 # Which stages hide a door, and which room it opens onto. Stage indices are
 # positions in the compiled list; the rooms themselves live after the story.
-SECRET_DOORS = {1: 24, 7: 25, 16: 26}
+# Keyed by stage-pair index - world * 2 + half, so 0..15 - not by the level
+# index the stage ends up at. The third door was written as 16, which is where
+# The Faultline lands in the level table but is off the end of this range, so
+# it was never placed and Straight Down had an exit and no way in.
+SECRET_DOORS = {1: 24, 7: 25, 11: 26}
 
 
 def world_levels(world, names):

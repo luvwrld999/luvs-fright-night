@@ -123,6 +123,89 @@ def judge(index, log):
     return problems
 
 
+# Which stage warps where, and where that room lets you out again.
+WARPS = [(1, 24, 2), (10, 25, 15), (16, 26, 21)]
+
+
+def warp_script(index):
+    """Enter a stage that has a secret door; the harness takes it for us."""
+    out = regress.boot() + regress.tap('down', 3) + ['wait 16'] + regress.tap('a')
+    out += ['wait 70'] + regress.type_code(regress.level_code(index))
+    out += ['wait 120']
+
+    if index % 3 == 0:
+        out += ['wait 560']
+
+    out += ['wait 200', 'wait 2000', 'shot final']
+    return out
+
+
+def check_warps():
+    """
+    Every secret door goes somewhere, and every room lets you back out.
+
+    Straight Down had an exit and no entrance for its whole life. This walks
+    each route in the game rather than trusting the table.
+    """
+    print('building the warp ROM...')
+    subprocess.run(['./build.sh', 'clean'], cwd=ROOT, check=True,
+                   stdout=subprocess.DEVNULL)
+    flags = FLAGS.replace('-DLFN_TEST_AUTOPILOT=1',
+                          '-DLFN_TEST_AUTOPILOT=1 -DLFN_TEST_WARP=240')
+    proc = subprocess.run(['./build.sh', 'USERFLAGS=' + flags], cwd=ROOT,
+                          capture_output=True, text=True)
+
+    if proc.returncode or 'error:' in proc.stdout:
+        print(proc.stdout[-2000:])
+        raise SystemExit('build failed')
+
+    shutil.move(os.path.join(ROOT, 'LuvsFrightNight.gba'), ROM)
+    bad = 0
+
+    for stage, room, out_to in WARPS:
+        name = 'warp%02d' % stage
+        path = os.path.join(EMU, 'soak_%s.txt' % name)
+
+        with open(path, 'w') as f:
+            f.write('\n'.join(warp_script(stage)) + '\n')
+
+        into = os.path.join(WORK, name)
+        os.makedirs(into, exist_ok=True)
+        log = subprocess.run(
+            ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w',
+             'lfn-mgba', '/w/' + os.path.relpath(ROM, ROOT),
+             '/w/' + os.path.relpath(path, ROOT),
+             '/w/' + os.path.relpath(into, ROOT)],
+            capture_output=True, text=True)
+        os.remove(path)
+        text = log.stdout + log.stderr
+
+        problems = []
+
+        if 'main: starting stage %d' % room not in text:
+            problems.append('door does not reach room %d' % room)
+        elif 'main: starting stage %d' % out_to not in text:
+            problems.append('room %d does not let out at %d' % (room, out_to))
+
+        if BAD.search(text):
+            problems.append('crashed')
+
+        import lfn_names
+
+        if problems:
+            bad += 1
+            print('  FAIL  %-22s %s' % (lfn_names.of(stage),
+                                        '; '.join(problems)))
+        else:
+            print('  ok    %-22s -> %s -> %s'
+                  % (lfn_names.of(stage), lfn_names.of(room),
+                     lfn_names.of(out_to)))
+
+    os.remove(ROM)
+    print('\n%d route(s) walked, %d failed' % (len(WARPS), bad))
+    return 1 if bad else 0
+
+
 def build():
     print('building the soak ROM...')
     subprocess.run(['./build.sh', 'clean'], cwd=ROOT, check=True,
@@ -138,6 +221,9 @@ def build():
 
 
 def main(argv):
+    if '--warps' in argv:
+        return check_warps()
+
     only = [int(a) for a in argv[argv.index('--only') + 1:]] \
         if '--only' in argv else list(range(LEVELS))
 

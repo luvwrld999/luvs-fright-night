@@ -237,6 +237,30 @@ def placements(path):
     return problems
 
 
+def orphan_rooms():
+    """
+    Every hidden room needs a stage that warps into it.
+
+    Straight Down shipped with an exit and no entrance: the door table is
+    keyed by stage-pair index and its third entry was written as a level
+    index instead, which is off the end of that range. Nothing placed the
+    door, and the room - the one with the writing on the wall - could not be
+    reached at all. A room you cannot get into is not a secret.
+    """
+    header = open(os.path.join(ROOT, 'include', 'lfn_levels.h')).read()
+    rows = re.findall(
+        r'\{"([^"]+)",\s*\w+_tiles,\s*\w+_spawns,'
+        r'(?:\s*[-\d]+,){5}\s*([-\d]+),\s*([-\d]+),\s*([-\d]+)', header)
+
+    if not rows:
+        return ['could not read the level table']
+
+    into = {int(w) for _, w, _, _ in rows if int(w) >= 0}
+    return ['%s (level %d) has no way in' % (name, i)
+            for i, (name, _, _, hidden) in enumerate(rows) if int(hidden)
+            and i not in into]
+
+
 def main():
     levels = sorted(f for f in os.listdir(os.path.join(ROOT, 'levels'))
                     if f.endswith('.txt'))
@@ -261,9 +285,15 @@ def main():
 
         print('  %s %-10s %d bad gap(s)%s' % (flag, name[:-4], len(problems), detail))
 
-    print('%d bad gaps, %d misplaced entities across %d levels'
-          % (total, misplaced, len(levels)))
-    return 1 if total or misplaced else 0
+    orphans = orphan_rooms()
+
+    for line in orphans:
+        print('  FAIL hidden room  %s' % line)
+
+    print('%d bad gaps, %d misplaced entities, %d unreachable room(s) '
+          'across %d levels'
+          % (total, misplaced, len(orphans), len(levels)))
+    return 1 if total or misplaced or orphans else 0
 
 
 if __name__ == '__main__':
