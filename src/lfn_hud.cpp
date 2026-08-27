@@ -39,6 +39,10 @@ namespace lfn
         constexpr int power_x = -20;
         constexpr int power_step = 17;
 
+        // Lower z_order draws in front. Everything in the world sits above
+        // this, so the bar can never be written over.
+        constexpr int hud_z = -100;
+
         const char* const ROMAN[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII"};
     }
 
@@ -71,12 +75,14 @@ namespace lfn
     {
         _text.set_left_alignment();
         _soul_icon.set_bg_priority(0);
+        _soul_icon.set_z_order(hud_z);
 
         for(int i = 0; i < meter_pips; ++i)
         {
             bn::sprite_ptr pip = bn::sprite_items::hud_meter.create_sprite(
                         meter_x + (i * 7), meter_y, 0);
             pip.set_bg_priority(0);
+            pip.set_z_order(hud_z);
             _meter.push_back(bn::move(pip));
         }
     }
@@ -88,6 +94,11 @@ namespace lfn
 
         for(bn::sprite_ptr& sprite : into)
         {
+            // Every row of the bar has to win against anything in the world
+            // that happens to be at head height - a bonus soul was drawing
+            // straight over the clock.
+            sprite.set_bg_priority(0);
+            sprite.set_z_order(hud_z);
             sprite.set_visible(_visible);
         }
     }
@@ -108,6 +119,8 @@ namespace lfn
             {
                 bn::sprite_ptr icon = bn::sprite_items::hud_halo.create_sprite(
                             lives_x, row + 1);
+                icon.set_bg_priority(0);
+                icon.set_z_order(hud_z);
                 icon.set_visible(_visible);
                 _life_icons.push_back(bn::move(icon));
 
@@ -118,6 +131,7 @@ namespace lfn
                 for(bn::sprite_ptr& sprite : _lives_text)
                 {
                     sprite.set_bg_priority(0);
+                    sprite.set_z_order(hud_z);
                     sprite.set_visible(_visible);
                 }
             }
@@ -127,6 +141,8 @@ namespace lfn
                 {
                     bn::sprite_ptr icon = bn::sprite_items::hud_halo.create_sprite(
                                 lives_x + (i * 9), row + 1);
+                    icon.set_bg_priority(0);
+                    icon.set_z_order(hud_z);
                     icon.set_visible(_visible);
                     _life_icons.push_back(bn::move(icon));
                 }
@@ -167,6 +183,7 @@ namespace lfn
                 for(bn::sprite_ptr& sprite : _continues_text)
                 {
                     sprite.set_bg_priority(0);
+                    sprite.set_z_order(hud_z);
                     sprite.set_visible(_visible);
                 }
             }
@@ -180,6 +197,8 @@ namespace lfn
 
             for(bn::sprite_ptr& sprite : _score_text)
             {
+                sprite.set_bg_priority(0);
+                sprite.set_z_order(hud_z);
                 sprite.set_visible(_visible);
             }
         }
@@ -198,6 +217,7 @@ namespace lfn
                 for(bn::sprite_ptr& sprite : _player_text)
                 {
                     sprite.set_bg_priority(0);
+                    sprite.set_z_order(hud_z);
                     sprite.set_visible(_visible);
                 }
             }
@@ -218,6 +238,7 @@ namespace lfn
 
                 bn::sprite_ptr icon = item.create_sprite(at, meter_y);
                 icon.set_bg_priority(0);
+                icon.set_z_order(hud_z);
                 icon.set_visible(_visible);
                 _power_icons.push_back(bn::move(icon));
                 at += power_step;
@@ -255,6 +276,7 @@ namespace lfn
                 bn::sprite_ptr pip = bn::sprite_items::hud_meter.create_sprite(
                             boss_x - (i * 7), boss_y, 1);
                 pip.set_bg_priority(0);
+                pip.set_z_order(hud_z);
                 pip.set_visible(_visible);
                 _boss_pips.push_back(bn::move(pip));
             }

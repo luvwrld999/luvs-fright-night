@@ -1,0 +1,16 @@
+wait 100
+tap start 8
+wait 12
+wait 70
+tap a 8
+wait 12
+wait 60
+tap a 8
+wait 12
+wait 620
+wait 500
+wait 300
+shot 01_w1
+hold right
+wait 200
+shot 02_w1_run

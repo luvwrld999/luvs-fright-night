@@ -18,7 +18,7 @@ namespace lfn
         // soul through one_up must stay contiguous: is_pickup() tests the
         // range rather than listing them.
         soul, soul_ten, pu_flame, pu_soul, pu_dash, pu_wings, one_up,
-        checkpoint, exit_gate, flame, ember, warp,
+        checkpoint, exit_gate, flame, ember, warp, puff,
     };
 
     struct entity
@@ -64,6 +64,9 @@ namespace lfn
         /** A hostile shot, used by the wraiths and by every boss. */
         void spawn_shot(bn::fixed x, bn::fixed y, bn::fixed vx, bn::fixed vy,
                         int life = 200);
+
+        /** What is left where an enemy was, for a few frames after it dies. */
+        void spawn_puff(bn::fixed x, bn::fixed y);
 
         /** Spawn an enemy mid-fight (bosses that call for help). */
         void spawn_enemy(ent_kind kind, bn::fixed x, bn::fixed y);

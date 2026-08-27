@@ -22,6 +22,7 @@
 #include "bn_sprite_items_soul_orb.h"
 #include "bn_sprite_palette_items_text_cyan.h"
 #include "bn_sprite_palette_items_text_gold.h"
+#include "bn_sprite_palette_items_text_green.h"
 #include "bn_sprite_palette_items_text_mag.h"
 
 #include "lfn_audio.h"
@@ -58,6 +59,31 @@ namespace lfn
          * that dismisses itself.
          */
         struct sin_words { const char* a; const char* b; const char* c; };
+
+        /**
+         * What Luv says back.
+         *
+         * Every sin addresses him and he had never once answered - described
+         * in the opening, then silent for eight worlds. One dry line each, on
+         * the card where he is being spoken to.
+         */
+        constexpr const char* answers[] = {
+            "IT CAN KEEP LOOKING",
+            "I HAVE NOTHING IT WANTS",
+            "I AM NOT WARM ENOUGH",
+            "IT CAN HAVE THE HORNS",
+            "I AM NOT ON THE MENU",
+            "SHOUT AT THE ROCK THEN",
+            "I HAVE SOMEWHERE TO BE",
+            "THEN SHOW ME IN",
+        };
+
+        /** How far down he is, so the descent reads as one. */
+        constexpr const char* depth[] = {
+            "ONE FLOOR DOWN",   "TWO FLOORS DOWN",  "THREE FLOORS DOWN",
+            "FOUR FLOORS DOWN", "FIVE FLOORS DOWN", "SIX FLOORS DOWN",
+            "SEVEN FLOORS DOWN", "THE BOTTOM",
+        };
 
         constexpr sin_words words[] = {
             // Three of the eight now answer what Luv is carrying: the halo,
@@ -665,12 +691,12 @@ namespace lfn
         bn::vector<bn::sprite_ptr, 16> clock;
 
         text.set_center_alignment();
-        text.generate(0, -66, "CHEAT CODE", fixed_text);
+        text.generate(0, layout::title_y, "CHEAT CODE", fixed_text);
         tint(fixed_text, 0, bn::sprite_palette_items::text_gold);
 
         int mark = fixed_text.size();
-        text.generate(0, -42, "IF YOU KNOW IT,", fixed_text);
-        text.generate(0, -26, "PUT IT IN", fixed_text);
+        text.generate(0, -40, "IF YOU KNOW IT,", fixed_text);
+        text.generate(0, -22, "PUT IT IN", fixed_text);
         tint(fixed_text, mark, bn::sprite_palette_items::text_cyan);
 
         int step = 0;
@@ -687,7 +713,7 @@ namespace lfn
                 shown_left = left;
                 clock.clear();
                 text.set_center_alignment();
-                text.generate(0, 62, bn::format<16>("{}", left), clock);
+                text.generate(0, 44, bn::format<16>("{}", left), clock);
 
                 for(bn::sprite_ptr& sprite : clock)
                 {
@@ -711,7 +737,7 @@ namespace lfn
                 }
 
                 text.set_center_alignment();
-                text.generate(0, 8, bar, progress);
+                text.generate(0, 12, bar, progress);
 
                 for(bn::sprite_ptr& sprite : progress)
                 {
@@ -772,7 +798,8 @@ namespace lfn
         {
             bn::vector<bn::sprite_ptr, 24> said;
             text.set_center_alignment();
-            text.generate(0, 34, bn::format<24>("{} LIVES", granted), said);
+            text.generate(0, layout::footer_y, bn::format<24>("{} LIVES", granted),
+                          said);
 
             for(bn::sprite_ptr& sprite : said)
             {
@@ -801,7 +828,7 @@ namespace lfn
             "VIII HADES", "BOSS", "VICTORY", "GAME OVER",
         };
         constexpr int count = int(sizeof(names) / sizeof(names[0]));
-        constexpr int rows = 6;
+        constexpr int rows = 7;
 
         {
         bn::regular_bg_ptr backdrop = make_backdrop(7, backdrop_style::field);
@@ -813,7 +840,8 @@ namespace lfn
         bool dirty = true;
         int frame = 0;
 
-        bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(-96, 0);
+        bn::sprite_ptr cursor = bn::sprite_items::luv.create_sprite(
+                    layout::cursor_x, 0);
 
         while(true)
         {
@@ -823,7 +851,7 @@ namespace lfn
             {
                 sprites.clear();
                 text.set_center_alignment();
-                text.generate(0, -70, "SOUND TEST", sprites);
+                text.generate(0, layout::title_y, "SOUND TEST", sprites);
                 tint(sprites, 0, bn::sprite_palette_items::text_gold);
 
                 text.set_left_alignment();
@@ -832,9 +860,12 @@ namespace lfn
                 {
                     const int index = top + i;
                     const int mark = sprites.size();
-                    text.generate(-80, -44 + (i * 18), names[index], sprites);
-
-                    // The one you are hearing stays lit while you browse past it.
+                    // A mark rather than only a colour: which track is
+                    // playing should survive being glanced at.
+                    text.generate(layout::list_x, layout::body_top + (i * 17),
+                                  bn::format<24>("{} {}",
+                                                 index == playing ? '>' : ' ',
+                                                 names[index]), sprites);
                     tint(sprites, mark, index == playing
                                         ? bn::sprite_palette_items::text_gold
                                         : bn::sprite_palette_items::text_cyan);
@@ -842,12 +873,14 @@ namespace lfn
 
                 text.set_center_alignment();
                 const int mark = sprites.size();
-                text.generate(0, 68, "A PLAY   B BACK", sprites);
+                text.generate(0, layout::footer_y, "A PLAY   B BACK", sprites);
                 tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 dirty = false;
             }
 
-            cursor.set_position(-96, -42 + ((pick - top) * 18) + ((frame >> 4) & 1));
+            cursor.set_position(layout::cursor_x,
+                               layout::body_top + 2 + ((pick - top) * 17)
+                               + ((frame >> 4) & 1));
 
             if((frame % 26) == 0)
             {
@@ -1026,12 +1059,14 @@ namespace lfn
         bn::vector<bn::sprite_ptr, 32> entry_text;
 
         text.set_center_alignment();
-        text.generate(0, -60, "LEVEL CODE", fixed_text);
+        text.generate(0, layout::title_y, "LEVEL CODE", fixed_text);
         tint(fixed_text, 0, bn::sprite_palette_items::text_gold);
 
         int mark = fixed_text.size();
-        text.generate(0, 42, "PAD PICK    A ENTER", fixed_text);
-        text.generate(0, 60, "B BACK", fixed_text);
+        text.generate(0, -40, "THE CODE IS ON EVERY", fixed_text);
+        text.generate(0, -24, "WORLD CARD", fixed_text);
+        text.generate(0, layout::footer_y, "PAD PICK   A ENTER   B BACK",
+                      fixed_text);
         tint(fixed_text, mark, bn::sprite_palette_items::text_mag);
 
         bn::vector<bn::sprite_ptr, 16> answer;
@@ -1057,7 +1092,7 @@ namespace lfn
                     line.push_back(i == slot ? ']' : ' ');
                 }
 
-                text.generate(0, -14, line, entry_text);
+                text.generate(0, 6, line, entry_text);
 
                 for(bn::sprite_ptr& sprite : entry_text)
                 {
@@ -1121,7 +1156,7 @@ namespace lfn
                     if(level >= 0)
                     {
                         audio::sfx_one_up();
-                        text.generate(0, 14, levels[level].name, answer);
+                        text.generate(0, 36, levels[level].name, answer);
 
                         for(bn::sprite_ptr& sprite : answer)
                         {
@@ -1139,7 +1174,7 @@ namespace lfn
                     }
 
                     audio::sfx_hurt();
-                    text.generate(0, 14, "NO SUCH PLACE", answer);
+                    text.generate(0, 36, "NO SUCH PLACE", answer);
 
                     for(bn::sprite_ptr& sprite : answer)
                     {
@@ -1268,25 +1303,53 @@ namespace lfn
         bn::vector<bn::sprite_ptr, 64> sprites;
 
         text.set_center_alignment();
-        text.generate(0, -60, sins[which].latin, sprites);
+        text.generate(0, -68, sins[which].latin, sprites);
         tint(sprites, 0, bn::sprite_palette_items::text_mag);
 
-        // The lines arrive one at a time. Read at the speed it is spoken.
+        int mark = sprites.size();
+        text.generate(0, -50, depth[which], sprites);
+        tint(sprites, mark, bn::sprite_palette_items::text_gold);
+
+        // The sin speaks, a line at a time, and then he answers it.
         const char* const lines[] = {
             words[which].a, words[which].b, words[which].c,
         };
 
+        bn::sprite_ptr luv = bn::sprite_items::luv.create_sprite(-84, 44);
+        luv.set_visible(false);
         int shown = 0;
+        bool answered = false;
 
-        for(int frame = 0; frame < 400; ++frame)
+        for(int frame = 0; frame < 560; ++frame)
         {
             if(shown < 3 && frame == 30 + (shown * 55))
             {
-                const int mark = sprites.size();
-                text.generate(0, -16 + (shown * 20), lines[shown], sprites);
+                mark = sprites.size();
+                text.generate(0, -24 + (shown * 20), lines[shown], sprites);
                 tint(sprites, mark, bn::sprite_palette_items::text_cyan);
                 ++shown;
                 audio::sfx_menu();
+            }
+
+            if(!answered && frame == 250)
+            {
+                answered = true;
+                luv.set_visible(true);
+                mark = sprites.size();
+                text.generate(8, 46, answers[which], sprites);
+                tint(sprites, mark, bn::sprite_palette_items::text_green);
+                audio::sfx_menu();
+            }
+
+            if(answered)
+            {
+                luv.set_position(-84, 44 - ((frame >> 4) & 1));
+
+                if((frame % 26) == 0)
+                {
+                    luv.set_tiles(bn::sprite_items::luv.tiles_item()
+                                  .create_tiles((frame / 26) & 1));
+                }
             }
 
             if(frame > 20 && skipped())
@@ -1407,26 +1470,28 @@ namespace lfn
         const int found = secrets_found(run);
         const bool clean = run.continues >= tune::start_continues;
 
-        const char* last = "HORNS AND ALL";
+        // The opening asks whether either side will have him. The close has to
+        // answer that, not gesture at it.
+        const char* last = "HE WENT WHERE HE LIKED";
 
         if(found >= 3 && clean)
         {
-            last = "NOTHING DOWN THERE KEPT HIM";
+            last = "HE HAD SEEN EVERYTHING";
         }
         else if(found >= 3)
         {
-            last = "HE SAW EVERY ROOM";
+            last = "HE HAD SEEN EVERY ROOM";
         }
         else if(clean)
         {
-            last = "AND NEVER ONCE TURNED BACK";
+            last = "HE NEVER ONCE TURNED BACK";
         }
 
         const panel panels[] = {
-            {40,  -60, "THE SEVEN ARE UNDONE"},
-            {150, -42, "AND HADES KEPT NOTHING"},
-            {270, -18, "LUV GOES UP"},
-            {390,   6, last},
+            {40,  -62, "THE SEVEN ARE UNDONE"},
+            {150, -44, "AND HADES KEPT NOTHING"},
+            {270, -20, "BOTH SIDES SENT FOR HIM"},
+            {390,   2, last},
         };
 
         bn::vector<bn::sprite_ptr, 64> sprites;

@@ -22,7 +22,12 @@ TERRAIN = {
     K.EMPTY: T.EMPTY, K.GROUND: T.GROUND_TOP, K.FILL: T.GROUND_FILL,
     K.BLOCK: T.BLOCK, K.BREAK: T.BREAKABLE, K.PLAT: T.PLATFORM,
     K.SPIKE: T.SPIKES, K.LEDGE_L: T.LEDGE_L, K.LEDGE_R: T.LEDGE_R,
-    K.PILLAR: T.PILLAR, K.LAMP: T.DECOR, K.BG_A: T.BG_A, K.BG_B: T.BG_B,
+    K.PILLAR: T.PILLAR, K.LAMP: T.DECOR,
+    # The wall lives on the parallax layer now, so the stage layer leaves its
+    # background transparent. Drawing an opaque wall here would hide the layer
+    # behind it completely, which is what made the first attempt at depth do
+    # nothing at all.
+    K.BG_A: T.EMPTY, K.BG_B: T.EMPTY,
     K.DOOR: T.DOOR, K.CHAIN: T.CHAIN, K.LAVA: T.HAZARD,
 }
 

@@ -329,24 +329,25 @@ namespace lfn
                 }
                 else if(where == screen::extras)
                 {
-                    text.generate(0, -66, "EXTRAS", sprites);
+                    text.generate(0, layout::title_y, "EXTRAS", sprites);
                     tint(sprites, 0, bn::sprite_palette_items::text_gold);
 
                     text.set_left_alignment();
 
                     for(int i = 0; i < extras.size(); ++i)
                     {
-                        text.generate(-40, -36 + (i * 18), extras[i].label, sprites);
+                        text.generate(-40, layout::body_top + (i * 18),
+                                      extras[i].label, sprites);
                     }
 
                     text.set_center_alignment();
                     const int mark = sprites.size();
-                    text.generate(0, 62, "A PICK    B BACK", sprites);
+                    text.generate(0, layout::footer_y, "A PICK    B BACK", sprites);
                     tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 }
                 else if(where == screen::stages)
                 {
-                    text.generate(0, -66, "STAGE SELECT", sprites);
+                    text.generate(0, layout::title_y, "STAGE SELECT", sprites);
                     tint(sprites, 0, bn::sprite_palette_items::text_gold);
 
                     for(int i = 0; i < stage_rows; ++i)
@@ -374,7 +375,8 @@ namespace lfn
                     }
 
                     const int mark = sprites.size();
-                    text.generate(0, 62, "A PLAY   B BACK   BEST TIME", sprites);
+                    text.generate(0, layout::footer_y,
+                                  "A PLAY   B BACK   BEST TIME", sprites);
                     tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 }
                 else
@@ -397,7 +399,7 @@ namespace lfn
 
                     text.set_center_alignment();
                     const int mark = sprites.size();
-                    text.generate(0, 70, "B BACK", sprites);
+                    text.generate(0, layout::footer_y, "B BACK", sprites);
                     tint(sprites, mark, bn::sprite_palette_items::text_mag);
                 }
 
@@ -428,7 +430,7 @@ namespace lfn
             else if(where == screen::extras)
             {
                 cursor.set_visible(true);
-                cursor.set_position(-58, -38 + (extra_pick * 18) + bob);
+                cursor.set_position(-58, layout::body_top + 2 + (extra_pick * 18) + bob);
             }
             else if(where == screen::confirm)
             {

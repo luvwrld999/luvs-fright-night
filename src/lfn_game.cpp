@@ -146,6 +146,13 @@ namespace lfn
         bar.set_boundaries(-80, -120, -65, 120);
         bar.set_show_bg(_level.bg(), false);
 
+        // The far layer has to be cut out of the status strip too, or it shows
+        // through the hole the level was cut from.
+        if(_level.far_bg())
+        {
+            bar.set_show_bg(*_level.far_bg(), false);
+        }
+
         audio::play_music(data.music);
     }
 
@@ -242,7 +249,19 @@ namespace lfn
         y = bn::clamp(y, bn::fixed(cam_min_y),
                       bn::fixed(_level.pixel_height() - cam_min_y));
 
+        // A jolt, spent over a handful of frames and alternating each one so
+        // it reads as a knock rather than a slide. Nothing in the game used to
+        // register physically when something landed.
+        if(_shake > 0)
+        {
+            --_shake;
+            const bn::fixed amount = bn::fixed(_shake) / 3;
+            y += (_shake & 1) ? amount : -amount;
+            x += (_shake & 2) ? amount / 2 : -amount / 2;
+        }
+
         _camera->set_position(x, y);
+        _level.parallax(*_camera);
     }
 
     void game::_handle(const luv_events& le, const world_events& we)
@@ -284,6 +303,7 @@ namespace lfn
             _add_score(points);
             ++_combo;
             audio::sfx_stomp();
+            _shake = bn::max(_shake, 5);
             LFN_TRACE("ev: stomp x", _combo, " for ", points);
         }
 
@@ -326,6 +346,7 @@ namespace lfn
         if(we.hurt || le.hurt)
         {
             audio::sfx_hurt();
+            _shake = bn::max(_shake, 9);
         }
 
         // Name what changed hands. Comparing against what was last announced
@@ -444,6 +465,7 @@ namespace lfn
         {
             _add_score(tune::score_boss_hit);
             audio::sfx_boss_hit();
+            _shake = bn::max(_shake, 8);
             LFN_TRACE("ev: boss wounded, hp ", _boss.health());
         }
 
@@ -454,6 +476,7 @@ namespace lfn
         {
             audio::sfx_boss_tell();
             _say("IT CHANGES", 0);
+            _shake = bn::max(_shake, 12);
             LFN_TRACE("ev: boss phase");
         }
 
@@ -468,7 +491,21 @@ namespace lfn
             _add_score(tune::score_boss + (_status.time * tune::score_time_bonus));
             LFN_TRACE("ev: BOSS DEFEATED, score ", _run.score);
             _refresh_hud();
-            _say("THE SIN IS UNDONE", _status.time * tune::score_time_bonus);
+            // Eight sins used to die to one line, which threw away whatever
+            // the world card had just set up. Each gets its own epitaph.
+            static const char* const undone[] = {
+                "IT HAS NOTHING TO LOOK AT",
+                "IT KEPT NOTHING",
+                "THE LANTERNS GO OUT",
+                "IT WANTED. IT LOST.",
+                "THE TABLE IS CLEARED",
+                "THE ROCK FORGETS IT",
+                "IT NEVER SAW YOU COMING",
+                "THE LAST DOOR OPENS",
+            };
+
+            const int which = bn::clamp(int(_level.data().boss) - 1, 0, 7);
+            _say(undone[which], _status.time * tune::score_time_bonus);
             _result = game_result::level_cleared;
             _hold = clear_hold;
             audio::stop_music();

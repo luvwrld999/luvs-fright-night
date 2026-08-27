@@ -167,6 +167,19 @@ A cheat arms **the next run to start**, whichever mode it turns out to be, and
 is spent doing so. It is not a setting, it does not persist to the cartridge,
 and it never touches the high score board's rules.
 
+## Depth
+
+The wall behind a stage is its own background layer, moving at half the
+camera's pace. The stage layer draws terrain only and leaves its background
+transparent - an opaque wall in front of the far layer is why the first
+attempt at depth did nothing visible at all.
+
+Priorities, because they are easy to get wrong: wall 3, stage 2, everything
+that moves at sprite bg_priority 1, status bar at 0 with z_order -100. Butano
+starts sprites at bg_priority 3, so a stage layer at 2 puts the player behind
+the floor, and bg_priority alone will not stop a bonus soul drawing over the
+clock - between two sprites it is z_order that decides.
+
 ## Boss arenas
 
 Every sin's room is shaped for the thing that lives in it. All eight used to be

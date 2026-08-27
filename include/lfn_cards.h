@@ -8,6 +8,23 @@
 
 namespace lfn
 {
+    /**
+     * Shared furniture for every full-screen panel.
+     *
+     * These used to be written out per screen, so titles sat at -66 on one and
+     * -70 on the next, footers at 62 or 70, and lists started at -64, -80 or
+     * -92 depending on which screen you were looking at. Flicking between them
+     * the furniture moved. One set of numbers, used everywhere.
+     */
+    namespace layout
+    {
+        constexpr int title_y = -70;    // the gold heading
+        constexpr int footer_y = 70;    // "A PICK   B BACK" and friends
+        constexpr int body_top = -46;   // first row of a list
+        constexpr int list_x = -80;     // left edge of a left-aligned list
+        constexpr int cursor_x = -100;  // clear of the widest list row
+    }
+
     enum class pause_result : uint8_t { resume, restart, quit };
 
     /** START during play. Freezes the scene and puts a choice over it. */

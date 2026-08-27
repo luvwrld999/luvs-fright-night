@@ -111,6 +111,7 @@ namespace lfn
 
         _sprite = sheet(which).create_sprite(_pos.x(), _pos.y());
         _sprite->set_camera(camera);
+        _sprite->set_bg_priority(1);
         _sprite->set_z_order(-5);
     }
 

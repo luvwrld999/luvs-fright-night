@@ -1,0 +1,14 @@
+wait 100
+tap start 8
+wait 12
+wait 70
+tap a 8
+wait 12
+wait 60
+tap a 8
+wait 12
+wait 600
+wait 120
+shot 01_sin
+wait 190
+shot 02_answer

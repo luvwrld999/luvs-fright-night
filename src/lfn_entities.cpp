@@ -64,6 +64,7 @@ namespace lfn
             case ent_kind::soul_ten:
             case ent_kind::flame:
             case ent_kind::ember:
+            case ent_kind::puff:
             case ent_kind::checkpoint:
                 return 4;
             case ent_kind::pu_flame:
@@ -103,7 +104,8 @@ namespace lfn
             case ent_kind::checkpoint: return bn::sprite_items::checkpoint.create_sprite(x, y);
             case ent_kind::exit_gate:
             case ent_kind::warp:       return bn::sprite_items::gate.create_sprite(x, y);
-            case ent_kind::ember:      return bn::sprite_items::soul_flame.create_sprite(x, y);
+            case ent_kind::ember:
+            case ent_kind::puff:       return bn::sprite_items::soul_flame.create_sprite(x, y);
             default:                   return bn::sprite_items::soul_flame.create_sprite(x, y);
             }
         }
@@ -146,7 +148,8 @@ namespace lfn
             case ent_kind::exit_gate:
             case ent_kind::warp:       e.sprite->set_tiles(bn::sprite_items::gate.tiles_item().create_tiles(f)); break;
             case ent_kind::flame:
-            case ent_kind::ember:      e.sprite->set_tiles(bn::sprite_items::soul_flame.tiles_item().create_tiles(f)); break;
+            case ent_kind::ember:
+            case ent_kind::puff:       e.sprite->set_tiles(bn::sprite_items::soul_flame.tiles_item().create_tiles(f)); break;
             default: break;
             }
         }
@@ -308,6 +311,27 @@ namespace lfn
         _wake(*slot);
     }
 
+    void entities::spawn_puff(bn::fixed x, bn::fixed y)
+    {
+        entity* slot = _free_slot();
+
+        if(!slot)
+        {
+            return;
+        }
+
+        // Enemies used to vanish on the frame they died, so a stomp that
+        // landed looked exactly like one that missed. This rises and fades
+        // out over about a fifth of a second.
+        *slot = entity();
+        slot->kind = ent_kind::puff;
+        slot->pos = bn::fixed_point(x, y);
+        slot->vel = bn::fixed_point(0, -0.7);
+        slot->alive = true;
+        slot->life = 14;
+        _wake(*slot);
+    }
+
     void entities::spawn_enemy(ent_kind kind, bn::fixed x, bn::fixed y)
     {
         entity* slot = _free_slot();
@@ -374,6 +398,8 @@ namespace lfn
 
         e.sprite = make_sprite(e.kind, e.pos.x(), e.pos.y());
         e.sprite->set_camera(*_camera);
+        // In front of both background layers; Butano starts sprites at 3.
+        e.sprite->set_bg_priority(1);
         e.awake = true;
         e.frame = 0xFF;                      // force the next set_frame to apply
     }
@@ -582,6 +608,23 @@ namespace lfn
             break;
         }
 
+        case ent_kind::puff:
+        {
+            // Rises, slows, and goes out. It hurts nothing on the way.
+            e.pos.set_y(e.pos.y() + e.vel.y());
+            e.vel.set_y(e.vel.y() * bn::fixed(0.88));
+
+            if(--e.life <= 0)
+            {
+                e.alive = false;
+                _sleep(e);
+                return;
+            }
+
+            set_frame(e, (14 - e.life) >> 2);
+            break;
+        }
+
         case ent_kind::ember:
         {
             e.pos.set_x(e.pos.x() + e.vel.x());
@@ -656,8 +699,10 @@ namespace lfn
 
             if(e.kind != ent_kind::jet && (from_above || player.dashing()))
             {
+                const bn::fixed_point where = e.pos;
                 e.alive = false;
                 _sleep(e);
+                spawn_puff(where.x(), where.y());
                 ev.stomped = true;
                 ev.enemy_killed = true;
 
@@ -739,10 +784,12 @@ namespace lfn
 
             if(dx > -reach && dx < reach && dy > -reach && dy < reach)
             {
+                const bn::fixed_point where = target.pos;
                 shot.alive = false;
                 _sleep(shot);
                 target.alive = false;
                 _sleep(target);
+                spawn_puff(where.x(), where.y());
                 return true;
             }
         }

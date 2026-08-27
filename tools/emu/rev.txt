@@ -1,0 +1,43 @@
+wait 100
+tap start 8
+wait 12
+wait 70
+tap down 8
+wait 12
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 70
+shot 01_extras
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 90
+shot 02_soundtest
+tap down 8
+wait 12
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 60
+shot 03_st_playing
+tap b 8
+wait 12
+wait 70
+tap down 8
+wait 12
+wait 20
+tap a 8
+wait 12
+wait 80
+shot 04_cheat

@@ -26,3 +26,9 @@ tools/emu/check2/
 tools/emu/exitcheck/
 tools/emu/bossnew/
 tools/emu/ui/
+tools/emu/par/
+tools/emu/par3/
+tools/emu/fx/
+tools/emu/look/
+tools/emu/rev/
+tools/emu/story2/

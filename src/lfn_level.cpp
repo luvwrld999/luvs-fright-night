@@ -1,5 +1,7 @@
 #include "lfn_level.h"
 
+#include "lfn_trace.h"
+
 #include "bn_bg_palette_items_lfn_palette.h"
 #include "bn_bg_tiles.h"
 #include "bn_memory.h"
@@ -37,6 +39,14 @@ namespace lfn
         // The compiled tiles live in ROM, so smashing a block needs a working
         // copy in RAM. Collision reads this, never the ROM array.
         BN_DATA_EWRAM_BSS uint8_t live_tiles[max_columns * level_rows];
+
+        // The layer behind the stage. Sixteen metatiles square, which wraps,
+        // so one small map covers a level of any length.
+        constexpr int far_metatiles = 16;
+        constexpr int far_cells = far_metatiles * 2;
+        alignas(int) BN_DATA_EWRAM_BSS bn::regular_bg_map_cell
+                far_map[far_cells * far_cells];
+        bn::optional<bn::regular_bg_map_item> far_item;
 
         // Live map dimensions, set per level.
         bn::regular_bg_map_item map_item(cells[0], bn::size(map_cols, map_rows));
@@ -122,11 +132,76 @@ namespace lfn
         _map = _bg->map();
         _bg->set_camera(camera);
 
+        // --- the layer behind: sparse scenery on the world's own tiles, so
+        // it costs no extra tile VRAM and always matches the palette.
+        far_item = bn::regular_bg_map_item(far_map[0],
+                                           bn::size(far_cells, far_cells));
+
+        for(int row = 0; row < far_metatiles; ++row)
+        {
+            for(int col = 0; col < far_metatiles; ++col)
+            {
+                // A scatter that never repeats on a short cycle, so the eye
+                // does not find the seam.
+                const int hash = ((col * 7) + (row * 11) + (col * row)) & 15;
+                int metatile = tile::bg_a;
+
+                if(hash == 5 || hash == 12)
+                {
+                    metatile = tile::bg_b;
+                }
+                else if(hash == 8 && (col & 3) == 1)
+                {
+                    // A lamp every so often, so the wall has something on it
+                    // and the half-speed drift is visible as it passes.
+                    metatile = tile::decor;
+                }
+
+                const int base = metatile * 4;
+
+                for(int i = 0; i < 4; ++i)
+                {
+                    bn::regular_bg_map_cell_info info;
+                    info.set_tile_index(base + i);
+                    info.set_palette_id(0);
+                    far_map[far_item->cell_index((col * 2) + (i & 1),
+                                                 (row * 2) + (i >> 1))] =
+                            info.cell();
+                }
+            }
+        }
+
+        bn::regular_bg_item far_source(tiles_for(_data->world),
+                                       bn::bg_palette_items::lfn_palette,
+                                       *far_item);
+        _far = far_source.create_bg(0, 0);
+        _far->set_camera(camera);
+        // Backgrounds: the wall at 3, the stage at 2. Everything that moves
+        // sets bg_priority 1, because Butano starts sprites at 3 and a stage
+        // layer in front of them makes the player disappear behind the floor.
+        _far->set_priority(3);
+        _bg->set_priority(2);
+
         bn::bg_tiles::set_allow_offset(true);
+    }
+
+    void level::parallax(const bn::camera_ptr& camera)
+    {
+        if(!_far)
+        {
+            return;
+        }
+
+        // With the camera attached the layer would track it exactly; adding
+        // back half the camera's position leaves it moving at half speed.
+        _far->set_position(camera.x() * bn::fixed(0.5),
+                           camera.y() * bn::fixed(0.5));
+
     }
 
     void level::unload()
     {
+        _far.reset();
         _map.reset();
         _bg.reset();
         _data = nullptr;

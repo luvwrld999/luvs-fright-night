@@ -25,6 +25,7 @@ namespace lfn
         _sprite = bn::sprite_items::luv.create_sprite(x, y + tune::luv_sprite_dy);
         _sprite->set_camera(camera);
         _sprite->set_z_order(-10);
+        _sprite->set_bg_priority(1);
         respawn(x, y);
     }
 

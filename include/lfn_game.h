@@ -103,6 +103,7 @@ namespace lfn
         int _combo = 0;                // consecutive stomps without landing
         int _hold = 0;                 // frames to sit on death / clear
         int _alive = 0;                // frames played, for the fragile test flag
+        int _shake = 0;                // frames of camera jolt left to spend
         game_result _result = game_result::running;
         bool _warped = false;
         bool _hand_off = false;

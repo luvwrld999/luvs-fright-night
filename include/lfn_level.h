@@ -40,6 +40,17 @@ namespace lfn
         [[nodiscard]] const level_data& data() const { return *_data; }
         /** The background the stage draws with, for windowing and effects. */
         [[nodiscard]] const bn::regular_bg_ptr& bg() const { return *_bg; }
+        /** The slower layer behind the stage, if this level has one. */
+        [[nodiscard]] const bn::optional<bn::regular_bg_ptr>& far_bg() const
+        { return _far; }
+
+        /**
+         * Slide the far layer at half the camera's pace.
+         *
+         * Called once a frame from the stage. Depth on a machine with no
+         * hardware for it is just this: a second map moving slower.
+         */
+        void parallax(const bn::camera_ptr& camera);
         [[nodiscard]] int columns() const { return _data->columns; }
         [[nodiscard]] int pixel_width() const { return _data->columns * tune::tile; }
         [[nodiscard]] int pixel_height() const { return level_rows * tune::tile; }
@@ -63,6 +74,7 @@ namespace lfn
     private:
         const level_data* _data = nullptr;
         bn::optional<bn::regular_bg_ptr> _bg;
+        bn::optional<bn::regular_bg_ptr> _far;
         bn::optional<bn::regular_bg_map_ptr> _map;
 
         void _write_cell(int col, int row, int metatile_index);

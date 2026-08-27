@@ -70,6 +70,9 @@ cartridge starts an attract loop - the board, then a stage playing itself.
 - **Each world's air** pushes differently - a headwind in Envy, a draught at
   your back in Lust, a slow fall in Sloth. The gap checker models the same
   numbers, so a jump is never asked for that the wind will not allow.
+- **The wall is a parallax layer** moving at half the camera's pace, with the
+  stage drawn in front of it. Measured: the camera travels 195 px while the
+  wall travels 97.
 - **Every boss has its own room**, shaped for how it fights, and Hades has its
   own music rather than sharing the boss theme.
 - **The hover buys distance, not height** - 4.4 tiles of jump becomes 11.4. A
