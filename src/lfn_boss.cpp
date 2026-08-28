@@ -44,15 +44,22 @@ namespace lfn
         };
 
         // The seven sins, then the king. Each one is a different verb.
+        //
+        // Three hits each, all the way down. They used to climb from five to
+        // ten, which made the late fights long rather than hard: the same
+        // pattern read half a dozen times over with nothing new in it after
+        // the second. Three is one hit to learn the tell, one to use it, one
+        // to finish - and it lands the phase changes on every hit, which is
+        // what the three-phase reading of Hades wanted in the first place.
         constexpr spec specs[] = {
-            {"SUPERBIA", 5, boss_move::stalk,  boss_attack::rain,   0.9, 96,  15},
-            {"AVARITIA", 5, boss_move::hop,    boss_attack::lob,    0.7, 104, 15},
-            {"LUXURIA",  6, boss_move::drift,  boss_attack::charm,  0.8, 118, 15},
-            {"INVIDIA",  6, boss_move::charge, boss_attack::spread, 1.5, 108, 15},
-            {"GULA",     7, boss_move::hop,    boss_attack::spread, 0.55, 88, 15},
-            {"IRA",      7, boss_move::charge, boss_attack::slam,   1.7, 120, 15},
-            {"ACEDIA",   8, boss_move::still,  boss_attack::rain,   0.0, 62,  15},
-            {"HADES",   10, boss_move::drift,  boss_attack::spread, 1.0, 84,  30},
+            {"SUPERBIA", 3, boss_move::stalk,  boss_attack::rain,   0.9, 96,  15},
+            {"AVARITIA", 3, boss_move::hop,    boss_attack::lob,    0.7, 104, 15},
+            {"LUXURIA",  3, boss_move::drift,  boss_attack::charm,  0.8, 118, 15},
+            {"INVIDIA",  3, boss_move::charge, boss_attack::spread, 1.5, 108, 15},
+            {"GULA",     3, boss_move::hop,    boss_attack::spread, 0.55, 88, 15},
+            {"IRA",      3, boss_move::charge, boss_attack::slam,   1.7, 120, 15},
+            {"ACEDIA",   3, boss_move::still,  boss_attack::rain,   0.0, 62,  15},
+            {"HADES",    3, boss_move::drift,  boss_attack::spread, 1.0, 84,  30},
         };
 
         const bn::sprite_item& sheet(int which)
