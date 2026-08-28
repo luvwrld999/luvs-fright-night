@@ -279,13 +279,13 @@ def _box_art(w, h):
     return img
 
 
-def _platform_band(w, h, words='ADVANCE HOMEBREW'):
+def _platform_band(w, h, words='GAME BOY ADVANCE', clear_top=0):
     """
     The silver strip down the left edge of a Game Boy Advance box.
 
-    On a real box this carries the platform's own name in this exact place.
-    That wordmark is Nintendo's, so the strip says what the thing is instead
-    of whose it is.
+    Brushed metal, with the platform's name reading bottom to top - the single
+    element that makes a cover read as a Game Boy Advance game rather than a
+    poster. Sized off the strip's width for weight and its length for fit.
     """
     band = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     px = band.load()
@@ -293,8 +293,8 @@ def _platform_band(w, h, words='ADVANCE HOMEBREW'):
     for x in range(w):
         t = x / float(w - 1)
         # Brushed metal: a bright line off-centre, falling away to both edges.
-        v = max(0.0, 1.0 - abs(t - 0.38) * 1.9)
-        c = int(96 + 150 * v)
+        v = max(0.0, 1.0 - abs(t - 0.40) * 1.55)
+        c = int(120 + 132 * v)
 
         for y in range(h):
             # A little vertical grain, so it reads as metal rather than a
@@ -305,16 +305,22 @@ def _platform_band(w, h, words='ADVANCE HOMEBREW'):
 
     strip = Image.new('RGBA', (h, w), (0, 0, 0, 0))
 
-    # Size to whichever runs out first, the strip's width or its length. The
-    # spine carries a longer line than the face does, and picking the size off
-    # the width alone clipped it to "'S FRIGHT NI".
-    scale = max(2, w // 26)
+    # Weight comes from the strip's width - the lettering should fill better
+    # than half of it - and then shrinks until its length fits, because the
+    # spine carries a longer line than the face does.
+    scale = max(2, int(w * 0.55) // boxfont.HEIGHT)
 
-    while scale > 2 and boxfont.measure(words, scale, 2) > h - int(w * 0.5):
+    run = h - clear_top
+
+    while scale > 2 and boxfont.measure(words, scale, 2) > run - int(w * 0.9):
         scale -= 1
 
+    # The strip is drawn lying down and then stood up, so its own width is the
+    # band's height. Reserving room at the band's top means reserving it at
+    # the strip's right-hand end, which is where the flash lands once turned.
     boxfont.centered(strip, words, (w - boxfont.HEIGHT * scale) // 2,
-                     (26, 26, 34, 255), scale, tracking=2)
+                     (26, 26, 34, 255), scale, tracking=2,
+                     cx=(h - clear_top) // 2)
     band.alpha_composite(strip.rotate(90, expand=True))
 
     d = ImageDraw.Draw(band)
@@ -335,8 +341,21 @@ def box_front(path, w=900, h=960):
     band_w = int(w * 0.17)
     art = _box_art(w - band_w, h)
     img.alpha_composite(art, (band_w, 0))
-    img.alpha_composite(_platform_band(band_w, h, 'ADVANCE HOMEBREW'),
-                        (0, 0))
+    img.alpha_composite(_platform_band(band_w, h,
+                                       clear_top=int(h * 0.20)), (0, 0))
+
+    # The corner flash a retail box carries above the strip.
+    flash = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    fd = ImageDraw.Draw(flash)
+    fd.polygon([(0, 0), (int(w * 0.20), 0), (0, int(h * 0.185))],
+               fill=(28, 42, 138, 255))
+    tag = Image.new('RGBA', (190, 34), (0, 0, 0, 0))
+    boxfont.centered(tag, 'ONLY FOR', 0, WHITE, 2)
+    turned = tag.rotate(45, expand=True, resample=Image.BICUBIC)
+    # Land the turned text on the triangle's centroid rather than its corner.
+    flash.alpha_composite(turned, (int(w * 0.20 / 3) - turned.width // 2,
+                                   int(h * 0.185 / 3) - turned.height // 2))
+    img.alpha_composite(flash)
 
     # Publisher's mark, top right, where a label would sit.
     mark = Image.new('RGBA', (196, 60), (0, 0, 0, 0))

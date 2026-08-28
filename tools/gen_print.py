@@ -120,68 +120,71 @@ def _cart_label(w, h):
     boxfont.centered(strip, 'RETRO RUMBLE', 0, gs.DGOLD, 2)
     img.alpha_composite(strip, (0, int(h * 0.85)))
 
-    gs.neon_frame(img, 5, 2)
+    # A printed label, not a screen - a thin border rather than the neon the
+    # box art uses.
+    ImageDraw.Draw(img).rectangle([0, 0, w - 1, h - 1],
+                                  outline=(120, 108, 150, 255), width=3)
     return img
 
 
-def cartridge(path, w=940, h=600):
+def cartridge(path, w=980, h=580):
     """
     A Game Boy Advance cartridge, seen face on.
 
-    Landscape at about 1.7 to 1, with the shallow dome moulded into the band
-    above the label, the two tabs at the upper corners and the thumb notch at
-    the foot. Proportions are taken off a real shell: the label leaves a wide
-    margin at the top - that band is where the moulded lettering goes - and
-    tighter ones at the sides and foot.
-
-    That lettering reads "GAME BOY ADVANCE" on a real cartridge and is not
-    reproduced here. The silhouette is what makes it read as a cartridge; the
-    wordmark is Nintendo's and this game is not theirs.
+    Measured off a blank shell: 1.75 to 1 landscape; a flat raised bar across
+    the top carrying the moulded lettering, with shoulders that overhang the
+    body at each end; the label recess below it with 12% margins at the sides,
+    22% above and 13% below; and the thumb notch at the foot.
     """
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
 
-    bw, bh = 840, 494
+    bw, bh = 880, 500
     bx, by = (w - bw) // 2, (h - bh) // 2
-    shell = (58, 58, 66, 255)
-    lit = (88, 88, 98, 255)
-    dark = (34, 34, 40, 255)
+    shell = (86, 86, 94, 255)
+    lit = (124, 124, 134, 255)
+    dark = (52, 52, 58, 255)
 
     body = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     bd = ImageDraw.Draw(body)
+    bar_h = int(bh * 0.15)
 
-    # Tabs at the upper corners: they clear the top edge by a few pixels only,
-    # which is what stops them reading as ears.
+    # Small tabs at the top corners, standing proud of the body's sides.
     for side in (0, 1):
-        tx = bx + 34 if side == 0 else bx + bw - 96
-        bd.rounded_rectangle([tx, by - 9, tx + 62, by + 42], radius=7,
+        tx0 = bx - 22 if side == 0 else bx + bw - 34
+        bd.rounded_rectangle([tx0, by + 6, tx0 + 56, by + bar_h + 6], radius=9,
                              fill=shell)
 
-    bd.rounded_rectangle([bx, by, bx + bw, by + bh], radius=32, fill=shell)
-    bd.rounded_rectangle([bx + 10, by + 7, bx + bw - 10, by + 19], radius=6,
-                         fill=lit)
-    bd.rounded_rectangle([bx + 10, by + bh - 20, bx + bw - 10, by + bh - 9],
-                         radius=6, fill=dark)
+    # One shell, not two stacked rectangles.
+    bd.rounded_rectangle([bx, by, bx + bw, by + bh], radius=28, fill=shell)
 
-    # The dome, moulded into the band above the label - inside the shell, not
-    # floating over its top edge.
-    bd.arc([bx + 132, by + 8, bx + bw - 132, by + 150], 203, 337, fill=lit,
-           width=5)
-    bd.arc([bx + 132, by + 15, bx + bw - 132, by + 157], 203, 337, fill=dark,
-           width=3)
+    # The ridge across the top, raised just enough to catch light.
+    bd.rounded_rectangle([bx + 14, by + 8, bx + bw - 14, by + bar_h],
+                         radius=10, fill=(96, 96, 105, 255))
+    bd.line([(bx + 22, by + 9), (bx + bw - 22, by + 9)], fill=lit, width=3)
+    bd.rounded_rectangle([bx + 12, by + bh - 20, bx + bw - 12, by + bh - 10],
+                         radius=5, fill=dark)
 
-    # Label: measured off the reference - 14% margins at the sides, 21% above,
-    # 14% below, so the band that carries the moulding stays clear.
-    lx = bx + int(bw * 0.14)
+    # The moulded lettering, sunk into the bar.
+    words = 'GAME BOY ADVANCE'
+    scale = 3
+    tw = boxfont.measure(words, scale, 2)
+    lx0 = bx + (bw - tw) // 2
+    ly0 = by + 8 + (bar_h - 8 - boxfont.HEIGHT * scale) // 2
+    boxfont.draw(body, words, lx0 + 2, ly0 + 2, lit, scale, tracking=2)
+    boxfont.draw(body, words, lx0, ly0, dark, scale, tracking=2)
+
+    # Label recess.
+    lx = bx + int(bw * 0.12)
     ly = by + int(bh * 0.21)
-    lw = bw - 2 * int(bw * 0.14)
-    lh = bh - int(bh * 0.21) - int(bh * 0.14)
+    lw = bw - 2 * int(bw * 0.12)
+    lh = bh - int(bh * 0.21) - int(bh * 0.13)
 
-    bd.rounded_rectangle([lx - 7, ly - 7, lx + lw + 6, ly + lh + 6], radius=14,
-                         fill=(24, 22, 30, 255))
+    bd.rounded_rectangle([lx - 8, ly - 8, lx + lw + 7, ly + lh + 7], radius=12,
+                         fill=(38, 38, 44, 255))
 
     label = _cart_label(lw, lh)
     mask = Image.new('L', (lw, lh), 0)
-    ImageDraw.Draw(mask).rounded_rectangle([0, 0, lw - 1, lh - 1], radius=10,
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, lw - 1, lh - 1], radius=8,
                                            fill=255)
     flat = Image.new('RGBA', (lw, lh), (0, 0, 0, 0))
     flat.paste(label, (0, 0), mask)
@@ -189,9 +192,9 @@ def cartridge(path, w=940, h=600):
 
     # The thumb notch at the foot.
     cx = bx + bw // 2
-    fy = by + bh - 34
-    bd.polygon([(cx - 32, fy), (cx + 32, fy), (cx, fy + 19)], fill=dark)
-    bd.line([(cx - 32, fy), (cx + 32, fy)], fill=lit, width=2)
+    fy = ly + lh + 10
+    bd.polygon([(cx - 30, fy), (cx + 30, fy), (cx, fy + 20)], fill=dark)
+    bd.line([(cx - 30, fy + 1), (cx + 30, fy + 1)], fill=lit, width=2)
 
     blur, at = shadow(body, 22, 0.65, (12, 18))
     img.alpha_composite(blur, at)
@@ -202,34 +205,43 @@ def cartridge(path, w=940, h=600):
 
 # ------------------------------------------------------------------ 3D box
 
-def box_3d(path, w=1180, h=1020):
+def box_3d(path, w=1120, h=1060):
     """
     The box turned a few degrees, with its spine showing.
 
-    A retail box wears the silver platform strip twice - down the left edge of
-    the face, and again on the spine, which is what you actually see on a
-    shelf. The face carries its own already, so this builds the spine to
-    match it rather than inventing a different one.
+    The geometry is derived rather than eyeballed. A Game Boy Advance box is
+    about 135mm wide and 24mm deep, so turned by t degrees the spine projects
+    to D*sin(t) against a front of W*cos(t) - about a tenth of the front's
+    width at any believable angle. An earlier attempt had it at four tenths,
+    which is not a box turned slightly, it is a cube.
+
+    The other half of it is which edge is nearest. If the left side panel is
+    visible then the box has turned its left edge toward the viewer, so that
+    edge is the tall one and the face tapers away to the right. Mine tapered
+    the wrong way, which is why it read as a wedge.
     """
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     front_src = Image.open(
                 os.path.join(MEDIA, 'box', 'box-front.png')).convert('RGBA')
 
-    # Right edge nearer, so taller; the spine falls away to the left.
-    front_q = [(372, 92), (1104, 40), (1104, 968), (372, 916)]
-    spine_q = [(84, 196), (372, 92), (372, 916), (84, 812)]
+    # Front face: left edge near and tall, right edge far and short.
+    front_q = [(318, 52), (1028, 108), (1028, 918), (318, 978)]
+    # Spine: 78 against a 710 front, so 11% - a box turned about 30 degrees.
+    spine_q = [(240, 94), (318, 52), (318, 978), (240, 932)]
 
-    spine = gs._platform_band(300, 920, 'LUV\'S FRIGHT NIGHT')
+    # Built close to its final aspect, so warping it does not squash the
+    # lettering: a narrow spine genuinely carries small type.
+    spine = gs._platform_band(110, 1150)
     sd = ImageDraw.Draw(spine)
-    sd.rectangle([0, 0, 6, spine.height], fill=(48, 48, 56, 255))
+    sd.rectangle([0, 0, 4, spine.height], fill=(48, 48, 56, 255))
 
     panel = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     panel.alpha_composite(warp(spine, spine_q, (w, h)))
     panel.alpha_composite(warp(front_src, front_q, (w, h)))
 
-    # The fold where the two faces meet.
+    # The fold, on the near edge where the two faces meet.
     ed = ImageDraw.Draw(panel)
-    ed.line([front_q[0], front_q[3]], fill=(255, 255, 255, 70), width=3)
+    ed.line([front_q[0], front_q[3]], fill=(255, 255, 255, 60), width=2)
 
     blur, at = shadow(panel, 26, 0.7, (18, 24))
     img.alpha_composite(blur, at)
@@ -249,7 +261,11 @@ def mix(path, w=1920, h=1080):
     behind is pushed down hard so none of it competes with the three things
     that matter.
     """
-    art = Image.open(os.path.join(MEDIA, 'fanart', 'fanart.png')).convert('RGBA')
+    # A gameplay frame, not the fanart: the fanart carries the wordmark, and
+    # behind the box that showed through as a ghosted second title.
+    art = Image.open(os.path.join(
+                MEDIA, 'screenshot', 'gameplay-world-5.png')).convert('RGBA')
+    art = art.crop((0, 26, art.width, art.height))
     art = art.resize((w, h), Image.LANCZOS)
     img = Image.new('RGBA', (w, h), gs.INK)
     img.alpha_composite(Image.blend(Image.new('RGBA', (w, h), gs.INK), art, 0.34))

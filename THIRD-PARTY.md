@@ -20,12 +20,33 @@ Butano ships the full licence text for every one of these in `butano/licenses/`
 once the engine is cloned. That directory is the authoritative list; the table
 above names the ones this game actually links.
 
+## References
+
+The box and cartridge artwork was drawn from scratch, but its proportions were
+measured against two fan-made blank templates:
+
+- [Game Boy Advance Cartridge Template](https://www.deviantart.com/xxabnegationxx/art/Gameboy-Advance-Cartridge-Template-344124661) by xxabnegationxx
+- [Game Boy Advance Game Cover Art Template](https://www.deviantart.com/azulejothekat/art/Game-Boy-Advance-Game-Cover-Art-Template-375107232) by azulejothekat
+
+No part of either image is used or redistributed here — every pixel in
+`scrape/media/` is drawn by `tools/gen_print.py` and `tools/gen_scrape.py`.
+They are credited because they are what the shapes were checked against.
+
 ## Trademarks
 
-"Game Boy Advance" and "GBA" are trademarks of Nintendo. This project is not
-affiliated with, endorsed by, or licensed by Nintendo. Those names appear here
-only to say, factually, which hardware the ROM runs on.
+"Game Boy Advance" and "GBA" are trademarks of Nintendo. **This project is not
+affiliated with, endorsed by, sponsored by or licensed by Nintendo.**
 
+The name appears in two places. In writing, to say factually which hardware the
+ROM runs on. And on the box art and cartridge art in `scrape/media/`, which are
+drawn in the style of a retail Game Boy Advance release — that is what the
+artwork is depicting, and the name is part of what makes it legible as such.
+
+None of that artwork is an official product, and it carries no Official
+Nintendo Seal, because that is Nintendo's to grant and it has not been granted.
 The cartridge header carries maker code `00` — unlicensed — because that is
 what this is. devkitARM's `gbafix` writes Nintendo's `01` when it is called
 without a maker code, and `tools/stamp_rom.py` corrects it after every build.
+
+If you are Nintendo and would like the artwork changed, open an issue and it
+will be changed.
