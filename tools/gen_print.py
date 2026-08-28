@@ -426,14 +426,66 @@ def manual_pdf(path):
     return path
 
 
+def shelf(path, w=1600, h=900):
+    """
+    The box and the cartridge together, the way they would sit on a shelf.
+
+    A cover on its own says what the game is called; a cover next to the
+    cartridge says it is a thing you own. This is the pairing the README and
+    the release page lead with.
+    """
+    img = gs.backdrop(w, h, seed=21)
+
+    # A pool of light under both, so they stand on something.
+    pool = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    pd = ImageDraw.Draw(pool)
+
+    for i in range(70):
+        t = i / 70.0
+        pd.ellipse([int(w * 0.10 + w * 0.16 * t), int(h * 0.70 + h * 0.10 * t),
+                    int(w * 0.90 - w * 0.16 * t), int(h * 0.94 - h * 0.06 * t)],
+                   fill=(70, 30, 96, 5))
+
+    img.alpha_composite(pool)
+
+    box = Image.open(os.path.join(MEDIA, 'box3d', 'box-3d.png')).convert('RGBA')
+    box.thumbnail((720, 720), Image.LANCZOS)
+    cart = Image.open(
+                os.path.join(MEDIA, 'cartridge', 'cart.png')).convert('RGBA')
+    cart.thumbnail((470, 470), Image.LANCZOS)
+
+    # The box behind and to the left, the cartridge in front of its near edge -
+    # the cart is the smaller object, so it comes forward.
+    bx, by = 190, (h - box.height) // 2 - 20
+    cx, cy = 830, (h - cart.height) // 2 + 30
+
+    blur, at = shadow(box, 26, 0.75, (20, 26))
+    img.alpha_composite(blur, (bx + at[0], by + at[1]))
+    img.alpha_composite(box, (bx, by))
+
+    blur, at = shadow(cart, 20, 0.8, (16, 20))
+    img.alpha_composite(blur, (cx + at[0], cy + at[1]))
+    img.alpha_composite(cart, (cx, cy))
+
+    # No wheel across the top: the box carries the wordmark at full size
+    # already, and laying another copy over it read as LUVLUV'S FRIGHT NIGHT.
+    strip = Image.new('RGBA', (w, 60), (0, 0, 0, 0))
+    boxfont.centered(strip, 'RETRO RUMBLE', 0, gs.DGOLD, 4)
+    img.alpha_composite(strip, (0, h - 62))
+
+    img.convert('RGB').save(path)
+    return path
+
+
 def main():
-    for sub in ('cartridge', 'box3d', 'mix'):
+    for sub in ('cartridge', 'box3d', 'mix', 'shelf'):
         os.makedirs(os.path.join(MEDIA, sub), exist_ok=True)
 
     made = [
         cartridge(os.path.join(MEDIA, 'cartridge', 'cart.png')),
         box_3d(os.path.join(MEDIA, 'box3d', 'box-3d.png')),
         mix(os.path.join(MEDIA, 'mix', 'mix.png')),
+        shelf(os.path.join(MEDIA, 'shelf', 'box-and-cart.png')),
         manual_pdf(os.path.join(OUT, 'manual.pdf')),
     ]
 
