@@ -202,32 +202,34 @@ def cartridge(path, w=940, h=600):
 
 # ------------------------------------------------------------------ 3D box
 
-def box_3d(path, w=1000, h=1300):
-    """The front turned a few degrees, with its spine showing."""
+def box_3d(path, w=1180, h=1020):
+    """
+    The box turned a few degrees, with its spine showing.
+
+    A retail box wears the silver platform strip twice - down the left edge of
+    the face, and again on the spine, which is what you actually see on a
+    shelf. The face carries its own already, so this builds the spine to
+    match it rather than inventing a different one.
+    """
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     front_src = Image.open(
                 os.path.join(MEDIA, 'box', 'box-front.png')).convert('RGBA')
 
-    # Front face: right edge nearer, so taller. Spine falls away to the left.
-    front_q = [(330, 96), (946, 44), (946, 1216), (330, 1164)]
-    spine_q = [(78, 208), (330, 96), (330, 1164), (78, 1052)]
+    # Right edge nearer, so taller; the spine falls away to the left.
+    front_q = [(372, 92), (1104, 40), (1104, 968), (372, 916)]
+    spine_q = [(84, 196), (372, 92), (372, 916), (84, 812)]
 
-    spine = Image.new('RGBA', (300, 1000), (26, 14, 40, 255))
+    spine = gs._platform_band(300, 920, 'LUV\'S FRIGHT NIGHT')
     sd = ImageDraw.Draw(spine)
-    sd.rectangle([0, 0, 12, spine.height], fill=(52, 26, 78, 255))
-    strip = Image.new('RGBA', (1000, 300), (0, 0, 0, 0))
-    boxfont.centered(strip, "LUV'S FRIGHT NIGHT", 110, gs.GOLD, 7)
-    # Clockwise, so the spine reads top to bottom on a shelf.
-    spine.alpha_composite(strip.rotate(-90, expand=True).resize(
-                (300, 1000), Image.LANCZOS), (0, 0))
+    sd.rectangle([0, 0, 6, spine.height], fill=(48, 48, 56, 255))
 
     panel = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     panel.alpha_composite(warp(spine, spine_q, (w, h)))
     panel.alpha_composite(warp(front_src, front_q, (w, h)))
 
-    # The edge where the two faces meet, so the fold reads.
+    # The fold where the two faces meet.
     ed = ImageDraw.Draw(panel)
-    ed.line([front_q[0], front_q[3]], fill=(255, 255, 255, 60), width=3)
+    ed.line([front_q[0], front_q[3]], fill=(255, 255, 255, 70), width=3)
 
     blur, at = shadow(panel, 26, 0.7, (18, 24))
     img.alpha_composite(blur, at)

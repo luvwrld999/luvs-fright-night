@@ -11,7 +11,7 @@ import random
 import shutil
 import sys
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -165,7 +165,19 @@ def neon_frame(img, inset, thickness=3):
     img.alpha_composite(line)
 
 
-def box_front(path, w=900, h=1200):
+def _box_art(w, h):
+    """
+    The printed artwork, without the platform furniture around it.
+
+    Every size below was tuned against a 1200-tall poster shape. A real Game
+    Boy Advance box is nearly square, so they scale off the height they are
+    actually given - otherwise the title lands on top of the ghost.
+    """
+    k = h / 1200.0
+
+    def px(n):
+        return max(1, int(round(n * k)))
+
     img = backdrop(w, h)
 
     # The moon Luv is haunting, behind the lockup.
@@ -183,29 +195,31 @@ def box_front(path, w=900, h=1200):
     img.alpha_composite(moon)
 
     # Title first, because everything below is placed off its real height.
-    title, pad = title_block(scale_big=17, scale_small=11)
-    title_y = int(h * 0.045) - pad
+    title, pad = title_block(scale_big=px(17), scale_small=px(11))
+    # Low enough to clear the publisher's mark in the top corner.
+    title_y = int(h * 0.085) - pad
     img.alpha_composite(title, ((w - title.size[0]) // 2, title_y))
 
     tag_y = title_y + title.size[1] - pad + 14
     tag = Image.new('RGBA', (w, 60), (0, 0, 0, 0))
-    boxfont.centered(tag, 'EIGHT WORLDS * SEVEN SINS * ONE GHOST', 4, CYAN, 3)
+    boxfont.centered(tag, 'EIGHT WORLDS * SEVEN SINS * ONE GHOST', 4, CYAN,
+                     px(3))
     bloom, off = glow(tag, 7, 2.2)
     img.alpha_composite(bloom, (off, tag_y + off))
     img.alpha_composite(tag, (0, tag_y))
 
     # The floor line the cast stands on -- everything below is the credit band.
-    band_top = h - 170
+    band_top = h - px(170)
 
     # Small fry drifting through the empty middle band.
     for name, height, scale, fx, fy in (
-            ('cherub_fiend', 16, 5, 0.17, 0.415),
-            ('bone_bat', 16, 4, 0.79, 0.44),
-            ('halo_imp', 16, 5, 0.30, 0.505),
-            ('gnasher', 16, 4, 0.70, 0.545),
-            ('soul_orb', 8, 5, 0.50, 0.425),
-            ('soul_orb', 8, 4, 0.24, 0.585),
-            ('soul_orb', 8, 4, 0.86, 0.56)):
+            ('cherub_fiend', 16, px(5), 0.17, 0.45),
+            ('bone_bat', 16, px(4), 0.82, 0.47),
+            ('halo_imp', 16, px(5), 0.26, 0.545),
+            ('gnasher', 16, px(4), 0.74, 0.575),
+            ('soul_orb', 8, px(5), 0.50, 0.455),
+            ('soul_orb', 8, px(4), 0.20, 0.62),
+            ('soul_orb', 8, px(4), 0.88, 0.60)):
         try:
             fry = sprite(name, 0, height, scale)
         except FileNotFoundError:
@@ -220,7 +234,7 @@ def box_front(path, w=900, h=1200):
     # A soft halo behind Luv so the white sprite separates from the night.
     disc = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     dp = disc.load()
-    dcx, dcy, dr = w // 2, band_top - 250, 210
+    dcx, dcy, dr = w // 2, band_top - px(250), px(210)
 
     for y in range(dcy - dr, dcy + dr + 1):
         for x in range(dcx - dr, dcx + dr + 1):
@@ -232,7 +246,7 @@ def box_front(path, w=900, h=1200):
 
     # Two sins flanking, standing on the same floor.
     for name, side in (('boss_superbia', -1), ('boss_ira', 1)):
-        sin = sprite(name, 0, 32, 6)
+        sin = sprite(name, 0, 32, px(6))
         x = int(w * 0.5 + side * w * 0.34) - sin.size[0] // 2
         y = band_top - sin.size[1] - 10
         bloom, off = glow(sin, 14, 1.8, MAG)
@@ -240,27 +254,100 @@ def box_front(path, w=900, h=1200):
         img.alpha_composite(sin, (x, y))
 
     # Luv, front and centre.
-    luv = sprite('luv', 6, 32, 13)
+    luv = sprite('luv', 6, 32, px(13))
     lx, ly = (w - luv.size[0]) // 2, band_top - luv.size[1] - 6
     bloom, off = glow(luv, 26, 2.2, CYAN)
     img.alpha_composite(bloom, (lx + off, ly + off))
     img.alpha_composite(luv, (lx, ly))
 
     # Bottom band: who made it.
-    band = Image.new('RGBA', (w, 170), (0, 0, 0, 0))
+    bh = px(170)
+    band = Image.new('RGBA', (w, bh), (0, 0, 0, 0))
     bp = band.load()
 
-    for y in range(170):
-        a = int(240 * min(1.0, y / 55.0))
+    for y in range(bh):
+        a = int(240 * min(1.0, y / (bh * 0.32)))
 
         for x in range(w):
             bp[x, y] = (10, 5, 16, a)
 
-    boxfont.centered(band, 'RETRO RUMBLE', 58, GOLD, 5)
-    boxfont.centered(band, 'A LUVWRLD GAME', 108, LILAC, 3)
-    img.alpha_composite(band, (0, h - 170))
+    # The publisher is on the spine strip and in the corner mark already; down
+    # here it only needs to say whose game it is.
+    boxfont.centered(band, 'A LUVWRLD GAME', int(bh * 0.44), LILAC, px(4))
+    img.alpha_composite(band, (0, h - bh))
 
-    neon_frame(img, 22)
+    return img
+
+
+def _platform_band(w, h, words='ADVANCE HOMEBREW'):
+    """
+    The silver strip down the left edge of a Game Boy Advance box.
+
+    On a real box this carries the platform's own name in this exact place.
+    That wordmark is Nintendo's, so the strip says what the thing is instead
+    of whose it is.
+    """
+    band = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    px = band.load()
+
+    for x in range(w):
+        t = x / float(w - 1)
+        # Brushed metal: a bright line off-centre, falling away to both edges.
+        v = max(0.0, 1.0 - abs(t - 0.38) * 1.9)
+        c = int(96 + 150 * v)
+
+        for y in range(h):
+            # A little vertical grain, so it reads as metal rather than a
+            # flat grey rectangle.
+            g = ((y * 7 + x * 3) % 11) - 5
+            px[x, y] = (max(0, min(255, c + g)), max(0, min(255, c + g)),
+                        max(0, min(255, c + g + 8)), 255)
+
+    strip = Image.new('RGBA', (h, w), (0, 0, 0, 0))
+
+    # Size to whichever runs out first, the strip's width or its length. The
+    # spine carries a longer line than the face does, and picking the size off
+    # the width alone clipped it to "'S FRIGHT NI".
+    scale = max(2, w // 26)
+
+    while scale > 2 and boxfont.measure(words, scale, 2) > h - int(w * 0.5):
+        scale -= 1
+
+    boxfont.centered(strip, words, (w - boxfont.HEIGHT * scale) // 2,
+                     (26, 26, 34, 255), scale, tracking=2)
+    band.alpha_composite(strip.rotate(90, expand=True))
+
+    d = ImageDraw.Draw(band)
+    d.line([(w - 1, 0), (w - 1, h)], fill=(40, 40, 48, 255), width=2)
+    return band
+
+
+def box_front(path, w=900, h=960):
+    """
+    The cover, in the shape a Game Boy Advance box actually is.
+
+    Nearly square rather than poster-shaped, with the silver platform strip
+    down the left edge and the publisher's mark in the top corner. The
+    proportions and the furniture are taken off a blank retail box.
+    """
+    img = Image.new('RGBA', (w, h), INK)
+
+    band_w = int(w * 0.17)
+    art = _box_art(w - band_w, h)
+    img.alpha_composite(art, (band_w, 0))
+    img.alpha_composite(_platform_band(band_w, h, 'ADVANCE HOMEBREW'),
+                        (0, 0))
+
+    # Publisher's mark, top right, where a label would sit.
+    mark = Image.new('RGBA', (196, 60), (0, 0, 0, 0))
+    md = ImageDraw.Draw(mark)
+    md.rounded_rectangle([0, 0, 195, 59], radius=9, fill=(14, 8, 22, 240),
+                         outline=GOLD, width=3)
+    boxfont.centered(mark, 'RETRO', 12, GOLD, 2)
+    boxfont.centered(mark, 'RUMBLE', 34, GOLD, 2)
+    img.alpha_composite(mark, (w - 196 - 20, 20))
+
+    neon_frame(img, 14)
     img.convert('RGB').save(path)
     return path
 
