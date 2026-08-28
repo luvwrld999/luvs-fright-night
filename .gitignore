@@ -32,3 +32,6 @@ tools/emu/fx/
 tools/emu/look/
 tools/emu/rev/
 tools/emu/story2/
+
+# Staged release assets, copied from the built ROM.
+dist/
