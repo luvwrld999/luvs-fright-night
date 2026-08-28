@@ -92,71 +92,108 @@ def shadow(img, blur=18, strength=0.75, offset=(14, 18)):
 
 # ---------------------------------------------------------------- cartridge
 
-def cartridge(path, w=800, h=800):
+def _cart_label(w, h):
     """
-    The cart itself: grey shell, printed label, gold contacts.
+    The printed label, drawn landscape.
 
-    Frontends that show a "support" image expect the thing you would actually
-    hold, so the label is the box art cropped to the label's own proportions
-    rather than the box shrunk down.
+    The box front is portrait, and cropping it to a cartridge label loses
+    either the wordmark or the ghost. This lays the same pieces out for the
+    shape the label actually is, in bands that cannot collide.
+    """
+    img = gs.backdrop(w, h, seed=17)
+
+    lock, _pad = gs.title_block(4, 3)
+    lock.thumbnail((int(w * 0.70), int(h * 0.38)), Image.LANCZOS)
+    img.alpha_composite(lock, ((w - lock.width) // 2, int(h * 0.06)))
+
+    # Luv sits in the middle band, sized so his feet stop above the credit.
+    feet = int(h * 0.80)
+    luv = gs.sprite('luv', 0, 32, 3)
+    img.alpha_composite(luv, ((w - luv.width) // 2, feet - luv.height))
+
+    for i, name in enumerate(('halo_imp', 'cherub_fiend')):
+        art = gs.sprite(name, 0, 16, 3)
+        x = int(w * (0.18 if i == 0 else 0.82)) - art.width // 2
+        img.alpha_composite(art, (x, feet - art.height))
+
+    strip = Image.new('RGBA', (w, 30), (0, 0, 0, 0))
+    boxfont.centered(strip, 'RETRO RUMBLE', 0, gs.DGOLD, 2)
+    img.alpha_composite(strip, (0, int(h * 0.85)))
+
+    gs.neon_frame(img, 5, 2)
+    return img
+
+
+def cartridge(path, w=940, h=600):
+    """
+    A Game Boy Advance cartridge, seen face on.
+
+    Landscape at about 1.7 to 1, with the shallow dome moulded into the band
+    above the label, the two tabs at the upper corners and the thumb notch at
+    the foot. Proportions are taken off a real shell: the label leaves a wide
+    margin at the top - that band is where the moulded lettering goes - and
+    tighter ones at the sides and foot.
+
+    That lettering reads "GAME BOY ADVANCE" on a real cartridge and is not
+    reproduced here. The silhouette is what makes it read as a cartridge; the
+    wordmark is Nintendo's and this game is not theirs.
     """
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
 
-    bw, bh = 520, 640
+    bw, bh = 840, 494
     bx, by = (w - bw) // 2, (h - bh) // 2
-    shell = (58, 54, 70, 255)
-    lip = (86, 80, 104, 255)
+    shell = (58, 58, 66, 255)
+    lit = (88, 88, 98, 255)
+    dark = (34, 34, 40, 255)
 
     body = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     bd = ImageDraw.Draw(body)
-    bd.rounded_rectangle([bx, by, bx + bw, by + bh], radius=26, fill=shell)
 
-    # The two grip notches down the sides, and the bevel that catches light.
+    # Tabs at the upper corners: they clear the top edge by a few pixels only,
+    # which is what stops them reading as ears.
     for side in (0, 1):
-        x = bx - 1 if side == 0 else bx + bw - 21
-        bd.rounded_rectangle([x, by + 150, x + 22, by + 430], radius=10,
-                             fill=(38, 35, 48, 255))
+        tx = bx + 34 if side == 0 else bx + bw - 96
+        bd.rounded_rectangle([tx, by - 9, tx + 62, by + 42], radius=7,
+                             fill=shell)
 
-    bd.rounded_rectangle([bx + 6, by + 6, bx + bw - 6, by + 22], radius=8,
-                         fill=lip)
+    bd.rounded_rectangle([bx, by, bx + bw, by + bh], radius=32, fill=shell)
+    bd.rounded_rectangle([bx + 10, by + 7, bx + bw - 10, by + 19], radius=6,
+                         fill=lit)
+    bd.rounded_rectangle([bx + 10, by + bh - 20, bx + bw - 10, by + bh - 9],
+                         radius=6, fill=dark)
 
-    # Label: the box art, cropped to the label's shape.
-    lw, lh = bw - 84, 400
-    lx, ly = bx + 42, by + 52
-    art = Image.open(os.path.join(MEDIA, 'box', 'box-front.png')).convert('RGBA')
-    scale = max(lw / art.width, lh / art.height)
-    art = art.resize((int(art.width * scale), int(art.height * scale)),
-                     Image.LANCZOS)
-    art = art.crop((0, 0, lw, lh))
+    # The dome, moulded into the band above the label - inside the shell, not
+    # floating over its top edge.
+    bd.arc([bx + 132, by + 8, bx + bw - 132, by + 150], 203, 337, fill=lit,
+           width=5)
+    bd.arc([bx + 132, by + 15, bx + bw - 132, by + 157], 203, 337, fill=dark,
+           width=3)
 
-    label = Image.new('RGBA', (lw, lh), (0, 0, 0, 0))
+    # Label: measured off the reference - 14% margins at the sides, 21% above,
+    # 14% below, so the band that carries the moulding stays clear.
+    lx = bx + int(bw * 0.14)
+    ly = by + int(bh * 0.21)
+    lw = bw - 2 * int(bw * 0.14)
+    lh = bh - int(bh * 0.21) - int(bh * 0.14)
+
+    bd.rounded_rectangle([lx - 7, ly - 7, lx + lw + 6, ly + lh + 6], radius=14,
+                         fill=(24, 22, 30, 255))
+
+    label = _cart_label(lw, lh)
     mask = Image.new('L', (lw, lh), 0)
-    ImageDraw.Draw(mask).rounded_rectangle([0, 0, lw - 1, lh - 1], radius=12,
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, lw - 1, lh - 1], radius=10,
                                            fill=255)
-    label.paste(art, (0, 0), mask)
-    bd.rounded_rectangle([lx - 4, ly - 4, lx + lw + 3, ly + lh + 3], radius=16,
-                         fill=(20, 16, 30, 255))
-    body.alpha_composite(label, (lx, ly))
+    flat = Image.new('RGBA', (lw, lh), (0, 0, 0, 0))
+    flat.paste(label, (0, 0), mask)
+    body.alpha_composite(flat, (lx, ly))
 
-    # Contacts along the bottom edge, and the slot they sit in.
-    cy = by + bh - 96
-    bd.rectangle([bx + 60, cy, bx + bw - 60, cy + 62], fill=(28, 24, 38, 255))
+    # The thumb notch at the foot.
+    cx = bx + bw // 2
+    fy = by + bh - 34
+    bd.polygon([(cx - 32, fy), (cx + 32, fy), (cx, fy + 19)], fill=dark)
+    bd.line([(cx - 32, fy), (cx + 32, fy)], fill=lit, width=2)
 
-    pins = 16
-    span = (bw - 140) / pins
-
-    for i in range(pins):
-        px = bx + 70 + i * span
-        bd.rounded_rectangle([px, cy + 8, px + span * 0.6, cy + 54], radius=3,
-                             fill=(214, 168, 40, 255))
-
-    # Not "GBA": that is Nintendo's mark, and stamping it on a cartridge
-    # shape is exactly the kind of thing that gets a repository complained
-    # about. The shell is generic; the label is ours.
-    boxfont.centered(body, 'RETRO RUMBLE', by + bh - 26, (150, 144, 172, 255), 3)
-
-    blur, at = shadow(body, 20, 0.6, (10, 16))
+    blur, at = shadow(body, 22, 0.65, (12, 18))
     img.alpha_composite(blur, at)
     img.alpha_composite(body)
     img.save(path)
@@ -452,12 +489,14 @@ def shelf(path, w=1600, h=900):
     box.thumbnail((720, 720), Image.LANCZOS)
     cart = Image.open(
                 os.path.join(MEDIA, 'cartridge', 'cart.png')).convert('RGBA')
-    cart.thumbnail((470, 470), Image.LANCZOS)
+    cart.thumbnail((600, 600), Image.LANCZOS)
 
     # The box behind and to the left, the cartridge in front of its near edge -
     # the cart is the smaller object, so it comes forward.
-    bx, by = 190, (h - box.height) // 2 - 20
-    cx, cy = 830, (h - cart.height) // 2 + 30
+    # The cart is a landscape object now, so it is seated on the same line the
+    # box stands on rather than floating beside its middle.
+    bx, by = 170, (h - box.height) // 2 - 20
+    cx, cy = 840, by + box.height - cart.height - 30
 
     blur, at = shadow(box, 26, 0.75, (20, 26))
     img.alpha_composite(blur, (bx + at[0], by + at[1]))
