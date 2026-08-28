@@ -23,3 +23,10 @@ docker run --rm -t \
     -e HOME=/tmp \
     "$IMAGE" \
     make -j"$JOBS" "$@"
+
+# gbafix stamps Nintendo's licensee code because it is called without one.
+# Nothing here is Nintendo's, so the header should not say otherwise.
+if [ -f "$PROJECT_DIR/LuvsFrightNight.gba" ]; then
+    python3 "$PROJECT_DIR/tools/stamp_rom.py" \
+        "$PROJECT_DIR/LuvsFrightNight.gba" >/dev/null
+fi

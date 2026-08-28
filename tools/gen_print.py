@@ -151,7 +151,10 @@ def cartridge(path, w=800, h=800):
         bd.rounded_rectangle([px, cy + 8, px + span * 0.6, cy + 54], radius=3,
                              fill=(214, 168, 40, 255))
 
-    boxfont.centered(body, 'GBA', by + bh - 26, (150, 144, 172, 255), 3)
+    # Not "GBA": that is Nintendo's mark, and stamping it on a cartridge
+    # shape is exactly the kind of thing that gets a repository complained
+    # about. The shell is generic; the label is ours.
+    boxfont.centered(body, 'RETRO RUMBLE', by + bh - 26, (150, 144, 172, 255), 3)
 
     blur, at = shadow(body, 20, 0.6, (10, 16))
     img.alpha_composite(blur, at)
