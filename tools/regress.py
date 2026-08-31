@@ -27,6 +27,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from PIL import Image
 
+import make_save
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EMU = os.path.join(ROOT, 'tools', 'emu')
 GOLDEN = os.path.join(EMU, 'golden')
@@ -48,10 +50,20 @@ FLAGS = ('-DBN_CFG_ASSERT_ENABLED=true '
 # row is a one-line change here instead of a hand-edited script.
 CASES = {}
 
+# Cases needing a cartridge with progress on it, and how far it reaches.
+# Seeding the save to exactly the stage under test puts stage select's cursor
+# on it, so the script picks it with one button instead of counting its way
+# down a list.
+SEEDS = {}
 
-def case(name):
+
+def case(name, seed=None):
     def wrap(fn):
         CASES[name] = fn
+
+        if seed is not None:
+            SEEDS[name] = seed
+
         return fn
     return wrap
 
@@ -83,10 +95,15 @@ def _menu():
             + tap('start') + ['wait 70', 'shot 03_menu'])
 
 
+# A blank cartridge shows NEW GAME, 2 PLAYER, EXTRAS. Level codes used to sit
+# between the last two.
+MENU_EXTRAS_BLANK = 2
+
+
 @case('extras')
 def _extras():
     """Every screen behind EXTRAS."""
-    out = boot() + tap('down', 3) + ['wait 16'] + tap('a')
+    out = boot() + tap('down', MENU_EXTRAS_BLANK) + ['wait 16'] + tap('a')
     out += ['wait 70', 'shot 01_extras']
     out += tap('a') + ['wait 100', 'shot 02_scores']
     out += tap('a') + ['wait 90', 'shot 03_rush_board']
@@ -97,7 +114,8 @@ def _extras():
 
 @case('credits')
 def _credits():
-    out = boot() + tap('down', 3) + ['wait 16'] + tap('a') + ['wait 70']
+    out = boot() + tap('down', MENU_EXTRAS_BLANK) + ['wait 16'] + tap('a')
+    out += ['wait 70']
     out += tap('down', 4) + ['wait 16'] + tap('a') + ['wait 90', 'shot 01_credits']
     return out
 
@@ -131,48 +149,28 @@ def _play():
     return out
 
 
-@case('codes')
-def _codes():
-    """Level code entry, refusing a wrong one and taking a right one."""
-    letters = 'BCDFGHJKLMNPRSTV'
-    out = boot() + tap('down', 2) + ['wait 16'] + tap('a')
-    out += ['wait 70', 'shot 01_blank']
-    out += tap('a') + ['wait 50', 'shot 02_refused', 'wait 100']
-
-    for i, ch in enumerate('KKKC'):
-        out += tap('up', letters.index(ch), hold=6, gap=7)
-
-        if i < 3:
-            out += tap('right')
-
-    out += ['wait 20', 'shot 03_typed'] + tap('a') + ['wait 50', 'shot 04_named']
-    return out
-
-
-# The first stage of each world, and the alphabet the code screen scrolls
-# through. Kept here rather than imported so this file stays runnable on its
-# own; check_levels.py fails if the two ever disagree about the level table.
-CODE_LETTERS = 'BCDFGHJKLMNPRSTV'
+# The first stage of each world.
 WORLD_ENTRY = {2: 3, 3: 6, 4: 9, 5: 12, 6: 15, 7: 18, 8: 21}
 
-
-def level_code(index):
-    """The same scramble lfn_code.cpp uses, so the cases type real codes."""
-    v = ((index + 1) * 2749 ^ 0x3C5A) & 0xFFFF
-    return ''.join(CODE_LETTERS[(v >> ((3 - k) * 4)) & 0xF] for k in range(4))
+# With a save on the cartridge the front page reads CONTINUE, NEW GAME,
+# 2 PLAYER, STAGE SELECT, EXTRAS.
+MENU_STAGE_SELECT = 3
 
 
-def type_code(text):
-    """Drive the code screen: scroll each column up to its letter, then right."""
-    out = []
+def pick_stage(target, start):
+    """
+    Open stage select and choose a stage.
 
-    for i, ch in enumerate(text):
-        out += tap('up', CODE_LETTERS.index(ch), hold=6, gap=7)
+    The cursor opens on the furthest level the save has reached, so a case
+    that seeded its save to its own stage needs no movement at all, while one
+    running on a build that unlocks everything walks up from the end.
+    """
+    out = tap('down', MENU_STAGE_SELECT) + ['wait 16'] + tap('a') + ['wait 60']
 
-        if i < len(text) - 1:
-            out += tap('right')
+    if start > target:
+        out += tap('up', start - target, hold=6, gap=8) + ['wait 16']
 
-    return out + ['wait 20'] + tap('a')
+    return out + tap('a')
 
 
 def world_case(world):
@@ -188,15 +186,13 @@ def world_case(world):
     Camera scroll and parallax are covered by `play` in world one.
     """
     def build():
-        out = boot() + tap('down', 2) + ['wait 16'] + tap('a') + ['wait 70']
-        out += type_code(level_code(WORLD_ENTRY[world]))
-        # The code screen holds on the stage name, then the sin gets its say
-        # (560 frames), then the world card (190).
-        out += ['wait 120', 'wait 600', 'wait 200', 'wait 120']
+        out = boot() + pick_stage(WORLD_ENTRY[world], WORLD_ENTRY[world])
+        # The sin gets its say (560 frames), then the world card (190).
+        out += ['wait 600', 'wait 200', 'wait 120']
         out += ['shot 01_stage']
         return out
 
-    build.__doc__ = 'World %d, entered by level code.' % world
+    build.__doc__ = 'World %d, from stage select.' % world
     return build
 
 
@@ -216,9 +212,9 @@ def boss_case(world):
     settle = {4: 22, 8: 20}.get(world, 60)
 
     def build():
-        out = boot() + tap('down', 2) + ['wait 16'] + tap('a') + ['wait 70']
-        out += type_code(level_code(world * 3 - 1))
-        out += ['wait 120', 'wait 200', 'wait %d' % settle]
+        out = boot() + pick_stage(world * 3 - 1, world * 3 - 1)
+        # No sin speaks before a boss; the card goes straight to the fight.
+        out += ['wait 200', 'wait %d' % settle]
         out += ['shot 01_arena']
         return out
 
@@ -227,10 +223,10 @@ def boss_case(world):
 
 
 for _w in sorted(WORLD_ENTRY):
-    case('world%d' % _w)(world_case(_w))
+    case('world%d' % _w, seed=WORLD_ENTRY[_w])(world_case(_w))
 
 for _w in range(1, 9):
-    case('boss%d' % _w)(boss_case(_w))
+    case('boss%d' % _w, seed=_w * 3 - 1)(boss_case(_w))
 
 
 def build_rom():
@@ -272,7 +268,11 @@ def run_case(name, lines, into):
         shutil.rmtree(into)
 
     os.makedirs(into)
-    fresh_cartridge(ROM)
+
+    if name in SEEDS:
+        make_save.write(ROM[:-4] + '.sav', furthest=SEEDS[name])
+    else:
+        fresh_cartridge(ROM)
     subprocess.run(
         ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w', 'lfn-mgba',
          '/w/tools/emu/lfn_regress.gba',

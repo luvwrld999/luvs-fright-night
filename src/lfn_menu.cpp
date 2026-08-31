@@ -20,10 +20,11 @@
 #include "bn_sprite_palette_items_text_mag.h"
 
 #include "lfn_audio.h"
+#include "common_variable_8x8_sprite_font.h"
+
 #include "lfn_backdrop.h"
 #include "lfn_trace.h"
 #include "lfn_cards.h"
-#include "lfn_code.h"
 #include "bn_core.h"
 #include "lfn_hud.h"
 #include "lfn_levels.h"
@@ -65,13 +66,16 @@ namespace lfn
             return slot;
         }
 
-        bn::string<32> stage_label(int index)
+        bn::string<40> stage_label(int index)
         {
-            bn::string<32> out = bn::format<32>("{}-{}  ", roman(levels[index].world),
+            bn::string<40> out = bn::format<40>("{}-{}  ", roman(levels[index].world),
                                                 slot_of(index));
 
-            // Short enough to leave the best time its own column on the right.
-            for(const char* c = levels[index].name; *c && out.size() < 18; ++c)
+            // The whole name: at the small face a twenty-character stage name
+            // and its best time both fit the row. The old cap of eighteen
+            // counted the numeral prefix too, so Chapel of the Mirror was
+            // showing up as "Chapel of the".
+            for(const char* c = levels[index].name; *c && out.size() < 30; ++c)
             {
                 out.push_back(*c);
             }
@@ -113,6 +117,11 @@ namespace lfn
 
         // Two halves of the 128x64 wordmark, side by side.
         constexpr bn::fixed logo_y = -52;
+        // Stage names are up to twenty characters and share their row with a
+        // best time. At the 8x16 face that does not fit a 240px screen, so
+        // the rows get the small face while headings keep the large one.
+        bn::sprite_text_generator small(common::variable_8x8_sprite_font);
+
         bn::sprite_ptr logo_l = bn::sprite_items::logo.create_sprite(-32, logo_y);
         bn::sprite_ptr logo_r = bn::sprite_items::logo.create_sprite(32, logo_y);
         logo_r.set_tiles(bn::sprite_items::logo.tiles_item().create_tiles(1));
@@ -237,7 +246,6 @@ namespace lfn
 
         options.push_back({"NEW GAME", 1});
         options.push_back({"2 PLAYER", 6});
-        options.push_back({"LEVEL CODE", 7});
 
         if(has_save)
         {
@@ -387,6 +395,11 @@ namespace lfn
                     text.generate(0, layout::title_y, "STAGE SELECT", sprites);
                     tint(sprites, 0, bn::sprite_palette_items::text_gold);
 
+                    // These are rows in two columns, not centred lines. Without
+                    // this they were centred on x = -100, which put the left
+                    // third of every stage name off the side of the screen.
+                    small.set_left_alignment();
+
                     for(int i = 0; i < stage_rows; ++i)
                     {
                         const int index = stage_top + i;
@@ -396,21 +409,27 @@ namespace lfn
                             break;
                         }
 
-                        text.generate(-100, -40 + (i * 16), stage_label(index),
-                                      sprites);
+                        const int mark = sprites.size();
+                        small.generate(-96, -40 + (i * 16), stage_label(index),
+                                       sprites);
+                        tint(sprites, mark,
+                             index == stage_pick
+                                 ? bn::sprite_palette_items::text_gold
+                                 : bn::sprite_palette_items::text_cyan);
 
                         // Your fastest clear, in the same units the stage
                         // clock counts down. Blank until you have set one.
                         if(index < save::timed_stages && file.best_time[index])
                         {
-                            const int mark = sprites.size();
-                            text.generate(62, -40 + (i * 16),
-                                          zero_pad(file.best_time[index], 3),
-                                          sprites);
-                            tint(sprites, mark, bn::sprite_palette_items::text_cyan);
+                            const int at = sprites.size();
+                            small.generate(74, -40 + (i * 16),
+                                           zero_pad(file.best_time[index], 3),
+                                           sprites);
+                            tint(sprites, at, bn::sprite_palette_items::text_mag);
                         }
                     }
 
+                    text.set_center_alignment();
                     const int mark = sprites.size();
                     text.generate(0, layout::footer_y,
                                   "A PLAY   B BACK   BEST TIME", sprites);
@@ -626,31 +645,7 @@ namespace lfn
                         return result;
                     }
 
-                    if(action == 7)
-                    {
-                        release();
-                        const int opened = enter_code(text);
-
-                        if(opened >= 0)
-                        {
-                            result.level_index = opened;
-                            result.run.lives = tune::start_lives;
-
-                            // A code is proof enough: stage select opens up to
-                            // there too, so it need not be typed twice.
-                            save::progress& p = save::slot(file);
-                            p.furthest_level = uint16_t(bn::max<int>(
-                                        p.furthest_level,
-                                        bn::min(opened, story_count - 1)));
-                            p.used = 1;
-                            save::store(file);
-                            arm();
-                            return result;
-                        }
-
-                        restore();
-                    }
-                    else if(action == 2)
+                    if(action == 2)
                     {
                         where = screen::stages;
                         stage_pick = save::slot(file).furthest_level;
@@ -796,12 +791,14 @@ namespace lfn
                     audio::sfx_menu();
                 }
 
-                // Only the list scrolling changes the text; the cursor is a
-                // sprite and moves on its own.
+                // The row you are on is drawn gold, so moving the cursor now
+                // changes the text as well as the sprite - it used to redraw
+                // only when the list scrolled.
                 const int was_top = stage_top;
                 stage_top = bn::clamp(stage_top, bn::max(stage_pick - stage_rows + 1, 0),
                                       stage_pick);
-                dirty = dirty || stage_top != was_top;
+                dirty = dirty || stage_top != was_top ||
+                        bn::keypad::up_pressed() || bn::keypad::down_pressed();
 
                 if(bn::keypad::a_pressed() || bn::keypad::start_pressed())
                 {

@@ -180,6 +180,14 @@ namespace lfn
             sprite.set_palette(bn::sprite_palette_items::text_gold);
         }
 
+        // Same as the pause menu: a line drawn over the stage has to be in
+        // front of the stage's own layer, or a platform swallows half of it.
+        for(bn::sprite_ptr& sprite : _banner)
+        {
+            sprite.set_bg_priority(0);
+            sprite.set_z_order(-200);
+        }
+
         if(bonus > 0)
         {
             const int mark = _banner.size();
@@ -188,6 +196,8 @@ namespace lfn
             for(int i = mark; i < _banner.size(); ++i)
             {
                 _banner[i].set_palette(bn::sprite_palette_items::text_mag);
+                _banner[i].set_bg_priority(0);
+                _banner[i].set_z_order(-200);
             }
         }
     }

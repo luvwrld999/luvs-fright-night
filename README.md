@@ -77,17 +77,18 @@ python3 tools/gen_scrape.py        # the whole scrape package, manual included
 
 ## Playing it
 
-The title screen offers Continue, New Game, 2 Player, Level Code, Stage Select
-and Extras. Extras holds the high score board, Boss Rush, a sound test, the
+The title screen offers Continue, New Game, 2 Player, Stage Select and
+Extras. Extras holds the high score board, Boss Rush, a sound test, the
 credits and a controls screen. Leave the pad alone for twenty seconds and the
 cartridge starts an attract loop - the board, then a stage playing itself.
 
 - **2 Player** seats two players on one pad, alternating turns on death, arcade
   style. Each seat keeps its own lives, score and place in the game.
-- **Level Code** takes the four-letter code printed on every world card, so
-  progress survives a dead battery. World 1-1 is `FJTK`.
 - **Continues** — three per run, offered on a countdown when the lives run out.
   The score stands; a continue spends a limited resource, not the run.
+- **Stage Select** lists every stage reached, by name, with its best time
+  beside it. It replaced a four-letter level code system, which did the same
+  job in more keystrokes.
 - **Best times** are recorded per stage and shown as a column on Stage Select.
   They survive New Game: they are records rather than progress.
 - **Cheat Code** under Extras listens for ten seconds for something you may

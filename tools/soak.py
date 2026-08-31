@@ -58,11 +58,14 @@ def budget(index):
     return 1500
 
 
+# A test build unlocks the whole list, so stage select opens with its cursor
+# on the last entry and every stage is reached by walking up from there.
+UNLOCKED_TOP = LEVELS - 1
+
+
 def script(index):
-    """Enter one stage by its level code and let the pilot play it."""
-    out = regress.boot() + regress.tap('down', 3) + ['wait 16'] + regress.tap('a')
-    out += ['wait 70'] + regress.type_code(regress.level_code(index))
-    out += ['wait 120']
+    """Pick one stage out of stage select and let the pilot play it."""
+    out = regress.boot() + regress.pick_stage(index, UNLOCKED_TOP)
 
     # The sin only speaks on the way into its world.
     if index < STORY and index % 3 == 0:
@@ -150,9 +153,7 @@ WARPS = [(1, 24, 2), (10, 25, 15), (16, 26, 21)]
 
 def warp_script(index):
     """Enter a stage that has a secret door; the harness takes it for us."""
-    out = regress.boot() + regress.tap('down', 3) + ['wait 16'] + regress.tap('a')
-    out += ['wait 70'] + regress.type_code(regress.level_code(index))
-    out += ['wait 120']
+    out = regress.boot() + regress.pick_stage(index, UNLOCKED_TOP)
 
     if index % 3 == 0:
         out += ['wait 560']
@@ -231,7 +232,9 @@ def check_warps():
 # In a test build the menu is six rows - CONTINUE, NEW GAME, 2 PLAYER,
 # LEVEL CODE, STAGE SELECT, EXTRAS - because the flags unlock everything.
 MENU_TWO_PLAYER = 2
-MENU_EXTRAS = 5
+# CONTINUE, NEW GAME, 2 PLAYER, STAGE SELECT, EXTRAS - level codes used to sit
+# between the last two.
+MENU_EXTRAS = 4
 EXTRAS_BOSS_RUSH = 1
 EXTRAS_CHEAT = 3
 
@@ -465,13 +468,15 @@ def check_sram():
         os.remove(path)
         return into
 
-    # A blank cartridge has a four-row menu - NEW GAME, 2 PLAYER, LEVEL CODE,
-    # EXTRAS. CONTINUE and STAGE SELECT only appear once there is something to
-    # continue, which is the whole thing being tested, so the rows move.
+    # A blank cartridge has a three-row menu - NEW GAME, 2 PLAYER, EXTRAS.
+    # CONTINUE and STAGE SELECT appear only once there is something to
+    # continue, which is the whole thing being tested. Starting a new game is
+    # what writes the slot, so that is what run one does.
     first = regress.boot() + ['shot 01_menu_blank']
-    first += regress.tap('down', 2) + ['wait 16'] + regress.tap('a')
-    first += ['wait 70'] + regress.type_code(regress.level_code(6))
-    first += ['wait 120', 'wait 560', 'wait 300', 'shot 02_playing']
+    first += regress.tap('a') + ['wait 80']              # NEW GAME
+    first += regress.tap('a') + ['wait 60']              # the first file
+    first += regress.tap('down') + ['wait 16'] + regress.tap('a')   # yes, erase
+    first += ['wait 300', 'wait 600', 'shot 02_playing']
     a = session('sram_a', first)
 
     raw = open(sav, 'rb').read() if os.path.exists(sav) else b''

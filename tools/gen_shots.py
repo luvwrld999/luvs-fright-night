@@ -19,6 +19,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import make_save
 import regress
 import shots as shots_tool
 
@@ -38,18 +39,16 @@ BOSS_SETTLE = {8: 20}
 
 def enter(index, settle, story=True):
     """
-    Type a level code, sit through the cards, then wait `settle` frames.
+    Pick a stage out of stage select, sit through the cards, then settle.
 
-    The sin only speaks on the way into its world, so a boss - the third
-    stage of its world - goes straight from the code screen to the world
-    card. Waiting for a card that never comes left an idle player standing
-    in the arena for fourteen seconds, and six of the eight arena shots came
-    back as the continue screen.
+    The save is seeded to the stage being shot, so the list opens with its
+    cursor already there. The sin only speaks on the way into its world, so a
+    boss - the third stage of its world - goes straight to the world card;
+    waiting for a card that never comes left an idle player standing in the
+    arena for fourteen seconds, and six of the eight arena shots came back as
+    the continue screen.
     """
-    out = regress.boot() + regress.tap('down', 2) + ['wait 16']
-    out += regress.tap('a') + ['wait 70']
-    out += regress.type_code(regress.level_code(index))
-    out += ['wait 120']                     # the code screen holds the name
+    out = regress.boot() + regress.pick_stage(index, index)
 
     if story:
         out += ['wait 560']                 # the sin gets its say
@@ -64,22 +63,20 @@ def title():
 
 def card():
     """The world card itself, caught while it is still on screen."""
-    out = regress.boot() + regress.tap('down', 2) + ['wait 16']
-    out += regress.tap('a') + ['wait 70']
-    out += regress.type_code(regress.level_code(BOSS[5] - 2))
+    stage = BOSS[5] - 2
+    out = regress.boot() + regress.pick_stage(stage, stage)
     # The card is only 190 frames wide and the stage starts the moment it
     # ends, so this lands in the middle of it rather than just after.
-    out += ['wait 120', 'wait 560', 'wait 100', 'shot 02_card']
+    out += ['wait 560', 'wait 100', 'shot 02_card']
     return out
 
 
 def world_one(name, running=False):
     """
-    World 1-1 through NEW GAME rather than a code.
+    World 1-1 through NEW GAME rather than stage select.
 
-    Stage zero is the one stage a level code cannot reach cleanly: main.cpp
-    plays Luv's opening whenever the run starts at index 0, so the code route
-    lands on the story card instead of the game.
+    main.cpp plays Luv's opening whenever a run starts at index 0, so entering
+    stage zero any other way lands on the story card instead of the game.
     """
     out = regress.boot() + regress.tap('a') + ['wait 60'] + regress.tap('a')
     out += ['wait 600', 'wait 480', 'wait 250']
@@ -95,14 +92,18 @@ def stage(name, index, extra=0, story=True):
     return out + ['shot ' + name]
 
 
-def run(name, lines, into):
+def run(name, lines, into, seed=None):
     script = os.path.join(EMU, 'shot_%s.txt' % name)
 
     with open(script, 'w') as f:
         f.write('\n'.join(lines) + '\n')
 
     os.makedirs(into, exist_ok=True)
-    regress.fresh_cartridge(ROM)
+
+    if seed is None:
+        regress.fresh_cartridge(ROM)
+    else:
+        make_save.write(ROM[:-4] + '.sav', furthest=seed)
     subprocess.run(
         ['docker', 'run', '--rm', '-v', '%s:/w' % ROOT, '-w', '/w', 'lfn-mgba',
          '/w/' + os.path.relpath(ROM, ROOT),
@@ -145,13 +146,15 @@ def main(argv):
         os.makedirs(d)
 
     run('title', title(), stages)
-    run('card', card(), stages)
+    run('card', card(), stages, seed=BOSS[5] - 2)
     # Two frames of world one, then a mid-game world and a late one, so the
     # package shows the game changing rather than three shots of the same wall.
     run('play1', world_one('03_play_1_1'), stages)
     run('play1b', world_one('04_play_1_1b', running=True), stages)
-    run('play5', stage('05_play_5_1', BOSS[5] - 2), stages)
-    run('play7', stage('07_play_7_1', BOSS[7] - 2), stages)
+    run('play5', stage('05_play_5_1', BOSS[5] - 2), stages,
+        seed=BOSS[5] - 2)
+    run('play7', stage('07_play_7_1', BOSS[7] - 2), stages,
+        seed=BOSS[7] - 2)
 
     for w in range(1, 9):
         # Long enough for the boss to walk in, short enough that it has not
@@ -160,7 +163,7 @@ def main(argv):
         run('boss%d' % w,
             stage('boss_%d' % w, BOSS[w], extra=BOSS_SETTLE.get(w, 45),
                   story=False),
-            arenas)
+            arenas, seed=BOSS[w])
 
     got = sorted(f for f in os.listdir(stages) + os.listdir(arenas)
                  if f.endswith('.ppm'))

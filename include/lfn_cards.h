@@ -97,9 +97,6 @@ namespace lfn
     void show_player_card(bn::sprite_text_generator& text, int player,
                           const run_state& run);
 
-    /** Four letters. Returns the level the code opens, or -1 if backed out. */
-    [[nodiscard]] int enter_code(bn::sprite_text_generator& text);
-
     /** Both seats are empty. Shows the two scores side by side. */
     void show_two_player_result(bn::sprite_text_generator& text,
                                 const run_state& one, const run_state& two);

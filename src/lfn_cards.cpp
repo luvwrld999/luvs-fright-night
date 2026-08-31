@@ -1,6 +1,5 @@
 #include "lfn_cards.h"
 
-#include "lfn_code.h"
 
 #include "bn_bg_palettes.h"
 #include "bn_core.h"
@@ -180,6 +179,13 @@ namespace lfn
                 {
                     bn::sprite_palette_ptr palette = sprite.palette();
                     palette.set_fade_intensity(0);
+
+                    // In front of the stage, not behind it. Without this the
+                    // menu draws at Butano's default priority 3 and the level
+                    // layer at 2 covers it, so the words vanished wherever
+                    // there happened to be a platform behind them.
+                    sprite.set_bg_priority(0);
+                    sprite.set_z_order(-200);
                 }
 
                 dirty = false;
@@ -1044,155 +1050,6 @@ namespace lfn
         settle();
     }
 
-    int enter_code(bn::sprite_text_generator& text)
-    {
-        settle();
-
-        const char* letters = code::alphabet();
-        int pick[code::length] = {0, 0, 0, 0};
-        int slot = 0;
-        int found = -1;
-
-        {
-        bn::regular_bg_ptr backdrop = make_backdrop(backdrop_front, backdrop_style::field);
-        bn::vector<bn::sprite_ptr, 64> fixed_text;
-        bn::vector<bn::sprite_ptr, 32> entry_text;
-
-        text.set_center_alignment();
-        text.generate(0, layout::title_y, "LEVEL CODE", fixed_text);
-        tint(fixed_text, 0, bn::sprite_palette_items::text_gold);
-
-        int mark = fixed_text.size();
-        text.generate(0, -40, "THE CODE IS ON EVERY", fixed_text);
-        text.generate(0, -24, "WORLD CARD", fixed_text);
-        text.generate(0, layout::footer_y, "PAD PICK   A ENTER   B BACK",
-                      fixed_text);
-        tint(fixed_text, mark, bn::sprite_palette_items::text_mag);
-
-        bn::vector<bn::sprite_ptr, 16> answer;
-        bool dirty = true;
-        int shout = 0;
-        int frame = 0;
-
-        while(true)
-        {
-            ++frame;
-
-            if(dirty)
-            {
-                entry_text.clear();
-                text.set_center_alignment();
-
-                bn::string<20> line;
-
-                for(int i = 0; i < code::length; ++i)
-                {
-                    line.push_back(i == slot ? '[' : ' ');
-                    line.push_back(letters[pick[i]]);
-                    line.push_back(i == slot ? ']' : ' ');
-                }
-
-                text.generate(0, 6, line, entry_text);
-
-                for(bn::sprite_ptr& sprite : entry_text)
-                {
-                    sprite.set_palette(bn::sprite_palette_items::text_gold);
-                }
-
-                dirty = false;
-            }
-
-            if(shout > 0 && --shout == 0)
-            {
-                answer.clear();
-            }
-
-            if(frame > 10)
-            {
-                if(bn::keypad::up_pressed())
-                {
-                    pick[slot] = (pick[slot] + 1) & 0xF;
-                    audio::sfx_menu();
-                    dirty = true;
-                }
-                else if(bn::keypad::down_pressed())
-                {
-                    pick[slot] = (pick[slot] + 15) & 0xF;
-                    audio::sfx_menu();
-                    dirty = true;
-                }
-
-                if(bn::keypad::right_pressed() && slot < code::length - 1)
-                {
-                    ++slot;
-                    audio::sfx_menu();
-                    dirty = true;
-                }
-                else if(bn::keypad::left_pressed() && slot > 0)
-                {
-                    --slot;
-                    audio::sfx_menu();
-                    dirty = true;
-                }
-
-                if(bn::keypad::b_pressed())
-                {
-                    break;
-                }
-
-                if(bn::keypad::a_pressed() || bn::keypad::start_pressed())
-                {
-                    char typed[code::length];
-
-                    for(int i = 0; i < code::length; ++i)
-                    {
-                        typed[i] = letters[pick[i]];
-                    }
-
-                    const int level = code::to_level(typed);
-                    answer.clear();
-                    text.set_center_alignment();
-
-                    if(level >= 0)
-                    {
-                        audio::sfx_one_up();
-                        text.generate(0, 36, levels[level].name, answer);
-
-                        for(bn::sprite_ptr& sprite : answer)
-                        {
-                            sprite.set_palette(bn::sprite_palette_items::text_cyan);
-                        }
-
-                        // Let the name land before the stage takes over.
-                        for(int hold = 0; hold < 90; ++hold)
-                        {
-                            bn::core::update();
-                        }
-
-                        found = level;
-                        break;
-                    }
-
-                    audio::sfx_hurt();
-                    text.generate(0, 36, "NO SUCH PLACE", answer);
-
-                    for(bn::sprite_ptr& sprite : answer)
-                    {
-                        sprite.set_palette(bn::sprite_palette_items::text_mag);
-                    }
-
-                    shout = 90;
-                }
-            }
-
-            bn::core::update();
-        }
-        }
-
-        settle();
-        return found;
-    }
-
     void show_two_player_result(bn::sprite_text_generator& text,
                                 const run_state& one, const run_state& two)
     {
@@ -1409,8 +1266,6 @@ namespace lfn
 
         // The code that comes back here, so progress survives a dead battery.
         mark = sprites.size();
-        text.generate(0, 70, bn::format<16>("CODE {}", code::for_level(stage_index)),
-                      sprites);
         tint(sprites, mark, bn::sprite_palette_items::text_gold);
 
         // Luv, with the lives he is carrying in.
